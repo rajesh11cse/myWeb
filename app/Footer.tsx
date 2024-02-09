@@ -1,9 +1,8 @@
 import React from 'react';
-
-import './footer.css';
-
 import FooterMobile from './FooterMobile';
 import FooterDesktop from './FooterDesktop';
+import './footer.css';
+
 
 class FooterWrapper extends React.Component{
     render(){
