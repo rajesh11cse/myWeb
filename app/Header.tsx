@@ -15,7 +15,7 @@ import {
     DropdownItem
 } from 'reactstrap';
 
-import './header.css';
+import './css/header.css';
 
 class Header extends React.Component<any, any>{
 
@@ -37,7 +37,7 @@ class Header extends React.Component<any, any>{
     render() {
         return (
             <div id="header-container">
-                <Navbar color="light" light expand="md">
+                <Navbar color="light" light expand="md" class="navbar-container">
                     <NavbarBrand ><NavLink to="/">Home</NavLink></NavbarBrand>
                     <NavbarToggler  onClick={this.toggle} >
                     {/* Close mark */}
@@ -51,10 +51,17 @@ class Header extends React.Component<any, any>{
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink to="/users" onClick={this.toggle}>Components</NavLink>
+                                <NavLink to="/" onClick={this.toggle}>Templates</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/users" onClick={this.toggle}>GitHub</NavLink>
+                                <NavLink to="/" onClick={this.toggle}>Products</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/" onClick={this.toggle}>Support</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/" onClick={this.toggle}>Pricing</NavLink>
+                                {/* <NavLink to="/users" onClick={this.toggle}>Pricing</NavLink> */}
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>

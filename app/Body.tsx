@@ -1,6 +1,6 @@
 import React from 'react';
 import './BodyCss.css'; // Assume you have a CSS file for styling
-import TextEditor from './TextEditor';
+import TextEditor from './components/TextEditor';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 function Body() {

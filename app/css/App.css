@@ -11,15 +11,14 @@ body {
 .App {
   text-align: center;
   min-height:100%;
-  position:relative;
+  /* position:relative; */
 }
 
 #header-container {
-  /* background: #ff0; */
-  /* padding: 10px 10px 10px 10px; */
   position: fixed;
   width: 100%;
   height: 30px;
+  z-index: 5;
 }
 
 #main-container {

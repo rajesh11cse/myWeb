@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import TextEditor from '../components/TextEditor';
+
 
 export class TextEditorCon extends React.Component {
   constructor(props) {
@@ -10,7 +12,7 @@ export class TextEditorCon extends React.Component {
   }
   render() {
     return (
-      <div>Your component JSX</div>
+      <TextEditor/>
     );
   }
 };
