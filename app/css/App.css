@@ -45,7 +45,7 @@ body {
 
 
 
-.editorClassName {
+.editor-editor-text {
   height: 100px;
   background: #fff 50%/cover no-repeat;
   margin: 10mm 10mm;
@@ -53,7 +53,6 @@ body {
   border-radius: 1mm;
   position: relative;
   box-shadow: 0 0 6px rgba(0,0,0,.3);
-
 }
 
 .rdw-editor-main{

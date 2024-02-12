@@ -1,12 +1,11 @@
 import React from 'react';
-import './BodyCss.css'; // Assume you have a CSS file for styling
-import TextEditor from './components/TextEditor';
+import '../css/LeftSideBar.css'; // Assume you have a CSS file for styling
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
-function Body() {
+function LeftSideBar() {
   const [collapsed, setCollapsed] = React.useState(false);
   return (
-    <div className="app">
+    // <div className="app">
       <div className="sidebar">
         {/* Sidebar content */}
         <Sidebar collapsed={collapsed}>
@@ -19,23 +18,16 @@ function Body() {
             <MenuItem> Calendar </MenuItem>
           </Menu>
         </Sidebar>
-        <main style={{ padding: 10 }}>
+        {/* <main style={{ padding: 10 }}>
         <div>
           <button className="sb-button" onClick={() => setCollapsed(!collapsed)}>
             Collapse
           </button>
         </div>
-      </main>
+      </main> */}
       </div>
-       {/* <div className="main-content"> */}
-       {/* Main content */}
-      {/* </div> */}
-        <TextEditor/>
-      <div className="sidebar">
-        {/* Another sidebar content */}
-      </div>
-    </div>
+    // </div>
   );
 }
 
-export default Body;
+export default LeftSideBar;

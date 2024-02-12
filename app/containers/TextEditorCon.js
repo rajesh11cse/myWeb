@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TextEditor from '../components/TextEditor';
+// import TextEditor from '../components/TextEditor';
+import LeftSideBar from '../components/LeftSideBar';
+import TextEditor2 from '../components/TextEditor2';
+// import TextEditor3 from '../components/TextEditor3';
 
 
 export class TextEditorCon extends React.Component {
@@ -12,7 +15,7 @@ export class TextEditorCon extends React.Component {
   }
   render() {
     return (
-      <TextEditor/>
+        <TextEditor2/>
     );
   }
 };
@@ -22,3 +25,15 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(TextEditorCon);
+
+
+// render() {
+//   return (
+//     // <div className="app">
+//       {/* <LeftSideBar/> */}
+//       <TextEditor2/>
+//       {/* <TextEditor/> */}
+//   //  </div>
+//   );
+// }
+// };
