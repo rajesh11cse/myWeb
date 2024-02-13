@@ -1,0 +1,22 @@
+
+.canvas-container {
+  padding-top: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3f3fe;
+}
+
+.canvas-container > .lower-canvas  {
+  background: white;
+  box-shadow: 0 0 5px rgba(0,0,0,.3)
+} 
+
+
+/* 
+counter-increment: countPage;
+    background: #fff 50%/cover no-repeat;
+    margin: 10mm auto 0;
+    transition: none;
+    position: relative;
+    box-shadow: 0 0 5px rgba(0,0,0,.3); */

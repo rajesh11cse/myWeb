@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  height: auto;
+  min-width: 100%;
+}
+
+.left, .middle, .right {
+  flex-grow: 1;
+}
+
+.left, .right {
+  flex-basis: 20%; /* 2.5/10 * 100% */
+}
+
+.middle {
+  flex-basis: 60%; /* 5/10 * 100% */
+}
+
+.left {
+  background-color: #eeecec; /* or any color you desire */
+}
+
+.middle {
+  background-color: #fff; /* or any color you desire */
+}
+
+.right {
+  background-color: #eeecec; /* or any color you desire */
+}
+
+@media (max-width: 768px) {
+  .left, .right {
+    display: none;
+  }
+
+  .middle {
+    flex-basis: 100%; /* Expand to full width on small screens */
+  }
+}
