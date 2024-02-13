@@ -19,7 +19,7 @@ export default function App() {
             <Route path="/users" component={Users} />
           </Switch>
         </div>
-        <FooterWrapper/>
+        {/* <FooterWrapper/> */}
       </Router>
   </div>
   );

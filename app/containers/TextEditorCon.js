@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import TextEditor from '../components/TextEditor';
 import LeftSideBar from '../components/LeftSideBar';
-import TextEditor2 from '../components/TextEditor2';
-// import TextEditor3 from '../components/TextEditor3';
+// import TextEditor2 from '../components/TextEditor2';
+ import TextEditor4 from '../components/TextEditor4';
+
+
 
 
 export class TextEditorCon extends React.Component {
@@ -15,7 +17,7 @@ export class TextEditorCon extends React.Component {
   }
   render() {
     return (
-        <TextEditor2/>
+      <TextEditor4/>
     );
   }
 };
