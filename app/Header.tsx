@@ -37,8 +37,9 @@ class Header extends React.Component<any, any>{
     render() {
         return (
             <div id="header-container">
-                <Navbar color="light" light expand="md" class="navbar-container">
-                    <NavbarBrand ><NavLink to="/">Home</NavLink></NavbarBrand>
+                <Navbar color="light" light expand="md" className="navbar-container">
+                    {/* <NavbarBrand ><NavLink to="/">Home</NavLink></NavbarBrand> */}
+                    <NavLink to="/">Home</NavLink>
                     <NavbarToggler  onClick={this.toggle} >
                     {/* Close mark */}
                     <div id="close-icon" className={this.state.isOpen ? "open" : "" }>

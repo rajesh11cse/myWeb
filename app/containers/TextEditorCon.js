@@ -7,7 +7,6 @@ import LeftSideBar from '../components/LeftSideBar';
 
 
 
-
 export class TextEditorCon extends React.Component {
   constructor(props) {
     super(props);

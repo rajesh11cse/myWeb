@@ -9,9 +9,14 @@ function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
 
+  // const textBoxRef = useRef(null); // Reference to the text box object
+  // const groupRef = useRef(null); // Reference to the text box object
+  // const rectRef = useRef(null); // Reference to the rect object
+
   useEffect(() => {
     canvas.current = new fabric.Canvas(canvasRef.current);
-    loadGrid(canvas)
+
+    // loadGrid(canvas)
     // loadDataFromJSONFile(canvas);
     const canvasWidth = 842; 
     const canvasHeight = 895;
@@ -25,17 +30,32 @@ function TextEditor4() {
       const objTop = obj.top;
 
       console.log("obj ===>  ", obj)
-      console.log("obj ===>  ", obj.left, obj.top, obj.right, obj.bottom)
+      // console.log("obj ===>  ", obj.left, obj.top, obj.right, obj.bottom)
 
        // Check if the object is trying to move outside canvas boundaries
-       if (objLeft < 0 || objTop < 0 || objLeft + objWidth > canvasWidth || objTop + objHeight > canvasHeight) {
+       if (objLeft < 20 || objTop < 20 || objLeft + objWidth > canvasWidth || objTop + objHeight > canvasHeight) {
         // Prevent object from moving outside canvas boundaries
         obj.set({
-          left: Math.min(Math.max(objLeft, 0), canvasWidth - objWidth),
-          top: Math.min(Math.max(objTop, 0), canvasHeight - objHeight)
+          left: Math.min(Math.max(objLeft, 20), canvasWidth - objWidth),
+          top: Math.min(Math.max(objTop, 20), canvasHeight - objHeight)
         });
       }
     });
+
+
+
+  // canvas.current.on('object:scaling', (e) => {
+  //   const obj = e.target;
+  //   // const textboxWidth = obj.getWidth();
+  //   // const newWidth = textboxWidth * obj.scaleX;
+
+  //   console.log("textboxWidth : ")
+
+  //   // if (newWidth > maxWidth) {
+  //   //   obj.scaleX = maxWidth / textboxWidth;
+  //   //   obj.width = maxWidth;
+  //   // }
+  // });
 
 
     return () => {
@@ -123,20 +143,22 @@ function TextEditor4() {
       fill: "#000",
       fontFamily: 'Arial',
       borderColor: 'red',
-      // hasControls: false,
+      cornerColor: 'green',
+      hasControls: true,
       lockMovementX: false,
       lockMovementY: false,
       textAlign: "left",
       editable: true, // Allow editing text inside the textbox
       centeredScaling: false, // Prevent resizing from center
-      cornerStyle: "circle", // Use circular corner controls
+      // cornerStyle: "circle", // Use circular corner controls
       transparentCorners: false, // Make corner controls more visible
-      cornerSize: 12, // Set corner control size
+      cornerSize: 6, // Set corner control size
       padding: 10, // Set padding inside the textbox
-      lockRotation: false, // Allow rotation
+      lockRotation: true, // Allow rotation
     });
-     // Allow control on right bottom of text area only
-     textBox.setControlsVisibility({
+    //  // Allow control on right bottom of text area only
+    // Allow control on right bottom of text area only
+    textBox.setControlsVisibility({
       mt: false,
       ml: false,
       mr: true,
@@ -148,11 +170,71 @@ function TextEditor4() {
       mtr: true,
     });
 
+    // Add a custom control to adjust rotatingPointOffset
+    const control = new fabric.Control({
+      x: -0.5,
+      y: -0.5,
+      offsetY: -0.5,
+      actionHandler: function(dim, finalMatrix, fabricObject, options) {
+        fabricObject.set('rotatingPointOffset', dim.y);
+        canvas.current.requestRenderAll();
+      },
+      actionName: 'set', // Action name
+    });
+
+
+
+
+    // let isDragging = false;
+    // let dragStartX = 0;
+    // let dragStartY = 0;
+
+    // textBox.on('mousedown', (e) => {
+    //   isDragging = true;
+    //   const pointer = canvas.getPointer(e.e);
+    //   dragStartX = pointer.x - textBox.left;
+    //   dragStartY = pointer.y - textBox.top;
+    // });
+
+    // const canvasWidth = canvas.current.getWidth();
+    // const canvasHeight = canvas.current.getHeight();
+    // textBox.on('mousemove', (e) => {
+    //   console.log("==>",e)
+    //   if (isDragging) {
+    //     const pointer = canvas.current.getPointer(e.e);
+    //     const newX = pointer.x - dragStartX;
+    //     const newY = pointer.y - dragStartY;
+
+    //     // Limit movement to within canvas boundaries
+    //     // if (newX >= 0 && newX + textBox.width <= canvasWidth && newY >= 0 && newY + textBox.height <= canvasHeight) {
+    //     //   textBox.set({ left: newX, top: newY });
+    //     //   canvas.current.renderAll();
+    //     // }
+    //   }
+    // });
+
+    // textBox.on('mouseup', () => {
+    //   isDragging = false;
+    // });
+
+    // textBox.on('mouseout', () => {
+    //   isDragging = false;
+    // });
+
+    textBox.setControlVisible('mtr', true); // Make sure mtr control is visible
+    textBox.controls.mtr = control; // Assign the custom control to mtr control
+    textBox.setCoords(); // Update object's coordinates
+
     canvas.current.add(textBox);
     canvas.current.setActiveObject(textBox);
     canvas.current.renderAll();
   };
 
+
+  // Function to add a text box with outer bounding box to the canvas
+  const addTextBoxWithBoundingBox = () => {
+    // textarea.enterEditing(); // Start editing automatically
+  };
 
 
     // Function to add a textbox to the canvas
@@ -162,6 +244,7 @@ function TextEditor4() {
         top: 50,
         width: 500,
         height: 250,
+        padding: 10,
         fill: 'lightgreen', // Default fill color
         borderColor: 'red', // Default border color
         strokeWidth: 2, // Default border width
@@ -222,10 +305,11 @@ function TextEditor4() {
       </div>
     </div>
     <div className="right">
-    <button onClick={() => addTextBox()}>Add Textbox</button>
-    <button onClick={() => addRectangle()}>Add Rectangle</button>
-      <button onClick={() => removeSelectedObject()}>Remove Selected Object</button>
-      <button onClick={() => clearCanvas()}>Clear Canvas</button>
+    {/* <button onClick={() => addTextBoxWithBoundingBox()}>Add Textbox with bound box</button> */}
+    <button onClick={() => addTextBox()}>Add Textbox</button><br/>
+    <button onClick={() => addRectangle()}>Add Rectangle</button><br/>
+      <button onClick={() => removeSelectedObject()}>Remove Selected Object</button><br/>
+      <button onClick={() => clearCanvas()}>Clear Canvas</button><br/>
       <button onClick={saveAsJSON}>Save as JSON</button>
     </div>
   </div>
