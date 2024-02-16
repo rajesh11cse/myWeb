@@ -3,18 +3,20 @@ import { fabric } from "fabric";
 import "../css/febric.css"; // Assume you have a CSS file for styling
 import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
-import {SetTextBoxProperties} from "./helper.js";
+import WordEdit from "./WordEdit";
+import {SetTextBoxProperties, SetTextBoxControlProperties, SetTextBoxControlsVisibility} from "./helper.js";
 
 function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
   const prevDimensions = useRef(null);
 
+  const hoverRect = useRef(null);
   useEffect(() => {
     canvas.current = new fabric.Canvas(canvasRef.current);
     canvas.current.setDimensions({ width: 800, height: 700 });
     // loadGrid(canvas)
-    // loadDataFromJSONFile(canvas);
+    loadDataFromJSONFile(canvas);
     const canvasWidth = 800;
     const canvasHeight = 700;
 
@@ -61,13 +63,55 @@ function TextEditor4() {
         prevDimensions.current = { width: obj.width, height: obj.height };
       }
     });
+     // Add mouse hover event listener
+     canvas.current.on("mouse:over", (e) => {
+        const object = e.target;
+        if (object && object.type === 'textbox' && !hoverRect.current) { 
+
+          const activeCoords = object.getBoundingRect();
+          console.log(activeCoords)
+          CreateBoundary(activeCoords);
+          canvas.current.renderAll();
+        }
+        // console.log(`Mouse over ${object.type} object with ID ${object.id}`);
+        // Add any action you want here
+        // For example, changing the fill color of the object:
+        // object.set('fill', 'blue');
+        // canvas.renderAll();
+    });
+
+
+
+    const CreateBoundary = function(coordinates){
+      const rect = new fabric.Rect({
+        left: coordinates.left,
+        top: coordinates.top,
+        width: coordinates.width,
+        height: coordinates.height,
+        fill: 'transparent',
+        stroke: 'lightblue',
+        strokeWidth: 1,
+        selectable: false
+      });
+      hoverRect.current = rect;
+      canvas.current.add(rect);
+      canvas.current.renderAll();
+    }
+
+    const removeHoverRect = (canvas) => {
+      if (hoverRect.current) {
+        canvas.remove(hoverRect.current);
+        hoverRect.current = null;
+      }
+    };
+
+    canvas.current.on("mouse:out", function () {
+      removeHoverRect(canvas.current)
+    }); 
 
 /*  
     canvas.on('mouse:down', function() {}
     canvas.on('mouse:up', function() {}
-    canvas.current.on("mouse:out", function () {
-      const obj = canvas.current.getActiveObject();
-    }); 
   */
     return () => {
       canvas.current.dispose(canvas);
@@ -108,22 +152,8 @@ function TextEditor4() {
       // Iterate over all objects in the canvas and set controls visibility
       canvas.current.getObjects().forEach((obj) => {
         if (obj.type === "textbox") {
-          obj.set({
-            borderColor: "red",
-            hasControls: true,
-            lockMovementX: false,
-            lockMovementY: false,
-            textAlign: "left",
-            editable: true, // Allow editing text inside the textbox
-            centeredScaling: false, // Prevent resizing from center
-            cornerStyle: "circle", // Use circular corner controls
-            transparentCorners: false, // Make corner controls more visible
-            cornerSize: 12, // Set corner control size
-            padding: 10, // Set padding inside the textbox
-            lockRotation: true,
-          });
-
-          obj.setControlsVisibility({ mt: false, ml: false, mr: true, mb: true, tl: false, tr: false, bl: false, br: true, mtr: true, });
+          SetTextBoxControlProperties(obj)
+          SetTextBoxControlsVisibility(obj)
         }
       });
       canvas.current.renderAll();
@@ -147,6 +177,10 @@ function TextEditor4() {
     SetTextBoxProperties(textBox, position)
     canvas.current.add(textBox);
     canvas.current.setActiveObject(textBox);
+    textBox.on('mouseenter', function() {
+      this.set('fill', 'blue');
+      canvas.current.renderAll();
+    });
     canvas.current.renderAll();
   };
 
@@ -219,7 +253,7 @@ function TextEditor4() {
       </div>
       <div className="right">
         {/* <button onClick={() => addTextBoxWithBoundingBox()}>Add Textbox with bound box</button> */}
-        <button onClick={() => addTextboxBelowActive()}>Add Textbox</button>
+        {/* <button onClick={() => addTextboxBelowActive()}>Add Textbox</button>
         <br />
         <button onClick={() => addRectangle()}>Add Rectangle</button>
         <br />
@@ -228,8 +262,9 @@ function TextEditor4() {
         </button>
         <br />
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
-        <br />
-        <button onClick={saveAsJSON}>Save as JSON</button>
+        <br /> */}
+        {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
+        <WordEdit/>
       </div>
     </div>
   );

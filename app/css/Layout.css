@@ -21,7 +21,7 @@ body {
 }
 
 .left {
-  background-color: #eeecec; /* or any color you desire */
+  background-color: #f0efef; /* or any color you desire */
 }
 
 .middle {
@@ -29,7 +29,7 @@ body {
 }
 
 .right {
-  background-color: #eeecec; /* or any color you desire */
+  background-color: #f0efef; /* or any color you desire */
 }
 
 @media (max-width: 768px) {

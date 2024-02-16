@@ -9,12 +9,14 @@ export function SetTextBoxProperties(textBox, position) {
     fontSize: 10, // Fixed font size
     fill: "#000",
     fontFamily: "Arial",
+    textAlign: "left",
+  };
+  const options2 = {
     borderColor: "red",
     cornerColor: "green",
     hasControls: true,
     lockMovementX: false,
     lockMovementY: false,
-    textAlign: "left",
     editable: true,
     centeredScaling: false, // Prevent resizing from center
     // cornerStyle: "circle", // Use circular corner controls
@@ -22,8 +24,32 @@ export function SetTextBoxProperties(textBox, position) {
     cornerSize: 6, // Set corner control size
     padding: 10, // Set padding inside the textbox
     lockRotation: false, // Allow rotation
-  };
+  }
   textBox.set(options);
+  SetTextBoxControlsVisibility(textBox)
+  SetTextBoxControlProperties(textBox)
+}
+
+export function SetTextBoxControlProperties(textBox) {
+  const options = {
+    borderColor: "red",
+    cornerColor: "green",
+    hasControls: true,
+    lockMovementX: false,
+    lockMovementY: false,
+    editable: true,
+    centeredScaling: false, // Prevent resizing from center
+    // cornerStyle: "circle", // Use circular corner controls
+    transparentCorners: false, // Make corner controls more visible
+    cornerSize: 6, // Set corner control size
+    padding: 10, // Set padding inside the textbox
+    lockRotation: false, // Allow rotation
+  }
+  textBox.set(options);
+}
+
+
+export function SetTextBoxControlsVisibility(textBox) {
   textBox.setControlsVisibility({ mt: false, ml: false, mr: true, mb: true, tl: false, tr: false, bl: false, br: true, mtr: false});
   const control = new fabric.Control({
     x: -0.5,
