@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import "../css/febric.css"; // Assume you have a CSS file for styling
 import "../css/layout.css"; // Assume you have a CSS file for styling
@@ -10,11 +10,13 @@ function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
   const prevDimensions = useRef(null);
+  const [selectedObject, setSelectedObject] = useState(null);
 
   const hoverRect = useRef(null);
   useEffect(() => {
     canvas.current = new fabric.Canvas(canvasRef.current);
     canvas.current.setDimensions({ width: 800, height: 700 });
+   
     // loadGrid(canvas)
     loadDataFromJSONFile(canvas);
     const canvasWidth = 800;
@@ -65,19 +67,15 @@ function TextEditor4() {
     });
      // Add mouse hover event listener
      canvas.current.on("mouse:over", (e) => {
+      // 
         const object = e.target;
         if (object && object.type === 'textbox' && !hoverRect.current) { 
 
           const activeCoords = object.getBoundingRect();
-          console.log(activeCoords)
-          CreateBoundary(activeCoords);
-          canvas.current.renderAll();
+          // console.log(activeCoords)
+          // CreateBoundary(activeCoords);
+          // canvas.current.renderAll();
         }
-        // console.log(`Mouse over ${object.type} object with ID ${object.id}`);
-        // Add any action you want here
-        // For example, changing the fill color of the object:
-        // object.set('fill', 'blue');
-        // canvas.renderAll();
     });
 
 
@@ -109,8 +107,13 @@ function TextEditor4() {
       removeHoverRect(canvas.current)
     }); 
 
+    // Select Object
+    canvas.current.on("mouse:down", function () {
+      setSelectedObject(canvas.current.getActiveObject())
+    }); 
+
+
 /*  
-    canvas.on('mouse:down', function() {}
     canvas.on('mouse:up', function() {}
   */
     return () => {
@@ -242,6 +245,11 @@ function TextEditor4() {
     console.log("JSON : ", json);
   };
 
+
+  const handleRender = () => {
+    canvas.current.renderAll();
+  }
+
   return (
     <div className="container">
       <div className="left">Left</div>
@@ -253,18 +261,18 @@ function TextEditor4() {
       </div>
       <div className="right">
         {/* <button onClick={() => addTextBoxWithBoundingBox()}>Add Textbox with bound box</button> */}
-        {/* <button onClick={() => addTextboxBelowActive()}>Add Textbox</button>
-        <br />
+        <button onClick={() => addTextboxBelowActive()}>Add Textbox</button>
+        {/* <br />
         <button onClick={() => addRectangle()}>Add Rectangle</button>
-        <br />
+        <br /> */}
         <button onClick={() => removeSelectedObject()}>
           Remove Selected Object
         </button>
         <br />
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
-        <br /> */}
+        <br />
         {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
-        <WordEdit/>
+        <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/>
       </div>
     </div>
   );

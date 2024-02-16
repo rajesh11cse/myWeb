@@ -1,7 +1,7 @@
 
 export function SetTextBoxProperties(textBox, position) {
   const options = {
-    text: 'Your Text Here"', // Set the text content
+    text: 'Your Text Here', // Set the text content
     left: position.left,
     top: position.top,
     width: 500,
@@ -11,20 +11,6 @@ export function SetTextBoxProperties(textBox, position) {
     fontFamily: "Arial",
     textAlign: "left",
   };
-  const options2 = {
-    borderColor: "red",
-    cornerColor: "green",
-    hasControls: true,
-    lockMovementX: false,
-    lockMovementY: false,
-    editable: true,
-    centeredScaling: false, // Prevent resizing from center
-    // cornerStyle: "circle", // Use circular corner controls
-    transparentCorners: false, // Make corner controls more visible
-    cornerSize: 6, // Set corner control size
-    padding: 10, // Set padding inside the textbox
-    lockRotation: false, // Allow rotation
-  }
   textBox.set(options);
   SetTextBoxControlsVisibility(textBox)
   SetTextBoxControlProperties(textBox)
