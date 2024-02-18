@@ -4,8 +4,9 @@ body {
 
 .container {
   display: flex;
-  height: auto;
   min-width: 100%;
+  max-height: 500px;
+  overflow-y: overlay;
 }
 
 .left, .middle, .right {

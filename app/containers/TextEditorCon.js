@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import LeftSideBar from '../components/LeftSideBar';
 // import TextEditor2 from '../components/TextEditor2';
  import TextEditor4 from '../components/TextEditor4';
+import EditTextBar from '../components/EditTextBar';
+
 
 
 
@@ -16,7 +18,10 @@ export class TextEditorCon extends React.Component {
   }
   render() {
     return (
+      <React.Fragment>
       <TextEditor4/>
+      {/* <EditTextBar/> */}
+      </React.Fragment>
     );
   }
 };

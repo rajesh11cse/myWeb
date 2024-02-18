@@ -1,7 +1,7 @@
 
 .customBtnGroup Button {
-  width: 60px;
-  height: 28px;
+  /* width: 60px;
+  height: 28px; */
   font-weight: bold;
   padding-top: 2px;
   background-color: #fff;
@@ -19,10 +19,10 @@
 } 
 
 .customDropdownBtn Button {
-  width: 60px;
-  height: 28px;
+  /* width: 60px;
+  height: 28px; */
   font-weight: bold;
-  padding-top: 2px;
+  /* padding-top: 2px; */
   background-color: #fff;
   color: black;
   font-size: 15px;

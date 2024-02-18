@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../css/wordEdit.css"; // Assume you have a CSS file for styling
-
-import { DropdownCont } from '../css/styled';
+import { SketchPicker } from "react-color";
+import {
+  DropdownCont,
+  Divider,
+  Text,
+  DivCont,
+  ButtonGroupCont,
+  InputGroupCont,
+} from "../css/styled";
 
 import {
   Button,
@@ -9,9 +16,15 @@ import {
   DropdownButton,
   Dropdown,
   FloatingLabel,
+  InputGroup,
   Form,
+  FormControl,
   ToggleButton,
   ToggleButtonGroup,
+  Container,
+  Row,
+  Col,
+  InputGroupAppend,
 } from "react-bootstrap";
 
 const WordEdit = (props) => {
@@ -24,6 +37,26 @@ const WordEdit = (props) => {
     textAlign: "",
     fontSize: 10,
   });
+
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("#000000"); // Default color
+  const colorPickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        colorPickerRef.current &&
+        !colorPickerRef.current.contains(event.target)
+      ) {
+        setShowColorPicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedObject != null && selectedObject.text !== textValue) {
@@ -70,7 +103,7 @@ const WordEdit = (props) => {
     } else if (type === "textAlign") {
       fontStyleObj.textAlign = v;
       selectedObject.textAlign = v;
-    }else if (type === "fontSize") {
+    } else if (type === "fontSize") {
       fontStyleObj.fontSize = v;
       selectedObject.fontSize = v;
     }
@@ -78,11 +111,23 @@ const WordEdit = (props) => {
     setFontStyle(fontStyleObj);
     props.handleRender();
   }
+
+  const handleColorChange = (color) => {
+    console.log("Selected color:", selectedColor);
+    setSelectedColor(color.hex);
+  };
+
   return (
-    <div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+    <DivCont>
+      {/* FOnt Family */}
+      <Container fluid>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text>Your entered text</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 20 }}>
+          <Col lg={12}>
             <Form.Control
               className="textarea-cont"
               as="textarea"
@@ -90,189 +135,221 @@ const WordEdit = (props) => {
               onChange={(e) => setTextNewValue(e.target.value)}
               placeholder="Text.."
             />
-          </div>
-        </div>
-      </div>
-      {/* Font */}
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="font-cont">Font 1</div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-          <DropdownCont w={'65px'} aml={'1em'}>
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              {fontStyle.fontSize}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setFontStyleHandler("fontSize", 1)}>1</Dropdown.Item>
-                <Dropdown.Item onClick={() => setFontStyleHandler("fontSize", 2)}>2</Dropdown.Item>
-                <Dropdown.Item onClick={() => setFontStyleHandler("fontSize", 5)}>5</Dropdown.Item>
-                <Dropdown.Item onClick={() => setFontStyleHandler("fontSize", 10)}>10</Dropdown.Item>
-                <Dropdown.Item onClick={() => setFontStyleHandler("fontSize", 15)}>15</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            </DropdownCont>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="font-cont">Font 1</div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={5}>
+            <Text>Font Family</Text>
+          </Col>
+          <Col lg={7}>
             <DropdownCont>
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                Courier New
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              <Dropdown className="w-100">
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  Courier New
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Another action
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">
+                    Something else
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </DropdownCont>
-          </div>
-        </div>
-      </div>
-      {/* Font */}
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="font-cont">Font</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container">
-        <div className="row">
-          <div className="col-8">
-            <ButtonGroup aria-label="Basic example" className="customBtnGroup">
-              <Button
-                variant="secondary"
-                value={fontStyle.fontWeight}
-                onClick={() =>
-                  setFontStyleHandler("fontWeight", !fontStyle.fontWeight)
-                }
-              >
-                B
-              </Button>
-              <Button
-                variant="secondary"
-                value={fontStyle.fontStyle}
-                onClick={() =>
-                  setFontStyleHandler("fontStyle", !fontStyle.fontStyle)
-                }
-              >
-                <i>I</i>
-              </Button>
-              <Button
-                variant="secondary"
-                value={fontStyle.underline}
-                onClick={() =>
-                  setFontStyleHandler("underline", !fontStyle.underline)
-                }
-              >
-                <u>U</u>
-              </Button>
-            </ButtonGroup>
-          </div>
-          <div className="col-4">
-            <DropdownButton
-              title="@"
-              id="bg-vertical-dropdown-2"
-              className="customDropdownBtn"
-            >
-              <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-              <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
-            </DropdownButton>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="font-cont">Font</div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <ButtonGroup aria-label="Basic example" className="customBtnGroup">
-              <Button
-                className="customBtn"
-                variant="secondary"
-                onClick={() => setFontStyleHandler("textAlign", "left")}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="30"
-                  height="20"
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={5}>
+            <Text>Font Size</Text>
+          </Col>
+          <Col lg={7}>
+            <Text>Font Style</Text>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={5}>
+            <DropdownCont>
+              <Dropdown className="mr-3">
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  {fontStyle.fontSize}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => setFontStyleHandler("fontSize", 1)}
+                  >
+                    1
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => setFontStyleHandler("fontSize", 2)}
+                  >
+                    2
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => setFontStyleHandler("fontSize", 5)}
+                  >
+                    5
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => setFontStyleHandler("fontSize", 10)}
+                  >
+                    10
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => setFontStyleHandler("fontSize", 15)}
+                  >
+                    15
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </DropdownCont>
+          </Col>
+          <Col lg={7}>
+            <ButtonGroupCont>
+              <ButtonGroup className="w-100">
+                <Button
+                  variant="secondary"
+                  value={fontStyle.fontWeight}
+                  onClick={() =>
+                    setFontStyleHandler("fontWeight", !fontStyle.fontWeight)
+                  }
                 >
-                  <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
-                </svg>
-              </Button>
-              <Button
-                className="customBtn"
-                variant="secondary"
-                onClick={() => setFontStyleHandler("textAlign", "center")}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="30"
-                  height="20"
+                  B
+                </Button>
+                <Button
+                  variant="secondary"
+                  value={fontStyle.fontStyle}
+                  onClick={() =>
+                    setFontStyleHandler("fontStyle", !fontStyle.fontStyle)
+                  }
                 >
-                  <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
-                </svg>
-              </Button>
-              <Button
-                className="customBtn"
-                variant="secondary"
-                onClick={() => setFontStyleHandler("textAlign", "right")}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="30"
-                  height="20"
+                  <i>I</i>
+                </Button>
+                <Button
+                  variant="secondary"
+                  value={fontStyle.underline}
+                  onClick={() =>
+                    setFontStyleHandler("underline", !fontStyle.underline)
+                  }
                 >
-                  <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
-                </svg>
-              </Button>
-              <Button
-                className="customBtn"
-                variant="secondary"
-                onClick={() => setFontStyleHandler("textAlign", "justify")}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="30"
-                  height="20"
+                  <u>U</u>
+                </Button>
+              </ButtonGroup>
+            </ButtonGroupCont>
+          </Col>
+        </Row>
+      </Container>
+      <Divider />
+      <Container fluid>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={5}>
+            <Text>Text Color</Text>
+          </Col>
+          <Col lg={7}>
+            <InputGroupCont>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder="#HFG54D"
+                  aria-label="Color code"
+                  aria-describedby="basic-addon2"
+                />
+                <Button
+                  variant="secondary"
+                  // value={fontStyle.fontWeight}
+                  onClick={() => setShowColorPicker(!showColorPicker)}
                 >
-                  <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
-                </svg>
-              </Button>
-            </ButtonGroup>
+                  Clr
+                </Button>
+              </InputGroup>
+            </InputGroupCont>
+          </Col>
+        </Row>
+        <Row>
+          <div ref={colorPickerRef}>
+            {showColorPicker && (
+              <div>
+                <SketchPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                />
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-    </div>
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <Text>Text Alignment</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <ButtonGroupCont>
+              <ButtonGroup className="w-100">
+                <Button
+                  variant="secondary"
+                  onClick={() => setFontStyleHandler("textAlign", "left")}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="20"
+                  >
+                    <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
+                  </svg>
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setFontStyleHandler("textAlign", "center")}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="20"
+                  >
+                    <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
+                  </svg>
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setFontStyleHandler("textAlign", "right")}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="20"
+                  >
+                    <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
+                  </svg>
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setFontStyleHandler("textAlign", "justify")}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="20"
+                  >
+                    <path d="M20 6H4V4h16v2zm0 5H4V9h16v2zm0 5H4v-2h16v2zm0 4H4v-2h16v2z" />
+                  </svg>
+                </Button>
+              </ButtonGroup>
+            </ButtonGroupCont>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+      </Container>
+      {/* <Divider /> */}
+    </DivCont>
   );
 };
 

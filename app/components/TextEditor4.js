@@ -4,19 +4,23 @@ import "../css/febric.css"; // Assume you have a CSS file for styling
 import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
 import WordEdit from "./WordEdit";
+import ZoomInSlider from "./ZoomInSlider";
 import {SetTextBoxProperties, SetTextBoxControlProperties, SetTextBoxControlsVisibility} from "./helper.js";
-
+import EditTextBar from './EditTextBar';
 function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
   const prevDimensions = useRef(null);
   const [selectedObject, setSelectedObject] = useState(null);
+  const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
+  const canvasContainerRef = useRef(null);
   const hoverRect = useRef(null);
   useEffect(() => {
     canvas.current = new fabric.Canvas(canvasRef.current);
     canvas.current.setDimensions({ width: 800, height: 700 });
-   
+
     // loadGrid(canvas)
     loadDataFromJSONFile(canvas);
     const canvasWidth = 800;
@@ -120,6 +124,18 @@ function TextEditor4() {
       canvas.current.dispose(canvas);
     };
   }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    console.log("handleZoomChange2 == > ", zoom)
+    canvas.style.transform = `scale(${zoom})`;
+    canvas.style.transformOrigin = 'top';
+  }, [zoom]);
+
+  const handleZoomChange = (value) => {
+    // console.log("handleZoomChange == > ", value)
+    setZoom(parseFloat(value));
+  };
 
   const loadGrid = function (canvas) {
     const ctx = canvas.current.getContext("2d");
@@ -250,31 +266,45 @@ function TextEditor4() {
     canvas.current.renderAll();
   }
 
+  const closeSlider = () => {
+    setSliderCloseStatus(!sliderCloseStatus)
+  }
+
   return (
+    <div>
     <div className="container">
-      <div className="left">Left</div>
+      {/* <div className="left">Left</div> */}
+     {/* <EditTextBar/> */}
       <div className="middle">
-        <div className="canvas-container">
+      {/* <button onClick={()=>closeSlider()}>Close</button> */}
+        <div className="canvas-container" ref={canvasContainerRef}>
           <div className="canvas-overlay"></div>
           <canvas id="canvas" ref={canvasRef} />
         </div>
       </div>
-      <div className="right">
+      {/* <div className="right"> */}
         {/* <button onClick={() => addTextBoxWithBoundingBox()}>Add Textbox with bound box</button> */}
-        <button onClick={() => addTextboxBelowActive()}>Add Textbox</button>
+        {/* <button onClick={() => addTextboxBelowActive()}>Add Textbox</button> */}
         {/* <br />
         <button onClick={() => addRectangle()}>Add Rectangle</button>
         <br /> */}
-        <button onClick={() => removeSelectedObject()}>
+        {/* <button onClick={() => removeSelectedObject()}>
           Remove Selected Object
-        </button>
-        <br />
+        </button> */}
+        {/* <br />
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
-        <br />
+        <br /> */}
         {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
-        <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/>
-      </div>
+        {/* <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/> */}
+      {/* </div> */}
+      
+       {/* <EditTextBar collapsed={sliderCloseStatus}/> */}
     </div>
+    <div>
+</div>
+      <ZoomInSlider handleZoomChange={(e)=> handleZoomChange(e)}/>
+    </div>
+
   );
 }
 
