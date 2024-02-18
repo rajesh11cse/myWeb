@@ -7,6 +7,10 @@ import WordEdit from "./WordEdit";
 import ZoomInSlider from "./ZoomInSlider";
 import {SetTextBoxProperties, SetTextBoxControlProperties, SetTextBoxControlsVisibility} from "./helper.js";
 import EditTextBar from './EditTextBar';
+import Canvas from './Canvas';
+
+import { Container, Row, Col, } from "react-bootstrap";
+
 function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
@@ -14,6 +18,9 @@ function TextEditor4() {
   const [selectedObject, setSelectedObject] = useState(null);
   const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
   const [zoom, setZoom] = useState(1);
+
+  // const currentCanvas = useRef(null);
+
 
   const canvasContainerRef = useRef(null);
   const hoverRect = useRef(null);
@@ -126,10 +133,10 @@ function TextEditor4() {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const container = canvasContainerRef.current;
     console.log("handleZoomChange2 == > ", zoom)
-    canvas.style.transform = `scale(${zoom})`;
-    canvas.style.transformOrigin = 'top';
+    container.style.transform = `scale(${zoom})`;
+    container.style.transformOrigin = 'top';
   }, [zoom]);
 
   const handleZoomChange = (value) => {
@@ -178,6 +185,20 @@ function TextEditor4() {
       canvas.current.renderAll();
     });
   };
+
+  const loadJSONData = function (c) {
+    c.loadFromJSON(myData, () => {
+      // Iterate over all objects in the canvas and set controls visibility
+      c.getObjects().forEach((obj) => {
+        if (obj.type === "textbox") {
+          SetTextBoxControlProperties(obj)
+          SetTextBoxControlsVisibility(obj)
+        }
+      });
+      c.renderAll();
+    });
+  };
+
 
   const addTextboxBelowActive = () => {
     const activeObject = canvas.current.getActiveObject();
@@ -276,13 +297,27 @@ function TextEditor4() {
       {/* <div className="left">Left</div> */}
      {/* <EditTextBar/> */}
       <div className="middle">
-      {/* <button onClick={()=>closeSlider()}>Close</button> */}
-        <div className="canvas-container" ref={canvasContainerRef}>
+      <button onClick={()=>closeSlider()}>Close</button>
+      <button onClick={() => addRectangle()}>Add Rectangle</button>
+      <button onClick={() => removeSelectedObject()}> Remove Selected Object </button>
+      <button onClick={() => clearCanvas()}>Clear Canvas</button>
+      <button onClick={saveAsJSON}>Save as JSON</button>
+        <div className="canvas-container">
           <div className="canvas-overlay"></div>
-          <canvas id="canvas" ref={canvasRef} />
+          {/* <canvas id="canvas" ref={canvasRef} /> */}
+          <Container fluid ref={canvasContainerRef}>
+           {[1].map((_, index) => (
+              <Row style={{ marginBottom: 10 }}>
+                <Col lg={12} className="d-flex justify-content-center">
+                  {/* <canvas id="canvas" ref={canvasRef} /> */}
+                  <Canvas loadGrid={(c)=>loadJSONData(c)}/>
+                </Col>
+              </Row>
+            ))}
+        </Container>
         </div>
       </div>
-      {/* <div className="right"> */}
+      <div className="right">
         {/* <button onClick={() => addTextBoxWithBoundingBox()}>Add Textbox with bound box</button> */}
         {/* <button onClick={() => addTextboxBelowActive()}>Add Textbox</button> */}
         {/* <br />
@@ -295,8 +330,8 @@ function TextEditor4() {
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
         <br /> */}
         {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
-        {/* <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/> */}
-      {/* </div> */}
+        <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/>
+      </div>
       
        {/* <EditTextBar collapsed={sliderCloseStatus}/> */}
     </div>
