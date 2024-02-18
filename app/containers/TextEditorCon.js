@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 // import TextEditor from '../components/TextEditor';
 import LeftSideBar from '../components/LeftSideBar';
 // import TextEditor2 from '../components/TextEditor2';
- import TextEditor4 from '../components/TextEditor4';
+//  import TextEditor4 from '../components/TextEditor4';
+ import TextEditor44 from '../components/TextEditor44';
 import EditTextBar from '../components/EditTextBar';
 
 
@@ -19,7 +20,7 @@ export class TextEditorCon extends React.Component {
   render() {
     return (
       <React.Fragment>
-      <TextEditor4/>
+      <TextEditor44/>
       {/* <EditTextBar/> */}
       </React.Fragment>
     );

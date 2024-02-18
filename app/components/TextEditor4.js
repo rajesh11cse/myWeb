@@ -132,17 +132,16 @@ function TextEditor4() {
     };
   }, []);
 
-  useEffect(() => {
-    const container = canvasContainerRef.current;
-    console.log("handleZoomChange2 == > ", zoom)
-    container.style.transform = `scale(${zoom})`;
-    container.style.transformOrigin = 'top';
-  }, [zoom]);
+  // useEffect(() => {
+  //   const container = canvasContainerRef.current;
+  //   console.log("handleZoomChange2 == > ", zoom)
+  //   container.style.transform = `scale(${zoom})`;
+  //   container.style.transformOrigin = 'top';
+  // }, [zoom]);
 
-  const handleZoomChange = (value) => {
-    // console.log("handleZoomChange == > ", value)
-    setZoom(parseFloat(value));
-  };
+  // const handleZoomChange = (value) => {
+  //   setZoom(parseFloat(value));
+  // };
 
   const loadGrid = function (canvas) {
     const ctx = canvas.current.getContext("2d");
@@ -173,56 +172,56 @@ function TextEditor4() {
     }
   };
 
-  const loadDataFromJSONFile = function (canvas) {
-    canvas.current.loadFromJSON(myData, () => {
-      // Iterate over all objects in the canvas and set controls visibility
-      canvas.current.getObjects().forEach((obj) => {
-        if (obj.type === "textbox") {
-          SetTextBoxControlProperties(obj)
-          SetTextBoxControlsVisibility(obj)
-        }
-      });
-      canvas.current.renderAll();
-    });
-  };
+  // const loadDataFromJSONFile = function (canvas) {
+  //   canvas.current.loadFromJSON(myData, () => {
+  //     // Iterate over all objects in the canvas and set controls visibility
+  //     canvas.current.getObjects().forEach((obj) => {
+  //       if (obj.type === "textbox") {
+  //         SetTextBoxControlProperties(obj)
+  //         SetTextBoxControlsVisibility(obj)
+  //       }
+  //     });
+  //     canvas.current.renderAll();
+  //   });
+  // };
 
-  const loadJSONData = function (c) {
-    c.loadFromJSON(myData, () => {
-      // Iterate over all objects in the canvas and set controls visibility
-      c.getObjects().forEach((obj) => {
-        if (obj.type === "textbox") {
-          SetTextBoxControlProperties(obj)
-          SetTextBoxControlsVisibility(obj)
-        }
-      });
-      c.renderAll();
-    });
-  };
+  // const loadJSONData = function (c) {
+  //   c.loadFromJSON(myData, () => {
+  //     // Iterate over all objects in the canvas and set controls visibility
+  //     c.getObjects().forEach((obj) => {
+  //       if (obj.type === "textbox") {
+  //         SetTextBoxControlProperties(obj)
+  //         SetTextBoxControlsVisibility(obj)
+  //       }
+  //     });
+  //     c.renderAll();
+  //   });
+  // };
 
 
-  const addTextboxBelowActive = () => {
-    const activeObject = canvas.current.getActiveObject();
-    if (activeObject && activeObject.type === "textbox") {
-      const activeCoords = activeObject.getBoundingRect();
-      const newY = activeObject.top + activeCoords.height + 10;
-      addTextBox({ left: activeObject.left, top: newY });
-    } else {
-      addTextBox({ left: 20, top: 20 });
-    }
-  };
+  // const addTextboxBelowActive = () => {
+  //   const activeObject = canvas.current.getActiveObject();
+  //   if (activeObject && activeObject.type === "textbox") {
+  //     const activeCoords = activeObject.getBoundingRect();
+  //     const newY = activeObject.top + activeCoords.height + 10;
+  //     addTextBox({ left: activeObject.left, top: newY });
+  //   } else {
+  //     addTextBox({ left: 20, top: 20 });
+  //   }
+  // };
 
-  // Function to add a textbox to the canvas
-  const addTextBox = (position) => {
-    let textBox = new fabric.Textbox('', {});
-    SetTextBoxProperties(textBox, position)
-    canvas.current.add(textBox);
-    canvas.current.setActiveObject(textBox);
-    textBox.on('mouseenter', function() {
-      this.set('fill', 'blue');
-      canvas.current.renderAll();
-    });
-    canvas.current.renderAll();
-  };
+  // // Function to add a textbox to the canvas
+  // const addTextBox = (position) => {
+  //   let textBox = new fabric.Textbox('', {});
+  //   SetTextBoxProperties(textBox, position)
+  //   canvas.current.add(textBox);
+  //   canvas.current.setActiveObject(textBox);
+  //   textBox.on('mouseenter', function() {
+  //     this.set('fill', 'blue');
+  //     canvas.current.renderAll();
+  //   });
+  //   canvas.current.renderAll();
+  // };
 
   // Function to add a text box with outer bounding box to the canvas
   const addTextBoxWithBoundingBox = () => {
@@ -262,34 +261,34 @@ function TextEditor4() {
   };
 
   // Function to remove the selected object (textbox)
-  const removeSelectedObject = () => {
-    const selectedObject = canvas.current.getActiveObject();
-    if (selectedObject) {
-      canvas.current.remove(selectedObject);
-      canvas.current.renderAll();
-    }
-  };
+  // const removeSelectedObject = () => {
+  //   const selectedObject = canvas.current.getActiveObject();
+  //   if (selectedObject) {
+  //     canvas.current.remove(selectedObject);
+  //     canvas.current.renderAll();
+  //   }
+  // };
 
   // Function to clear the canvas
-  const clearCanvas = () => {
-    canvas.current.clear();
-  };
+  // const clearCanvas = () => {
+  //   canvas.current.clear();
+  // };
 
   // Function to save canvas content as JSON
-  const saveAsJSON = () => {
-    const json = canvas.current.toJSON(); // Convert canvas to JSON
-    delete json.backgroundImage; // Remove any background image
-    console.log("JSON : ", json);
-  };
+  // const saveAsJSON = () => {
+  //   const json = canvas.current.toJSON(); // Convert canvas to JSON
+  //   delete json.backgroundImage; // Remove any background image
+  //   console.log("JSON : ", json);
+  // };
 
 
   const handleRender = () => {
     canvas.current.renderAll();
   }
 
-  const closeSlider = () => {
-    setSliderCloseStatus(!sliderCloseStatus)
-  }
+  // const closeSlider = () => {
+  //   setSliderCloseStatus(!sliderCloseStatus)
+  // }
 
   return (
     <div>
@@ -297,11 +296,11 @@ function TextEditor4() {
       {/* <div className="left">Left</div> */}
      {/* <EditTextBar/> */}
       <div className="middle">
-      <button onClick={()=>closeSlider()}>Close</button>
-      <button onClick={() => addRectangle()}>Add Rectangle</button>
-      <button onClick={() => removeSelectedObject()}> Remove Selected Object </button>
-      <button onClick={() => clearCanvas()}>Clear Canvas</button>
-      <button onClick={saveAsJSON}>Save as JSON</button>
+      {/* <button onClick={()=>closeSlider()}>Close</button> */}
+      {/* <button onClick={() => addRectangle()}>Add Rectangle</button> */}
+      {/* <button onClick={() => removeSelectedObject()}> Remove Selected Object </button> */}
+      {/* <button onClick={() => clearCanvas()}>Clear Canvas</button> */}
+      {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
         <div className="canvas-container">
           <div className="canvas-overlay"></div>
           {/* <canvas id="canvas" ref={canvasRef} /> */}
