@@ -12,7 +12,7 @@ import {
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 function TextEditor44() {
   // Refs
@@ -21,6 +21,7 @@ function TextEditor44() {
   const [zoom, setZoom] = useState(1);
   const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
   const [currentCanvas, setCurrentCanvas] = useState(null);
+  const [selectedObject, setSelectedObject] = useState(null);
 
   const loadJSONData = function (c) {
     c.loadFromJSON(myData, () => {
@@ -85,6 +86,11 @@ function TextEditor44() {
     }
   };
 
+  // Select object
+  const selectObject = (obj) => {
+    setSelectedObject(obj);
+  };
+
   // clear current canvas
   const clearCanvas = () => {
     currentCanvas.clear();
@@ -101,28 +107,30 @@ function TextEditor44() {
   const closeSlider = () => {
     setSliderCloseStatus(!sliderCloseStatus);
   };
+
   return (
     <div>
+      <div className="editorTopCon">
+        <button onClick={() => closeSlider()}>Close</button>
+        <button onClick={() => addRectangle()}>Add Rectangle</button>
+        <button onClick={() => addNewText()}>Add Textbox</button>
+        <button onClick={() => removeObject()}> Remove </button>
+        <button onClick={() => clearCanvas()}>Clear Canvas</button>
+        <button onClick={saveAsJSON}>Download</button>
+      </div>
       <div className="container">
         <div className="middle">
-          {/* Actions -Start */}
-          {/* <button onClick={() => closeSlider()}>Close</button> */}
-          {/* <button onClick={() => addRectangle()}>Add Rectangle</button> */}
-          {/* <button onClick={() => addNewText()}>Add Textbox</button> */}
-          {/* <button onClick={() => removeObject()}> Remove </button> */}
-          {/* <button onClick={() => clearCanvas()}>Clear Canvas</button> */}
-          {/* <button onClick={saveAsJSON}>Save as JSON</button> */}
-          {/* Actions - End */}
           <div className="canvas-container">
             {/* <div className="canvas-overlay"></div> */}
             <Container fluid ref={canvasContainerRef}>
-              {[1].map((_, index) => (
+              {[1,2].map((_, index) => (
                 <Row style={{ marginBottom: 10 }}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
                       handleCurrentCanvas={(c) => handleCurrentCanvas(c)}
                       zoom={zoom}
                       loadData={(c) => loadJSONData(c)}
+                      selectObject={(c) => selectObject(c)}
                     />
                   </Col>
                 </Row>
@@ -130,9 +138,15 @@ function TextEditor44() {
             </Container>
           </div>
         </div>
-        {/* <EditTextBar collapsed={sliderCloseStatus}/> */}
+        <EditTextBar
+          collapsed={sliderCloseStatus}
+          selectedObject={selectedObject}
+          currentCanvas={currentCanvas}
+        />
+        {/* <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/> */}
       </div>
-      <ZoomInSlider handleZoomChange={(e) => handleZoomChange(e)} />
+      {/* Its there in bootsrap also */}
+      {/* <ZoomInSlider handleZoomChange={(e) => handleZoomChange(e)} /> */}
     </div>
   );
 }

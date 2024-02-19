@@ -6,6 +6,7 @@ import styled from "styled-components";
 // }
 
 export const DivCont = styled.div`
+  direction: initial;
   position: relative;
   border: 1px solid #bfb9b9;
   margin: 8px;

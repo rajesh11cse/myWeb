@@ -4,12 +4,13 @@ import { fabric } from "fabric";
 
 const Canvas = (props) => {
   const width = 800;
-  const height = 700;
+  const height = 1000;
   const zoomValue = props.zoom;
   // Current canvas Reference
   const canvasRef = useRef(null);
   const canvas = useRef(null); // Clean canvas before use it
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
+  
 
 
 
@@ -82,7 +83,7 @@ const Canvas = (props) => {
 
     // Select Object
     currentCanvas.on("mouse:down", function () {
-      // setSelectedObject(canvas.current.getActiveObject())
+      props.selectObject(currentCanvas.getActiveObject())
     });
 
     /*  

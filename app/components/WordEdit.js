@@ -81,7 +81,7 @@ const WordEdit = (props) => {
   function setTextNewValue(e) {
     setTextValue(e);
     selectedObject.text = e;
-    props.handleRender();
+    props.currentCanvas.renderAll();
   }
   function setFontStyleHandler(type, v) {
     let fontStyleObj = {
@@ -109,7 +109,7 @@ const WordEdit = (props) => {
     }
     console.log("selectedObject.fontSize == > ", selectedObject.fontSize);
     setFontStyle(fontStyleObj);
-    props.handleRender();
+    props.currentCanvas.renderAll();
   }
 
   const handleColorChange = (color) => {

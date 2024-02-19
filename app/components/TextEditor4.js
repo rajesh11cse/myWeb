@@ -15,7 +15,7 @@ function TextEditor4() {
   const canvasRef = useRef(null);
   const canvas = useRef(null);
   const prevDimensions = useRef(null);
-  const [selectedObject, setSelectedObject] = useState(null);
+  // const [selectedObject, setSelectedObject] = useState(null);
   const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
   const [zoom, setZoom] = useState(1);
 
@@ -119,9 +119,9 @@ function TextEditor4() {
     }); 
 
     // Select Object
-    canvas.current.on("mouse:down", function () {
-      setSelectedObject(canvas.current.getActiveObject())
-    }); 
+    // canvas.current.on("mouse:down", function () {
+    //   setSelectedObject(canvas.current.getActiveObject())
+    // }); 
 
 
 /*  
