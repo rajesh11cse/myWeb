@@ -27,3 +27,11 @@
     flex: 1;
   }
 }
+
+
+.sideBarCustom{
+  /* background-color:red; */
+  div{
+    direction: ltr;
+  }
+}

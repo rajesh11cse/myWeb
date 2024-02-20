@@ -8,6 +8,8 @@ import {
   DivCont,
   ButtonGroupCont,
   InputGroupCont,
+  TextAreaCont,
+  ColorPickCont
 } from "../css/styled";
 
 import {
@@ -128,6 +130,7 @@ const WordEdit = (props) => {
         </Row>
         <Row style={{ marginBottom: 20 }}>
           <Col lg={12}>
+          <TextAreaCont>
             <Form.Control
               className="textarea-cont"
               as="textarea"
@@ -135,8 +138,12 @@ const WordEdit = (props) => {
               onChange={(e) => setTextNewValue(e.target.value)}
               placeholder="Text.."
             />
+            </TextAreaCont>
           </Col>
         </Row>
+        </Container>
+        <Divider />
+        <Container fluid>
         <Row style={{ marginBottom: 10 }}>
           <Col lg={5}>
             <Text>Font Family</Text>
@@ -220,6 +227,7 @@ const WordEdit = (props) => {
                 <Button
                   variant="secondary"
                   value={fontStyle.fontStyle}
+                  style={{background: '#68b3fd'}}
                   onClick={() =>
                     setFontStyleHandler("fontStyle", !fontStyle.fontStyle)
                   }
@@ -256,7 +264,7 @@ const WordEdit = (props) => {
                 />
                 <Button
                   variant="secondary"
-                  // value={fontStyle.fontWeight}
+                  value={fontStyle.fontWeight}
                   onClick={() => setShowColorPicker(!showColorPicker)}
                 >
                   Clr
@@ -266,7 +274,7 @@ const WordEdit = (props) => {
           </Col>
         </Row>
         <Row>
-          <div ref={colorPickerRef}>
+          <ColorPickCont ref={colorPickerRef}>
             {showColorPicker && (
               <div>
                 <SketchPicker
@@ -275,7 +283,7 @@ const WordEdit = (props) => {
                 />
               </div>
             )}
-          </div>
+          </ColorPickCont>
         </Row>
         <Row>
           <Col lg={12}>
@@ -289,6 +297,7 @@ const WordEdit = (props) => {
                 <Button
                   variant="secondary"
                   onClick={() => setFontStyleHandler("textAlign", "left")}
+                  style={{background: '#68b3fd'}}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -340,6 +349,41 @@ const WordEdit = (props) => {
                 </Button>
               </ButtonGroup>
             </ButtonGroupCont>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+            <Text> More..</Text>
           </Col>
         </Row>
         <Row style={{ marginBottom: 10 }}>
