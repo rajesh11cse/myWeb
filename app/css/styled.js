@@ -120,3 +120,64 @@ export const ColorPickCont = styled.div`
   z-index: 10;
   left: 70px;
 `;
+
+//   top: 90%;
+//   left: 14%;
+//   z-index: 10;
+// `;
+
+export const ZoomInCont = styled.div`
+  position: absolute;
+  z-index: 12;
+  bottom: 20px;
+  left: 15%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 20px 0px;
+  padding: 0px;
+  text-align: center;
+  border-radius: 8px;
+  div {
+    min-height: 40px;
+    font-size: 12px;
+    padding: 10px 4px;
+    min-width: 36px;
+  }
+  button {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 15px;
+    padding: 9px 12px;
+    font-weight: 400;
+    border-radius: 4px;
+    border: 4px;
+    cursor: pointer;
+    opacity: 1;
+    pointer-events: inherit;
+    background-color: transparent;
+    color: rgb(115, 113, 113);
+    width: unset;
+    user-select: none;
+    transition: all 0.15s ease 0s;
+    display: inline-flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    vertical-align: middle;
+    background-color: rgb(251, 251, 254);
+    width: 36px;
+    border-top: 1px solid rgb(242, 242, 246);
+    border-bottom: 1px solid rgb(242, 242, 246);
+    padding: 0px;
+    width: 40px;
+    height: 30px;
+    &:hover {
+      background-color: transparent;
+      color:red;
+    }
+    .zoom-icon {
+        width: 24px;
+        height: 24px;
+    }
+  }
+`;

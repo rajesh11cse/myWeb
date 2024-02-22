@@ -109,7 +109,7 @@ const WordEdit = (props) => {
       fontStyleObj.fontSize = v;
       selectedObject.fontSize = v;
     }
-    console.log("selectedObject.fontSize == > ", selectedObject.fontSize);
+    console.log("selectedObject.fontWeight == > ", selectedObject.fontWeight);
     setFontStyle(fontStyleObj);
     props.currentCanvas.renderAll();
   }

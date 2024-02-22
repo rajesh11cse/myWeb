@@ -4,13 +4,17 @@ import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
 import WordEdit from "./WordEdit";
 import ZoomInSlider from "./ZoomInSlider";
+import ZoomPage from "./ZoomPage";
 import {
   SetTextBoxProperties,
   SetTextBoxControlProperties,
   SetTextBoxControlsVisibility,
+  createCustomControls,
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
+import { Sidebar } from "react-pro-sidebar";
+import { ZoomInCont } from "../css/styled";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 
@@ -20,6 +24,7 @@ function TextEditor44() {
   // Stats
   const [zoom, setZoom] = useState(1);
   const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
+  const [leftSliderCloseStatus, setLeftSliderCloseStatus] = useState(false);
   const [currentCanvas, setCurrentCanvas] = useState(null);
   const [selectedObject, setSelectedObject] = useState(null);
 
@@ -28,6 +33,10 @@ function TextEditor44() {
       // Iterate over all objects in the canvas and set controls visibility
       c.getObjects().forEach((obj) => {
         if (obj.type === "textbox") {
+            // Custom controls
+          createCustomControls(obj, "delete")
+          createCustomControls(obj, "clone")
+          createCustomControls(obj, "scale")
           SetTextBoxControlProperties(obj);
           SetTextBoxControlsVisibility(obj);
         }
@@ -39,11 +48,12 @@ function TextEditor44() {
   // Zoom scaling functions
   useEffect(() => {
     const container = canvasContainerRef.current;
-    console.log("handleZoomChange2 == > ", zoom);
+    // console.log("handleZoomChange2 == > ", zoom);
     container.style.transform = `scale(${zoom})`;
     container.style.transformOrigin = "top";
   }, [zoom]);
   const handleZoomChange = (value) => {
+    // console.log("handleZoomChange ==>", value)
     setZoom(parseFloat(value));
   };
 
@@ -104,14 +114,31 @@ function TextEditor44() {
   };
 
   // Close slider
-  const closeSlider = () => {
+  const closeSliderRight = () => {
     setSliderCloseStatus(!sliderCloseStatus);
+  };
+
+  const closeSliderLeft = () => {
+    const slider = document.getElementById("slider");
+    const container = document.getElementById("zoom-in-out");
+    if (slider.style.display === "none") {
+      // If the slider is closed, shift the container to the left
+      container.style.left = "15%"; // Reset to center
+    } else {
+      // If the slider is open, shift the container to the right
+      container.style.left = "calc(15% - 200px)"; // Shifted by slider width
+    }
+    // Toggle the display of the slider
+    slider.style.display = slider.style.display === "none" ? "block" : "none";
+
+    setLeftSliderCloseStatus(!leftSliderCloseStatus);
   };
 
   return (
     <div>
       <div className="editorTopCon">
-        <button onClick={() => closeSlider()}>Close</button>
+        <button onClick={() => closeSliderLeft()}>Close Left</button>
+        <button onClick={() => closeSliderRight()}>Close Right</button>
         <button onClick={() => addRectangle()}>Add Rectangle</button>
         <button onClick={() => addNewText()}>Add Textbox</button>
         <button onClick={() => removeObject()}> Remove </button>
@@ -119,11 +146,20 @@ function TextEditor44() {
         <button onClick={saveAsJSON}>Download</button>
       </div>
       <div className="container">
+        <Sidebar
+          id="slider"
+          collapsed={leftSliderCloseStatus}
+          width="200px"
+          customBreakPoint="80px"
+          collapsedWidth="1px"
+        >
+          <div>Template1</div>
+        </Sidebar>
         <div className="middle">
           <div className="canvas-container">
-            {/* <div className="canvas-overlay"></div> */}
+            <ZoomPage id="zoom-in-out" handleZoomChange={(e) => handleZoomChange(e)}/> 
             <Container fluid ref={canvasContainerRef}>
-              {[1,2].map((_, index) => (
+              {[1].map((_, index) => (
                 <Row style={{ marginBottom: 10 }}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
@@ -138,6 +174,7 @@ function TextEditor44() {
             </Container>
           </div>
         </div>
+        {/* <ZoomInSlider handleZoomChange={(e) => handleZoomChange(e)} /> */}
         <EditTextBar
           collapsed={sliderCloseStatus}
           selectedObject={selectedObject}
@@ -146,7 +183,6 @@ function TextEditor44() {
         {/* <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/> */}
       </div>
       {/* Its there in bootsrap also */}
-      {/* <ZoomInSlider handleZoomChange={(e) => handleZoomChange(e)} /> */}
     </div>
   );
 }

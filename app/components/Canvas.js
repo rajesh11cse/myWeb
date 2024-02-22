@@ -1,6 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "../css/LeftSideBar.css"; // Assume you have a CSS file for styling
 import { fabric } from "fabric";
+// import 'fabric-customise-controls'; // Import the library
+
+
 
 const Canvas = (props) => {
   const width = 800;
@@ -10,7 +13,15 @@ const Canvas = (props) => {
   const canvasRef = useRef(null);
   const canvas = useRef(null); // Clean canvas before use it
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
+  const prevDimensions = useRef(null);
+  const hoverRect = useRef(null);
+
+  // Create states
+  const [displayBoundary, setDisplayBoundary] = useState(false);
   
+  // create a rect object
+
+
 
 
 
@@ -19,6 +30,7 @@ const Canvas = (props) => {
   useEffect(() => {
     currentCanvas = new fabric.Canvas(canvasRef.current);
     currentCanvas.setDimensions({ width: width, height: height });
+
 
     props.loadData(currentCanvas)
     props.handleCurrentCanvas(currentCanvas)
@@ -68,17 +80,18 @@ const Canvas = (props) => {
     });
     // Add mouse hover event listener
     currentCanvas.on("mouse:over", (e) => {
-      /*  const object = e.target;
-        if (object && object.type === 'textbox' && !hoverRect.current) { 
+        const object = e.target;
+        if (object && object.type === 'textbox' && !displayBoundary) { 
+          setDisplayBoundary(true)
           const activeCoords = object.getBoundingRect();
-          console.log(activeCoords)
-          CreateBoundary(activeCoords);
-          canvas.current.renderAll();
-        } */
+          // console.log("activeCoords")
+        //  CreateBoundary(activeCoords);
+         // currentCanvas.renderAll();
+        }
     });
 
     currentCanvas.on("mouse:out", function () {
-      // removeHoverRect(canvas.current)
+     // removeHoverRect(currentCanvas)
     });
 
     // Select Object
@@ -94,10 +107,41 @@ const Canvas = (props) => {
     };
   }, []);
 
+  const removeHoverRect = (canvas) => {
+    if (displayBoundary) {
+      canvas.remove(hoverRect.current);
+      hoverRect.current = null;
+      setDisplayBoundary(false)
+    }
+  };
+
+  const CreateBoundary = function(coordinates){
+    const rect = new fabric.Rect({
+      left: coordinates.left,
+      top: coordinates.top,
+      width: coordinates.width,
+      height: coordinates.height,
+      fill: 'transparent',
+      stroke: 'lightblue',
+      strokeWidth: 1,
+      selectable: false
+    });
+    hoverRect.current = rect;
+    currentCanvas.add(rect);
+    currentCanvas.renderAll();
+  }
+
+  // function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+  //   console.log("renderIcon loaded:===> ")
+  //   // Custom rendering logic for control icon
+  //   // For example, render an X icon
+  //   ctx.fillStyle = '#FF0000';
+  //   ctx.fillRect(left, top, 16, 16);
+  // }
   // This is used for zoom in scaling
   useEffect(() => {
     const canvas = canvasRef.current;
-    console.log("handleZoomChange2 == > ", zoomValue);
+    // console.log("handleZoomChange2 == > ", zoomValue);
     canvas.style.transform = `scale(${zoomValue})`;
     canvas.style.transformOrigin = "top";
   }, [zoomValue]);
