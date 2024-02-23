@@ -10,6 +10,8 @@ import {
   SetTextBoxControlProperties,
   SetTextBoxControlsVisibility,
   createCustomControls,
+  SetRectBoxProperties,
+  SetLineProperties
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
@@ -27,7 +29,7 @@ function TextEditor44() {
   const [leftSliderCloseStatus, setLeftSliderCloseStatus] = useState(false);
   const [currentCanvas, setCurrentCanvas] = useState(null);
   const [selectedObject, setSelectedObject] = useState(null);
-
+  const [canvasHistory, setCanvasHistory] = useState([]);
   const loadJSONData = function (c) {
     c.loadFromJSON(myData, () => {
       // Iterate over all objects in the canvas and set controls visibility
@@ -60,6 +62,10 @@ function TextEditor44() {
   // handle current active canvas
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
+
+    console.log("==>>", c.current)
+    // const initialCanvasState = JSON.stringify(currentCanvas);
+    // setCanvasHistory([initialCanvasState]);
   };
 
   // Add a new Text
@@ -84,6 +90,22 @@ function TextEditor44() {
       this.set("fill", "blue");
       currentCanvas.renderAll();
     });
+    currentCanvas.renderAll();
+  };
+
+  const addRectangle = () => {
+    let rectBox = new fabric.Rect("", {});
+    SetRectBoxProperties(rectBox, { left: 20, top: 20 });
+    currentCanvas.add(rectBox);
+    currentCanvas.setActiveObject(rectBox);
+    currentCanvas.renderAll();
+  };
+
+  const addLine = () => {
+    var line = new fabric.Line([50, 50, 200, 50]);
+    SetLineProperties(line, { left: 20, top: 100 });
+    currentCanvas.add(line);
+    currentCanvas.setActiveObject(line);
     currentCanvas.renderAll();
   };
 
@@ -134,13 +156,45 @@ function TextEditor44() {
     setLeftSliderCloseStatus(!leftSliderCloseStatus);
   };
 
+
+
+  // Function to undo
+  const undo = () => {
+    console.log("anvasHistory ==> ", canvasHistory.length)
+    if (canvasHistory.length > 1) {
+      const previousState = canvasHistory[canvasHistory.length - 2];
+      setCanvasHistory(prevHistory => prevHistory.slice(0, -1));
+      // const canvas = canvasRef.current;
+      if (currentCanvas) {
+        currentCanvas.clear();
+        currentCanvas.loadFromJSON(previousState);
+        currentCanvas.renderAll();
+      }
+    }
+  };
+
+  // Function to redo
+  const redo = () => {
+    const currentState = canvasHistory[canvasHistory.length - 1];
+    // const canvas = canvasRef.current;
+    if (currentCanvas && currentState) {
+      currentCanvas.clear();
+      currentCanvas.loadFromJSON(currentState);
+      currentCanvas.renderAll();
+    }
+  };
+
+
   return (
     <div>
       <div className="editorTopCon">
+        <button onClick={() => undo()}>Undo</button>
+        <button onClick={() => redo()}>Redo</button>
         <button onClick={() => closeSliderLeft()}>Close Left</button>
         <button onClick={() => closeSliderRight()}>Close Right</button>
-        <button onClick={() => addRectangle()}>Add Rectangle</button>
-        <button onClick={() => addNewText()}>Add Textbox</button>
+        <button onClick={() => addRectangle()}>Rect</button>
+        <button onClick={() => addLine()}>Line</button>
+        <button onClick={() => addNewText()}>Text</button>
         <button onClick={() => removeObject()}> Remove </button>
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
         <button onClick={saveAsJSON}>Download</button>

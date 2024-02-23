@@ -21,7 +21,7 @@ const Canvas = (props) => {
 
     // Event listener to prevent object from moving outside canvas boundaries
     currentCanvas.on("object:moving", (e) => {
-      const obj = e.target;
+     /*  const obj = e.target;
       const objWidth = obj.getScaledWidth().toFixed(2);
       const objHeight = obj.getScaledHeight().toFixed(2);
       const objLeft = obj.left;
@@ -39,12 +39,12 @@ const Canvas = (props) => {
           left: Math.min(Math.max(objLeft, 20), width - objWidth),
           top: Math.min(Math.max(objTop, 20), height - objHeight),
         });
-      }
+      } */
     });
 
     currentCanvas.on("object:scaling", function (options) {
       // Does not work on TexBox but works on Text and Rectangle
-      let obj = options.target;
+    /*   let obj = options.target;
       let objWidth = obj.getScaledWidth().toFixed(2);
       let objHeight = obj.getScaledHeight().toFixed(2);
       if (
@@ -60,28 +60,29 @@ const Canvas = (props) => {
         currentCanvas.requestRenderAll(); // Render canvas
       } else {
         prevDimensions.current = { width: obj.width, height: obj.height };
-      }
+      } */
     });
 
     currentCanvas.on("mouse:over", (e) => {
       const object = e.target;
-      if (object && object.type === "textbox") {
+      const selectedObject = currentCanvas.getActiveObject()
+      if (object && object != selectedObject) {
         object._renderControls(currentCanvas.contextTop, {
-          hasControls: false
+          hasControls: false, borderColor: "red", 
         });
       }
     });
 
     currentCanvas.on("mouse:out", function (e) {
       const object = e.target;
-      if (object && object.type == "textbox") {
+      if (object) {
         currentCanvas.clearContext(currentCanvas.contextTop);      }
     });
 
     // Select Object
     currentCanvas.on("mouse:down", function (e) {
       const object = e.target;
-      if (object && object.type == "textbox") {
+      if (object) {
         currentCanvas.clearContext(currentCanvas.contextTop); 
         props.selectObject(currentCanvas.getActiveObject());
       }

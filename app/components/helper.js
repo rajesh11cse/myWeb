@@ -17,7 +17,7 @@ export function SetTextBoxProperties(textBox, position) {
     top: position.top,
     width: 500,
     height: 700,
-    fontSize: 10, // Fixed font size
+    fontSize: 16, // Fixed font size
     fill: "#000",
     fontFamily: "Arial",
     textAlign: "left",
@@ -26,8 +26,8 @@ export function SetTextBoxProperties(textBox, position) {
   textBox.set(options);
 
   // Custom controls
-  createCustomControls(textBox, "delete");
-  createCustomControls(textBox, "clone");
+  // createCustomControls(textBox, "delete");
+  // createCustomControls(textBox, "clone");
   createCustomControls(textBox, "scale");
 
   // Add custom delete control to the TextBox
@@ -36,9 +36,54 @@ export function SetTextBoxProperties(textBox, position) {
   SetTextBoxControlProperties(textBox);
 }
 
-export function createCustomControls(textBox, type) {
+
+export function SetRectBoxProperties(rectBox, position) {
+  const options = {
+    left: position.left,
+    top: position.top,
+    width: 250,
+    height: 100,
+    padding: 0,
+    fill: "#e0e0e0", // Default fill color
+    borderColor: "green", // Default border color
+    strokeWidth: 0, // Default border width
+    selectable: true, // Object is selectable by default
+    hasControls: false,
+  }
+  rectBox.set(options);
+  // Custom controls
+  createCustomControls(rectBox, "scale");
+
+  // Add custom delete control to the TextBox
+  // textBox.setControlVisible('deleteControl', true);
+  SetTextBoxControlsVisibility(rectBox);
+  SetTextBoxControlProperties(rectBox);
+}
+
+
+
+
+export function SetLineProperties(obj, position) {
+  const options = {
+    left: position.left,
+    top: position.top,
+    stroke: 'black', // Line color
+    strokeWidth: 2, // Line width
+    // strokeDashArray: [3, 3] // Dashed pattern: 5px dash, 5px gap
+  }
+  obj.set(options);
+  // Custom controls
+  // createCustomControls(obj, "scale");
+
+  // Add custom delete control to the TextBox
+  // textBox.setControlVisible('deleteControl', true);
+  SetTextBoxControlsVisibility(obj);
+  SetTextBoxControlProperties(obj);
+}
+
+export function createCustomControls(object, type) {
   if (type == "delete") {
-    textBox.controls.deleteControl = new fabric.Control({
+    object.controls.deleteControl = new fabric.Control({
       x: 0.4,
       y: 0.5,
       offsetY: 16,
@@ -48,7 +93,7 @@ export function createCustomControls(textBox, type) {
       cornerSize: 24,
     });
   } else if (type == "clone") {
-    textBox.controls.clone = new fabric.Control({
+    object.controls.clone = new fabric.Control({
       x: 0.35,
       y: 0.5,
       offsetY: 16,
@@ -59,9 +104,27 @@ export function createCustomControls(textBox, type) {
       cornerSize: 24,
     });
   } else if (type == "scale") {
-    textBox.controls.scaleRight = new fabric.Control({
+
+    let yScale = -0.58
+    if (object.type == "textbox") {
+      yScale = -0.5
+    }
+
+    object.controls.scaleLeft = new fabric.Control({
+      x: -0.5,
+      y: yScale,
+      offsetX: -2,
+      actionName: "scale", // Action to perform when clicked
+      cursorStyle: "pointer",
+      render: renderScaleIcon, // Render the icon
+      mouseUpHandler: scaleObject, // Handle scaling on mouse down
+      cornerSize: 24, // Control corner size
+    });
+
+
+    object.controls.scaleRight = new fabric.Control({
       x: 0.5,
-      y: -0.5,
+      y: yScale,
       offsetX: -1.5,
       offsetY: 0,
       actionName: "scale", // Action to perform when clicked
@@ -70,21 +133,50 @@ export function createCustomControls(textBox, type) {
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
+
+    let offsetY = 0
+    if (object.type == "textbox") {
+      offsetY = 9
+    }
+    object.controls.scaleBottom = new fabric.Control({
+      offsetX: -10,
+      offsetY: offsetY,
+      actionName: "scale", // Action to perform when clicked
+      cursorStyle: "pointer",
+      render: renderScaleIconHorizontal, // Render the icon
+      mouseUpHandler: scaleObject, // Handle scaling on mouse down
+      cornerSize: 24, // Control corner size
+    });
   }
 }
 
 // Define a function to handle scaling action
 function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
-  const pointer = canvas.getPointer(mouseMoveEvent.e);
-  const scaleX = (pointer.x - target.left) / (target.width * target.scaleX);
-  const scaleY = (pointer.y - target.top) / (target.height * target.scaleY);
+  // const pointer = canvas.getPointer(mouseMoveEvent.e);
+  // const scaleX = (pointer.x - target.left) / (target.width * target.scaleX);
+  // const scaleY = (pointer.y - target.top) / (target.height * target.scaleY);
 
-  console.log("scaleX == > ", scaleX);
-  console.log("scaleY == > ", scaleY);
+  // console.log("scaleX == > ", scaleX);
+  // console.log("scaleY == > ", scaleY);
   // target.scaleX = scaleX;
   // target.scaleY = scaleY;
   // target.setCoords();
   // canvas.requestRenderAll();
+}
+
+
+
+
+function renderScaleIconHorizontal(ctx, left, top, styleOverride, fabricObject) {
+  var topYScale = top + (fabricObject.height * fabricObject.scaleY)/ 2;
+  ctx.beginPath();
+  ctx.lineWidth = 3; // stroke width adjustment
+  ctx.strokeStyle = "#68b3fd";
+  ctx.fillStyle = "white";
+  ctx.roundRect(left, topYScale, 21, 4, 2);
+  ctx.stroke();
+  ctx.fill();
+  ctx.closePath();
 }
 
 // Define a function to render the scaling icon
@@ -101,9 +193,9 @@ function renderScaleIcon(ctx, left, top, styleOverride, fabricObject) {
 }
 
 function deleteObject(eventData, transform) {
-  // const canvas = transform.target.canvas;
-  // canvas.remove(transform.target);
-  // canvas.requestRenderAll();
+  const canvas = transform.target.canvas;
+  canvas.remove(transform.target);
+  canvas.requestRenderAll();
 }
 
 function cloneObject(eventData, transform) {
@@ -122,14 +214,23 @@ function renderIcon(icon) {
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.drawImage(icon, -size / 2, -size / 2, size, size);
+    ctx.arc(left, top, 30 / 2, 0, 10 * Math.PI, false);
     ctx.restore();
   };
 }
 
-export function SetTextBoxControlProperties(textBox) {
+
+export function SetTextBoxControlProperties(object) {
+  let padding = 2
+  if (object.type == "textbox") {
+    padding = 10
+  } else if (object.type == "line") {
+    padding = 20
+  }
   const options = {
-    borderColor: "#68b3fd",
-    cornerColor: "#68b3fd",
+    borderColor: "#124fea",
+    cornerColor: "transparent",
+    // cornerColor: "red",
     hasControls: true,
     selectable:1,
     lockMovementX: false,
@@ -138,17 +239,19 @@ export function SetTextBoxControlProperties(textBox) {
     centeredScaling: false, // Prevent resizing from center
     cornerStyle: "circle", // Use circular corner controls
     transparentCorners: false, // Make corner controls more visible
-    cornerSize: 5, // Set corner control size
-    padding: 10, // Set padding inside the textbox
+    cornerSize: 25, // Set corner control size
+    padding: padding, // Set padding inside the textbox
     lockRotation: false, // Allow rotation
+    // cornerStrokeColor:'#124fea',
+    cornerStrokeWidth:5,
   };
-  textBox.set(options);
+  object.set(options);
 }
 
 export function SetTextBoxControlsVisibility(textBox) {
   textBox.setControlsVisibility({
     mt: false,
-    ml: false,
+    ml: true,
     mr: true,
     mb: true,
     tl: false,
@@ -165,8 +268,8 @@ export function SetTextBoxControlsVisibility(textBox) {
       fabricObject.set("rotatingPointOffset", dim.y);
       canvas.current.requestRenderAll();
     },
-    actionName: "set", // Action name
+    actionName: "set",
   });
-  textBox.controls.mtr = control; // Assign the custom control to mtr control
-  textBox.setCoords(); // Update object's coordinates
+  textBox.controls.mtr = control;
+  textBox.setCoords();
 }

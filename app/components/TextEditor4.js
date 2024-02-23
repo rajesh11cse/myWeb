@@ -229,36 +229,36 @@ function TextEditor4() {
   };
 
   // Function to add a textbox to the canvas
-  const addRectangle = () => {
-    const textBox = new fabric.Rect({
-      left: 50,
-      top: 50,
-      width: 250,
-      height: 100,
-      padding: 10,
-      fill: "lightgreen", // Default fill color
-      borderColor: "red", // Default border color
-      strokeWidth: 2, // Default border width
-      selectable: true, // Object is selectable by default
-      hasControls: true, // Object has controls (resize, rotate, etc.)
-    });
-    // Allow control on right bottom of text area only
-    textBox.setControlsVisibility({
-      mt: false,
-      ml: false,
-      mr: true,
-      mb: true,
-      tl: false,
-      tr: false,
-      bl: false,
-      br: true,
-      mtr: true,
-    });
+  // const addRectangle = () => {
+  //   const textBox = new fabric.Rect({
+  //     left: 50,
+  //     top: 50,
+  //     width: 250,
+  //     height: 100,
+  //     padding: 10,
+  //     fill: "lightgreen", // Default fill color
+  //     borderColor: "red", // Default border color
+  //     strokeWidth: 2, // Default border width
+  //     selectable: true, // Object is selectable by default
+  //     hasControls: true, // Object has controls (resize, rotate, etc.)
+  //   });
+  //   // Allow control on right bottom of text area only
+  //   textBox.setControlsVisibility({
+  //     mt: false,
+  //     ml: false,
+  //     mr: true,
+  //     mb: true,
+  //     tl: false,
+  //     tr: false,
+  //     bl: false,
+  //     br: true,
+  //     mtr: true,
+  //   });
 
-    canvas.current.add(textBox);
-    canvas.current.setActiveObject(textBox);
-    canvas.current.renderAll();
-  };
+  //   canvas.current.add(textBox);
+  //   canvas.current.setActiveObject(textBox);
+  //   canvas.current.renderAll();
+  // };
 
   // Function to remove the selected object (textbox)
   // const removeSelectedObject = () => {
