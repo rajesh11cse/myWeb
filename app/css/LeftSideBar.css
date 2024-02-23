@@ -35,3 +35,11 @@
     direction: ltr;
   }
 }
+
+
+.fabric-border {
+  border: 2px solid red; /* Border width, style, and color */
+  position: absolute; /* Position the border relative to the canvas */
+  pointer-events: none; /* Ensure the border does not intercept mouse events */
+  z-index: 1; /* Ensure the border is above other canvas elements */
+}

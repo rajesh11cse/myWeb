@@ -21,6 +21,7 @@ export function SetTextBoxProperties(textBox, position) {
     fill: "#000",
     fontFamily: "Arial",
     textAlign: "left",
+    selectable:1
   };
   textBox.set(options);
 
@@ -130,6 +131,7 @@ export function SetTextBoxControlProperties(textBox) {
     borderColor: "#68b3fd",
     cornerColor: "#68b3fd",
     hasControls: true,
+    selectable:1,
     lockMovementX: false,
     lockMovementY: false,
     editable: true,
