@@ -7,11 +7,10 @@ import ZoomInSlider from "./ZoomInSlider";
 import ZoomPage from "./ZoomPage";
 import {
   SetTextBoxProperties,
-  SetTextBoxControlProperties,
-  SetTextBoxControlsVisibility,
-  createCustomControls,
+  borderControl,
+  cornerControl,
   SetRectBoxProperties,
-  SetLineProperties
+  SetLineProperties,
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
@@ -32,16 +31,10 @@ function TextEditor44() {
   const [canvasHistory, setCanvasHistory] = useState([]);
   const loadJSONData = function (c) {
     c.loadFromJSON(myData, () => {
-      // Iterate over all objects in the canvas and set controls visibility
       c.getObjects().forEach((obj) => {
-        if (obj.type === "textbox") {
-            // Custom controls
-          createCustomControls(obj, "delete")
-          createCustomControls(obj, "clone")
-          createCustomControls(obj, "scale")
-          SetTextBoxControlProperties(obj);
-          SetTextBoxControlsVisibility(obj);
-        }
+        console.log(obj.type);
+        borderControl(obj);
+        cornerControl(obj);
       });
       c.renderAll();
     });
@@ -63,7 +56,7 @@ function TextEditor44() {
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
 
-    console.log("==>>", c.current)
+    console.log("==>>", c.current);
     // const initialCanvasState = JSON.stringify(currentCanvas);
     // setCanvasHistory([initialCanvasState]);
   };
@@ -156,14 +149,12 @@ function TextEditor44() {
     setLeftSliderCloseStatus(!leftSliderCloseStatus);
   };
 
-
-
   // Function to undo
   const undo = () => {
-    console.log("anvasHistory ==> ", canvasHistory.length)
+    console.log("anvasHistory ==> ", canvasHistory.length);
     if (canvasHistory.length > 1) {
       const previousState = canvasHistory[canvasHistory.length - 2];
-      setCanvasHistory(prevHistory => prevHistory.slice(0, -1));
+      setCanvasHistory((prevHistory) => prevHistory.slice(0, -1));
       // const canvas = canvasRef.current;
       if (currentCanvas) {
         currentCanvas.clear();
@@ -184,7 +175,6 @@ function TextEditor44() {
     }
   };
 
-
   return (
     <div>
       <div className="editorTopCon">
@@ -197,7 +187,7 @@ function TextEditor44() {
         <button onClick={() => addNewText()}>Text</button>
         <button onClick={() => removeObject()}> Remove </button>
         <button onClick={() => clearCanvas()}>Clear Canvas</button>
-        <button onClick={saveAsJSON}>Download</button>
+        <button onClick={saveAsJSON}>Save</button>
       </div>
       <div className="container">
         <Sidebar
@@ -211,7 +201,10 @@ function TextEditor44() {
         </Sidebar>
         <div className="middle">
           <div className="canvas-container">
-            <ZoomPage id="zoom-in-out" handleZoomChange={(e) => handleZoomChange(e)}/> 
+            <ZoomPage
+              id="zoom-in-out"
+              handleZoomChange={(e) => handleZoomChange(e)}
+            />
             <Container fluid ref={canvasContainerRef}>
               {[1].map((_, index) => (
                 <Row style={{ marginBottom: 10 }}>

@@ -5,7 +5,7 @@ import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
 import WordEdit from "./WordEdit";
 import ZoomInSlider from "./ZoomInSlider";
-import {SetTextBoxProperties, SetTextBoxControlProperties, SetTextBoxControlsVisibility} from "./helper.js";
+import {SetTextBoxProperties, borderControl, cornerControl} from "./helper.js";
 import EditTextBar from './EditTextBar';
 import Canvas from './Canvas';
 
@@ -177,8 +177,8 @@ function TextEditor4() {
   //     // Iterate over all objects in the canvas and set controls visibility
   //     canvas.current.getObjects().forEach((obj) => {
   //       if (obj.type === "textbox") {
-  //         SetTextBoxControlProperties(obj)
-  //         SetTextBoxControlsVisibility(obj)
+  //         borderControl(obj)
+  //         cornerControl(obj)
   //       }
   //     });
   //     canvas.current.renderAll();
@@ -190,8 +190,8 @@ function TextEditor4() {
   //     // Iterate over all objects in the canvas and set controls visibility
   //     c.getObjects().forEach((obj) => {
   //       if (obj.type === "textbox") {
-  //         SetTextBoxControlProperties(obj)
-  //         SetTextBoxControlsVisibility(obj)
+  //         borderControl(obj)
+  //         cornerControl(obj)
   //       }
   //     });
   //     c.renderAll();
