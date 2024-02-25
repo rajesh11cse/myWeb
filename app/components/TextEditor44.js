@@ -16,9 +16,7 @@ import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
 import { Sidebar } from "react-pro-sidebar";
 import { ZoomInCont } from "../css/styled";
-
 import { Container, Row, Col, Button } from "react-bootstrap";
-
 function TextEditor44() {
   // Refs
   const canvasContainerRef = useRef(null);
@@ -43,19 +41,16 @@ function TextEditor44() {
   // Zoom scaling functions
   useEffect(() => {
     const container = canvasContainerRef.current;
-    // console.log("handleZoomChange2 == > ", zoom);
     container.style.transform = `scale(${zoom})`;
     container.style.transformOrigin = "top";
   }, [zoom]);
   const handleZoomChange = (value) => {
-    // console.log("handleZoomChange ==>", value)
     setZoom(parseFloat(value));
   };
 
   // handle current active canvas
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
-
     console.log("==>>", c.current);
     // const initialCanvasState = JSON.stringify(currentCanvas);
     // setCanvasHistory([initialCanvasState]);

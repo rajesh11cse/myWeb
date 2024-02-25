@@ -17,12 +17,24 @@ const Canvas = (props) => {
     props.loadData(currentCanvas);
     props.handleCurrentCanvas(currentCanvas);
 
+    currentCanvas.selectionBorderColor = 'red'
+
+
+    currentCanvas.on("object:scaling", function (options) {
+      // Does not work on TexBox but works on Text and Rectangle
+      let obj = options.target;
+      let objWidth = obj.getScaledWidth().toFixed(2);
+      let objHeight = obj.getScaledHeight().toFixed(2);
+      // console.log("objWidth ==> ", objWidth)
+      // console.log("objHeight ==> ", objHeight)
+    });
+
     currentCanvas.on("mouse:over", (e) => {
       const object = e.target;
       const selectedObject = currentCanvas.getActiveObject()
       if (object && object != selectedObject) {
         object._renderControls(currentCanvas.contextTop, {
-          hasControls: false, borderColor: "red", 
+          hasControls: false, borderColor: "#4678f4"
         });
       }
     });

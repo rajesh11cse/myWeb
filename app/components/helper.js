@@ -24,14 +24,6 @@ export function SetTextBoxProperties(textBox, position) {
     selectable: 1,
   };
   textBox.set(options);
-
-  // Custom controls
-  // customCorner(textBox, "delete");
-  // customCorner(textBox, "clone");
-  customCorner(textBox, "scale");
-
-  // Add custom delete control to the TextBox
-  // textBox.setControlVisible('deleteControl', true);
   cornerControl(textBox);
   borderControl(textBox);
 }
@@ -51,10 +43,6 @@ export function SetRectBoxProperties(rectBox, position) {
   };
   rectBox.set(options);
   // Custom controls
-  customCorner(rectBox, "scale");
-
-  // Add custom delete control to the TextBox
-  // textBox.setControlVisible('deleteControl', true);
   cornerControl(rectBox);
   borderControl(rectBox);
 }
@@ -68,11 +56,6 @@ export function SetLineProperties(obj, position) {
     // strokeDashArray: [3, 3] // Dashed pattern: 5px dash, 5px gap
   };
   obj.set(options);
-  // Custom controls
-  // customCorner(obj, "scale");
-
-  // Add custom delete control to the TextBox
-  // textBox.setControlVisible('deleteControl', true);
   cornerControl(obj);
   borderControl(obj);
 }
@@ -104,15 +87,15 @@ export function createCustodmControls2(object, type) {
 
 // Define a function to handle scaling action
 function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
-  // const pointer = canvas.getPointer(mouseMoveEvent.e);
+  // const pointer = currentCanvas.getPointer(mouseMoveEvent.e);
   // const scaleX = (pointer.x - target.left) / (target.width * target.scaleX);
   // const scaleY = (pointer.y - target.top) / (target.height * target.scaleY);
   // console.log("scaleX == > ", scaleX);
   // console.log("scaleY == > ", scaleY);
-  // target.scaleX = scaleX;
+  // // target.scaleX = scaleX;
   // target.scaleY = scaleY;
   // target.setCoords();
-  // canvas.requestRenderAll();
+  // currentCanvas.requestRenderAll();
 }
 
 function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
@@ -121,7 +104,11 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
   ctx.lineWidth = 3; // stroke width adjustment
   ctx.strokeStyle = "#68b3fd";
   ctx.fillStyle = "white";
-  ctx.roundRect(left, topYScale, 21, 4, 2);
+  if (fabricObject.type == "line") {
+    ctx.roundRect(0, 0, 0, 0, 0);
+  }else{
+    ctx.roundRect(left - 10, topYScale, 21, 4, 2);
+  }
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
@@ -130,11 +117,16 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
 // Define a function to render the scaling icon
 function iconVertical(ctx, left, top, styleOverride, fabricObject) {
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
+  if (fabricObject.type == "rect") {
+    topYScale = topYScale - 8;
+  }else if (fabricObject.type == "line") {
+    topYScale = topYScale+10;
+  }
   ctx.beginPath();
   ctx.lineWidth = 3; // stroke width adjustment
   ctx.strokeStyle = "#68b3fd";
   ctx.fillStyle = "white";
-  ctx.roundRect(left, topYScale, 4, 21, 2);
+  ctx.roundRect(left - 1.5, topYScale, 4, 21, 2);
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
@@ -176,8 +168,8 @@ export function borderControl(object) {
   }
   const options = {
     borderColor: "#124fea",
-    // cornerColor: "transparent",
-    cornerColor: "red",
+    cornerColor: "transparent",
+    // cornerColor: "red",
     hasControls: true,
     selectable: 1,
     lockMovementX: false,
@@ -186,26 +178,21 @@ export function borderControl(object) {
     centeredScaling: false, // Prevent resizing from center
     cornerStyle: "circle", // Use circular corner controls
     transparentCorners: false, // Make corner controls more visible
-    cornerSize: 5, // Set corner control size
+    cornerSize: 25, // Set corner control size
     padding: padding, // Set padding inside the textbox
-    lockRotation: false, // Allow rotation
+    lockRotation: true, // Allow rotation
     // cornerStrokeColor:'#124fea',
-    cornerStrokeWidth: 5,
+    // cornerStrokeWidth: 15,
   };
   object.set(options);
 }
-export function customCorner(object) {
-  let yScale = -0.58;
-  if (object.type == "textbox") {
-    yScale = -0.5;
-  }
 
+export function customCorner(object) {
   if (object.type == "rect" || object.type == "line") {
     // Middle Left
     object.controls.scaleMiddleLeft = new fabric.Control({
       x: -0.5,
-      y: yScale,
-      offsetX: -2,
+      y: -0.5,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
       render: iconVertical, // Render the icon
@@ -217,25 +204,32 @@ export function customCorner(object) {
   // Right Middle
   object.controls.scaleRightMiddle = new fabric.Control({
     x: 0.5,
-    y: yScale,
-    offsetX: -1.5,
-    offsetY: 0,
+    y: -0.5,
     actionName: "scale", // Action to perform when clicked
     cursorStyle: "pointer",
     render: iconVertical, // Render the icon
-    mouseUpHandler: scaleObject, // Handle scaling on mouse down
+    // mouseUpHandler: scaleObject, // Handle scaling on mouse down
     cornerSize: 24, // Control corner size
   });
-  let offsetY = 0;
-  if (object.type == "textbox") {
-    offsetY = 9;
-  }
 
   if (object.type == "rect") {
     // Bottom Middle
     object.controls.scaleBottomMiddle = new fabric.Control({
-      offsetX: -10,
-      offsetY: offsetY,
+      x: 0,
+      y: 0,
+      actionName: "scale", // Action to perform when clicked
+      cursorStyle: "pointer",
+      render: iconHorizontal, // Render the icon
+      mouseUpHandler: scaleObject, // Handle scaling on mouse down
+      cornerSize: 24, // Control corner size
+    });
+  }
+
+  if (object.type == "rect") {
+    // Bottom Middle
+    object.controls.scaleTopMiddle = new fabric.Control({
+      x: 0,
+      y: -1,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
       render: iconHorizontal, // Render the icon
@@ -256,10 +250,7 @@ export function cornerControl(obj) {
     br: false,
     mtr: false, // rotation
   };
-  if (obj.type == "line") {
-    controlPoints.ml = true;
-    controlPoints.mr = true;
-  } else if (obj.type == "textbox") {
+  if (obj.type == "textbox") {
     controlPoints.mr = true;
     controlPoints.br = true;
   } else if (obj.type == "rect") {
@@ -271,6 +262,10 @@ export function cornerControl(obj) {
     controlPoints.tr = true;
     controlPoints.bl = true;
     controlPoints.br = true;
+  } else if (obj.type == "line") {
+    controlPoints.ml = true;
+    controlPoints.mr = true;
+    // controlPoints.mb = true;
   }
   obj.setControlsVisibility(controlPoints);
   const control = new fabric.Control({
