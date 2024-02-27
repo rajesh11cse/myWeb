@@ -14,7 +14,7 @@ import {
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
-import { Sidebar } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { ZoomInCont } from "../css/styled";
 import { Container, Row, Col, Button } from "react-bootstrap";
 function TextEditor44() {
@@ -185,15 +185,32 @@ function TextEditor44() {
         <button onClick={saveAsJSON}>Save</button>
       </div>
       <div className="container">
-        <Sidebar
-          id="slider"
-          collapsed={leftSliderCloseStatus}
-          width="200px"
-          customBreakPoint="80px"
-          collapsedWidth="1px"
-        >
-          <div>Template1</div>
-        </Sidebar>
+        <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+          <Sidebar
+            id="slider"
+            collapsed={leftSliderCloseStatus}
+            width="200px"
+            customBreakPoint="80px"
+            collapsedWidth="1px"
+            className="leftBarCustom"
+          >
+            <Menu>
+              <MenuItem> 
+              <Row>
+                  <Col lg={3}>
+                    Text
+                  </Col>
+                  <Col lg={9}>
+                    Text
+                  </Col>
+                  </Row>
+              </MenuItem>
+              <MenuItem> Rectangle</MenuItem>
+              <MenuItem> Line</MenuItem>
+              <MenuItem> Image</MenuItem>
+            </Menu>
+          </Sidebar>
+        </div>
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage

@@ -43,3 +43,11 @@
   pointer-events: none; /* Ensure the border does not intercept mouse events */
   z-index: 1; /* Ensure the border is above other canvas elements */
 }
+
+.leftBarCustom{
+  /* background-color:red; */
+  li{
+    text-align: left;
+    border-bottom: 1px solid #dfdfdf
+  }
+}
