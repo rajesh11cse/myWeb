@@ -38,6 +38,13 @@ const WordEdit = (props) => {
     underline: false,
     textAlign: "",
     fontSize: 10,
+    fontFamily: "",
+    fill: ""
+  });
+  const [lineStyle, setLineStyle] = useState({
+    stroke: "#000",
+    strokeWidth: 0,
+    strokeDashArray: null
   });
 
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -66,21 +73,6 @@ const WordEdit = (props) => {
     }
   }, [textValue]);
 
-  useEffect(() => {
-    if (selectedObject != null) {
-      setTextValue(selectedObject.text);
-      const fontStyle = {
-        fontWeight: selectedObject.fontWeight == "normal" ? true : false,
-        fontStyle: selectedObject.fontStyle == "normal" ? true : false,
-        underline: selectedObject.underline,
-        textAlign: selectedObject.textAlign,
-        fontSize: selectedObject.fontSize,
-        fontFamily: selectedObject.fontFamily,
-      };
-      setFontStyle(fontStyle);
-    }
-  }, [selectedObject]);
-
   function setTextNewValue(e) {
     setTextValue(e);
     selectedObject.text = e;
@@ -94,6 +86,7 @@ const WordEdit = (props) => {
       textAlign: fontStyle.textAlign,
       fontSize: fontStyle.fontSize,
       fontFamily: fontStyle.fontFamily,
+      fill: fontStyle.fill,
     };
     if (type === "fontWeight") {
       fontStyleObj.fontWeight = v;
@@ -113,15 +106,46 @@ const WordEdit = (props) => {
     } else if (type === "fontFamily") {
       fontStyleObj.fontFamily = v;
       selectedObject.fontFamily = v;
+    } else if (type === "fill") {
+      fontStyleObj.fill = v;
+      selectedObject.fill = v;
     }
-    console.log("selectedObject.fontFamily == > ", selectedObject.fontFamily);
+    console.log("selectedObject.fill == > ", selectedObject.fontFamily);
     setFontStyle(fontStyleObj);
+    props.currentCanvas.renderAll();
+  }
+
+  function setLineStyleHandler(type, v) {
+    let lineStyle = {
+      stroke: selectedObject.stroke,
+      strokeWidth: selectedObject.stroke,
+      strokeDashArray: selectedObject.strokeDashArray,
+    };
+    if (type === "stroke") {
+      lineStyle.stroke = v;
+      selectedObject.stroke = v;
+    } else if (type === "strokeWidth") {
+      lineStyle.strokeWidth = v;
+      selectedObject.strokeWidth = v;
+    } else if (type === "lineStyle") {
+      if (v == "dotted") {
+        lineStyle.strokeDashArray = [2, 2];
+        selectedObject.strokeDashArray = [2, 2];
+      } else if (v == "dashed") {
+        lineStyle.strokeDashArray = [5, 2];
+        selectedObject.strokeDashArray = [5, 2];
+      } else if (v == "solid") lineStyle.strokeDashArray = null;
+      selectedObject.strokeDashArray = null;
+    }
+    setLineStyle(lineStyle);
+    console.log("selectedObject == > ", selectedObject);
     props.currentCanvas.renderAll();
   }
 
   const handleColorChange = (color) => {
     console.log("Selected color:", selectedColor);
     setSelectedColor(color.hex);
+    setFontStyleHandler("fill", selectedColor);
   };
 
   const fontFamilyArray = [
@@ -141,8 +165,23 @@ const WordEdit = (props) => {
     "engagement",
   ];
 
+  const lineStyleArray = ["dotted", "dashed", "solid"];
+
+  const fontSizeArray = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  ];
+
   function capitalizeEachWord(str) {
-    return str.replace(/\b\w/g, char => char.toUpperCase());
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+  function getLineStyleValue(str) {
+    if (str == undefined || str == "") {
+      return "solid";
+    } else if (typeof str == "object" && str[0] == 2) {
+      return "dotted";
+    } else {
+      return "dashed";
+    }
   }
 
   return (
@@ -177,26 +216,42 @@ const WordEdit = (props) => {
           <Col lg={7}>
             <DropdownCont>
               <Dropdown className="w-100" as={ButtonGroup}>
-              <div className="row">
-                <div className="col-12"> {/* Adjust the width ratio here */}
-                  <ButtonGroup>
-                    <Button className="w-100" variant="success" style={{minWidth: '147px', textAlign:'left'}}>{fontStyle.fontFamily ? capitalizeEachWord(fontStyle.fontFamily):''}</Button>
-                    <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
-                  </ButtonGroup>
+                <div className="row">
+                  <div className="col-12">
+                    {" "}
+                    {/* Adjust the width ratio here */}
+                    <ButtonGroup>
+                      <Button
+                        className="w-100"
+                        variant="success"
+                        style={{ minWidth: "147px", textAlign: "left" }}
+                      >
+                        {fontStyle.fontFamily
+                          ? capitalizeEachWord(fontStyle.fontFamily)
+                          : ""}
+                      </Button>
+                      <Dropdown.Toggle
+                        split
+                        variant="success"
+                        id="dropdown-split-basic"
+                      />
+                    </ButtonGroup>
+                  </div>
+                  <div className="col-3">
+                    {" "}
+                    {/* Adjust the width ratio here */}
+                    <Dropdown.Menu>
+                      {fontFamilyArray.map((val, index) => (
+                        <Dropdown.Item
+                          href="#/action-1"
+                          onClick={() => setFontStyleHandler("fontFamily", val)}
+                        >
+                          {capitalizeEachWord(val)}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </div>
                 </div>
-                <div className="col-3"> {/* Adjust the width ratio here */}
-                  <Dropdown.Menu>
-                  {fontFamilyArray.map((val, index) => (
-                    <Dropdown.Item
-                      href="#/action-1"
-                      onClick={() => setFontStyleHandler("fontFamily", val)}
-                    >
-                      {capitalizeEachWord(val)}
-                    </Dropdown.Item>
-                  ))}
-                  </Dropdown.Menu>
-                </div>
-              </div>
               </Dropdown>
             </DropdownCont>
           </Col>
@@ -213,35 +268,28 @@ const WordEdit = (props) => {
           <Col lg={5}>
             <DropdownCont>
               <Dropdown className="mr-3">
-                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                  {fontStyle.fontSize}
-                </Dropdown.Toggle>
+                <ButtonGroup>
+                  <Button
+                    className="w-100"
+                    variant="success"
+                    style={{ minWidth: "73px", textAlign: "left" }}
+                  >
+                    {fontStyle.fontSize}
+                  </Button>
+                  <Dropdown.Toggle
+                    split
+                    variant="success"
+                    id="dropdown-split-basic"
+                  />
+                </ButtonGroup>
                 <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={() => setFontStyleHandler("fontSize", 1)}
-                  >
-                    1
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => setFontStyleHandler("fontSize", 2)}
-                  >
-                    2
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => setFontStyleHandler("fontSize", 5)}
-                  >
-                    5
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => setFontStyleHandler("fontSize", 10)}
-                  >
-                    10
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => setFontStyleHandler("fontSize", 15)}
-                  >
-                    15
-                  </Dropdown.Item>
+                  {fontSizeArray.map((val, index) => (
+                    <Dropdown.Item
+                      onClick={() => setFontStyleHandler("fontSize", val)}
+                    >
+                      {val}
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown.Menu>
               </Dropdown>
             </DropdownCont>
@@ -295,10 +343,11 @@ const WordEdit = (props) => {
                   placeholder="#HFG54D"
                   aria-label="Color code"
                   aria-describedby="basic-addon2"
+                  value={fontStyle.fill}
                 />
                 <Button
                   variant="secondary"
-                  value={fontStyle.fontWeight}
+                  // value={fontStyle.fill}
                   onClick={() => setShowColorPicker(!showColorPicker)}
                 >
                   Clr
@@ -385,6 +434,85 @@ const WordEdit = (props) => {
             </ButtonGroupCont>
           </Col>
         </Row>
+
+        {/* Line Styles */}
+        <Row>
+          <Col lg={6}>
+            <Text>Line Style</Text>
+          </Col>
+          <Col lg={6}>
+            <Text>Line Color</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={6}>
+            <DropdownCont>
+              <Dropdown className="w-100" as={ButtonGroup}>
+                <div className="row">
+                  <div className="col-12">
+                    <ButtonGroup>
+                      <Button
+                        className="w-100"
+                        variant="success"
+                        style={{ minWidth: "117px", textAlign: "left" }}
+                      >
+                        {getLineStyleValue(lineStyle.strokeDashArray)}
+                      </Button>
+                      <Dropdown.Toggle
+                        split
+                        variant="success"
+                        id="dropdown-split-basic"
+                      />
+                    </ButtonGroup>
+                  </div>
+                  <div className="col-3">
+                    <Dropdown.Menu>
+                      {lineStyleArray.map((val, index) => (
+                        <Dropdown.Item
+                          href="#/action-1"
+                          onClick={() => setLineStyleHandler("lineStyle", val)}
+                        >
+                          {capitalizeEachWord(val)}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </div>
+                </div>
+              </Dropdown>
+            </DropdownCont>
+          </Col>
+          <Col lg={6}>
+            <InputGroupCont>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder="#HFG54D"
+                  aria-label="Color code"
+                  aria-describedby="basic-addon2"
+                />
+                <Button
+                  variant="secondary"
+                  value={fontStyle.fontWeight}
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                >
+                  Clr
+                </Button>
+              </InputGroup>
+            </InputGroupCont>
+          </Col>
+        </Row>
+        <Row>
+          {/*  <ColorPickCont ref={colorPickerRef}>
+          </ColorPickCont> */}
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <Text>Text Alignment</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}></Col>
+        </Row>
+
         <Row style={{ marginBottom: 10 }}>
           <Col lg={12}>
             <Text> More..</Text>
