@@ -19,7 +19,8 @@ export function SetTextBoxProperties(textBox, position) {
     height: 700,
     fontSize: 16, // Fixed font size
     fill: "#000",
-    fontFamily: "Arial",
+    // fontFamily: "Arial",
+    fontFamily: "Century Gothic",
     textAlign: "left",
     selectable: 1,
   };

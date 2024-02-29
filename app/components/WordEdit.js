@@ -9,7 +9,7 @@ import {
   ButtonGroupCont,
   InputGroupCont,
   TextAreaCont,
-  ColorPickCont
+  ColorPickCont,
 } from "../css/styled";
 
 import {
@@ -75,6 +75,7 @@ const WordEdit = (props) => {
         underline: selectedObject.underline,
         textAlign: selectedObject.textAlign,
         fontSize: selectedObject.fontSize,
+        fontFamily: selectedObject.fontFamily,
       };
       setFontStyle(fontStyle);
     }
@@ -92,6 +93,7 @@ const WordEdit = (props) => {
       underline: fontStyle.underline,
       textAlign: fontStyle.textAlign,
       fontSize: fontStyle.fontSize,
+      fontFamily: fontStyle.fontFamily,
     };
     if (type === "fontWeight") {
       fontStyleObj.fontWeight = v;
@@ -108,8 +110,11 @@ const WordEdit = (props) => {
     } else if (type === "fontSize") {
       fontStyleObj.fontSize = v;
       selectedObject.fontSize = v;
+    } else if (type === "fontFamily") {
+      fontStyleObj.fontFamily = v;
+      selectedObject.fontFamily = v;
     }
-    console.log("selectedObject.fontWeight == > ", selectedObject.fontWeight);
+    console.log("selectedObject.fontFamily == > ", selectedObject.fontFamily);
     setFontStyle(fontStyleObj);
     props.currentCanvas.renderAll();
   }
@@ -118,6 +123,27 @@ const WordEdit = (props) => {
     console.log("Selected color:", selectedColor);
     setSelectedColor(color.hex);
   };
+
+  const fontFamilyArray = [
+    "arial",
+    "helvetica",
+    "myriad pro",
+    "delicious",
+    "verdana",
+    "georgia",
+    "courier",
+    "comic sans",
+    "impact",
+    "monaco",
+    "optima",
+    "hoefler text",
+    "plaster",
+    "engagement",
+  ];
+
+  function capitalizeEachWord(str) {
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  }
 
   return (
     <DivCont>
@@ -130,39 +156,47 @@ const WordEdit = (props) => {
         </Row>
         <Row style={{ marginBottom: 20 }}>
           <Col lg={12}>
-          <TextAreaCont>
-            <Form.Control
-              className="textarea-cont"
-              as="textarea"
-              value={textValue}
-              onChange={(e) => setTextNewValue(e.target.value)}
-              placeholder="Text.."
-            />
+            <TextAreaCont>
+              <Form.Control
+                className="textarea-cont"
+                as="textarea"
+                value={textValue}
+                onChange={(e) => setTextNewValue(e.target.value)}
+                placeholder="Text.."
+              />
             </TextAreaCont>
           </Col>
         </Row>
-        </Container>
-        <Divider />
-        <Container fluid>
+      </Container>
+      <Divider />
+      <Container fluid>
         <Row style={{ marginBottom: 10 }}>
           <Col lg={5}>
             <Text>Font Family</Text>
           </Col>
           <Col lg={7}>
             <DropdownCont>
-              <Dropdown className="w-100">
-                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                  Courier New
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Another action
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Something else
-                  </Dropdown.Item>
-                </Dropdown.Menu>
+              <Dropdown className="w-100" as={ButtonGroup}>
+              <div className="row">
+                <div className="col-12"> {/* Adjust the width ratio here */}
+                  <ButtonGroup>
+                    <Button className="w-100" variant="success" style={{minWidth: '147px', textAlign:'left'}}>{fontStyle.fontFamily ? capitalizeEachWord(fontStyle.fontFamily):''}</Button>
+                    <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
+                  </ButtonGroup>
+                </div>
+                <div className="col-3"> {/* Adjust the width ratio here */}
+                  <Dropdown.Menu>
+                  {fontFamilyArray.map((val, index) => (
+                    <Dropdown.Item
+                      href="#/action-1"
+                      onClick={() => setFontStyleHandler("fontFamily", val)}
+                    >
+                      {capitalizeEachWord(val)}
+                    </Dropdown.Item>
+                  ))}
+                  </Dropdown.Menu>
+                </div>
+              </div>
               </Dropdown>
             </DropdownCont>
           </Col>
@@ -227,7 +261,7 @@ const WordEdit = (props) => {
                 <Button
                   variant="secondary"
                   value={fontStyle.fontStyle}
-                  style={{background: '#68b3fd'}}
+                  style={{ background: "#68b3fd" }}
                   onClick={() =>
                     setFontStyleHandler("fontStyle", !fontStyle.fontStyle)
                   }
@@ -297,7 +331,7 @@ const WordEdit = (props) => {
                 <Button
                   variant="secondary"
                   onClick={() => setFontStyleHandler("textAlign", "left")}
-                  style={{background: '#68b3fd'}}
+                  style={{ background: "#68b3fd" }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
