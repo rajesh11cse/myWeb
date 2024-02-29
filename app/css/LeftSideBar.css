@@ -51,3 +51,13 @@
     border-bottom: 1px solid #dfdfdf
   }
 }
+
+.side_bar_left_custom{
+  /* background-color:red; */
+  li{
+    text-align: left;
+    span:first-child {
+        margin-right: 30px !important; /* Adjust the value as needed */
+    }
+  }
+}

@@ -122,6 +122,8 @@ function iconVertical(ctx, left, top, styleOverride, fabricObject) {
     topYScale = topYScale - 8;
   } else if (fabricObject.type == "line") {
     topYScale = topYScale + 10;
+  } else if (fabricObject.type == "image") {
+    topYScale = topYScale - 8;
   }
   ctx.beginPath();
   ctx.lineWidth = 3; // stroke width adjustment
@@ -169,8 +171,8 @@ export function borderControl(object) {
   }
   const options = {
     borderColor: "#124fea",
-    // cornerColor: "transparent",
-    cornerColor: "#6449fc",
+    cornerColor: "transparent",
+    // cornerColor: "#0098e5",
     hasControls: true,
     selectable: 1,
     lockMovementX: false,
@@ -189,7 +191,11 @@ export function borderControl(object) {
 }
 
 export function customCorner(object) {
-  if (object.type == "rect" || object.type == "line") {
+  if (
+    object.type == "rect" ||
+    object.type == "line" ||
+    object.type == "image"
+  ) {
     // Middle Left
     object.controls.scaleMiddleLeft = new fabric.Control({
       x: -0.5,
@@ -213,7 +219,7 @@ export function customCorner(object) {
     cornerSize: 24, // Control corner size
   });
 
-  if (object.type == "rect") {
+  if (object.type == "rect" || object.type == "image") {
     // Bottom Middle
     object.controls.scaleBottomMiddle = new fabric.Control({
       x: 0,
@@ -226,7 +232,7 @@ export function customCorner(object) {
     });
   }
 
-  if (object.type == "rect") {
+  if (object.type == "rect" || object.type == "image") {
     // Bottom Middle
     object.controls.scaleTopMiddle = new fabric.Control({
       x: 0,

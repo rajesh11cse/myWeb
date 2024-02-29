@@ -22,7 +22,7 @@ body {
 }
 
 #main-container {
-  padding: 10px;
+  /* padding: 10px; */
   padding-bottom: 60px; /*Height of footer*/
   padding-top: 60px; /*Height of header + paddings*/
 }
