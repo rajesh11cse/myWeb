@@ -16,7 +16,7 @@ import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { ZoomInCont } from "../css/styled";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 function TextEditor44() {
   // Refs
   const canvasContainerRef = useRef(null);
@@ -170,6 +170,26 @@ function TextEditor44() {
     }
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const imgObj = new Image();
+      imgObj.src = event.target.result;
+      
+      imgObj.onload = function() {
+        const imgInstance = new fabric.Image(imgObj);
+        imgInstance.set({
+          left: 100,
+          top: 100,
+        });
+        currentCanvas.add(imgInstance);
+      };
+    };
+    
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div>
       <div className="editorTopCon">
@@ -195,19 +215,23 @@ function TextEditor44() {
             className="leftBarCustom"
           >
             <Menu>
-              <MenuItem> 
-              <Row>
-                  <Col lg={3}>
-                    Text
-                  </Col>
-                  <Col lg={9}>
-                    Text
-                  </Col>
-                  </Row>
+              <MenuItem>
+                <Row>
+                  <Col lg={3}>Text</Col>
+                  <Col lg={9}>Text</Col>
+                </Row>
               </MenuItem>
-              <MenuItem> Rectangle</MenuItem>
-              <MenuItem> Line</MenuItem>
-              <MenuItem> Image</MenuItem>
+              <MenuItem> Rectangle </MenuItem>
+              <MenuItem> Line </MenuItem>
+              <MenuItem> Image </MenuItem>
+              <MenuItem>
+                <Form.Control
+                  type="file"
+                  id="file"
+                  aria-describedby="file-upload"
+                  onChange={handleImageUpload}
+                />
+              </MenuItem>
             </Menu>
           </Sidebar>
         </div>

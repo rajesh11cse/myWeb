@@ -107,7 +107,7 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
   ctx.fillStyle = "white";
   if (fabricObject.type == "line") {
     ctx.roundRect(0, 0, 0, 0, 0);
-  }else{
+  } else {
     ctx.roundRect(left - 10, topYScale, 21, 4, 2);
   }
   ctx.stroke();
@@ -120,8 +120,8 @@ function iconVertical(ctx, left, top, styleOverride, fabricObject) {
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
   if (fabricObject.type == "rect") {
     topYScale = topYScale - 8;
-  }else if (fabricObject.type == "line") {
-    topYScale = topYScale+10;
+  } else if (fabricObject.type == "line") {
+    topYScale = topYScale + 10;
   }
   ctx.beginPath();
   ctx.lineWidth = 3; // stroke width adjustment
@@ -169,8 +169,8 @@ export function borderControl(object) {
   }
   const options = {
     borderColor: "#124fea",
-    cornerColor: "transparent",
-    // cornerColor: "red",
+    // cornerColor: "transparent",
+    cornerColor: "#6449fc",
     hasControls: true,
     selectable: 1,
     lockMovementX: false,
@@ -266,7 +266,16 @@ export function cornerControl(obj) {
   } else if (obj.type == "line") {
     controlPoints.ml = true;
     controlPoints.mr = true;
-    // controlPoints.mb = true;
+  } else if (obj.type == "image") {
+    controlPoints.mt = true;
+    controlPoints.ml = true;
+    controlPoints.mr = true;
+    controlPoints.mb = true;
+    controlPoints.tl = true;
+    controlPoints.tr = true;
+    controlPoints.bl = true;
+    controlPoints.br = true;
+    controlPoints.mtr = true;
   }
   obj.setControlsVisibility(controlPoints);
   const control = new fabric.Control({

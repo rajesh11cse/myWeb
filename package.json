@@ -54,7 +54,6 @@
   },
   "scripts": {
     "start": "cross-env APP_ENV=stage NODE_ENV=development node server",
-    "start:server": "node server/index.js",
     "prebuild": "npm run build:clean",
     "build": "cross-env APP_ENV=production NODE_ENV=production webpack --config server/webpack/webpack.dev.babel.js --color --mode production --progress",
     "build:clean": "rimraf ./build",

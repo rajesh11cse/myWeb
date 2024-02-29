@@ -7,7 +7,6 @@ module.exports = merge(baseConfig, {
   mode: 'development',
   devtool: 'inline-source-map', // Enable source mapping for better debugging
   devServer: {
-    // contentBase: './dist', // Serve static files from the 'dist' directory
     hot: true, // Enable hot module replacement (HMR)
     open: true, // Open the default browser when starting the dev server
   },
