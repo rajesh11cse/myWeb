@@ -10,6 +10,7 @@ import {
   InputGroupCont,
   TextAreaCont,
   ColorPickCont,
+  WordEditCont,
 } from "../css/styled";
 
 import {
@@ -186,6 +187,7 @@ const WordEdit = (props) => {
 
   return (
     <DivCont>
+       <WordEditCont>Text Editing</WordEditCont>
       {/* FOnt Family */}
       <Container fluid>
         <Row style={{ marginBottom: 10 }}>

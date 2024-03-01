@@ -10,7 +10,6 @@ import { SidebarFooter } from './SidebarFooter';
 import { Typography } from './Typography';
 import "../css/LeftSideBar.css"; // Assume you have a CSS file for styling
 
-type Theme = 'light';
 const themes = {
   light: {
     sidebar: {
@@ -45,15 +44,9 @@ interface MyComponentProps {
 }
 
 export const Playground: React.FC<MyComponentProps> = ({ collapsed }) => {
-// export const Playground: React.FC = (props) => {
-  // console.log("props == > ", props)
-  // const [collapsed, setCollapsed] = React.useState(false);
-  const [toggled, setToggled] = React.useState(false);
-  const [broken, setBroken] = React.useState(false);
-  const [rtl, setRtl] = React.useState(false);
-  const [hasImage, setHasImage] = React.useState(false);
-  const [theme, setTheme] = React.useState<Theme>('light');
-
+  const rtl = false
+  const hasImage = false
+  const theme = 'light'
   
   const menuItemStyles: MenuItemStyles = {
     root: {
@@ -90,17 +83,13 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed }) => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100%', direction: rtl ? 'rtl' : 'ltr' }}>
+    <div style={{ display: 'contents', height: '100%', direction: 'ltr' }}>
       <Sidebar
         collapsed={collapsed}
-        toggled={toggled}
-        onBackdropClick={() => setToggled(false)}
-        onBreakPoint={setBroken}
-        rtl={rtl}
         breakPoint="md"
         backgroundColor={hexToRgba(themes[theme].sidebar.backgroundColor, hasImage ? 0.9 : 1)}
         rootStyles={{
-          color: themes[theme].sidebar.color,
+          color: themes[theme].sidebar.color
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

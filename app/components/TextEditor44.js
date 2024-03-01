@@ -207,7 +207,7 @@ function TextEditor44() {
         <button onClick={saveAsJSON}>Save</button>
       </div>
       <div className="container" style={{padding: 0}}>
-        <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+        {/* <div style={{ display: "flex", height: "100%", minHeight: "400px" }}> */}
         <Playground collapsed={leftSliderCloseStatus}/>
           {/* <Sidebar
             id="slider"
@@ -262,7 +262,7 @@ function TextEditor44() {
               </MenuItem>
             </Menu>
           </Sidebar> */}
-        </div>
+        {/* </div> */}
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage

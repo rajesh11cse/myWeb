@@ -6,12 +6,9 @@ import styled from "styled-components";
 // }
 
 export const DivCont = styled.div`
-  top: 34px;
   direction: initial;
   position: relative;
-  /* border: 1px solid #6f6b6b; */
-  // margin: 8px;
-  background-color: #fff;
+  background-color: #eff0f1;
 `;
 
 export const TextAreaCont = styled.div`
@@ -38,8 +35,6 @@ export const Text = styled.div`
   color:#607489;
   font-size: 13px;
   font-weight: normal;
-  background-color: #fff;
-}
 `;
 
 export const DropdownCont = styled.div`
@@ -100,22 +95,20 @@ export const InputGroupCont = styled.div`
 `;
 
 export const WordEditCont = styled.div`
-  position: fixed;
-  right: 0;
+  position: sticky;
+  top: 0;
   width: 355px;
   height: 31px;
-  background-color: #69b3fd;
-  /* border: 1px solid #757272; */
-  /* border-radius: 2px; */
+  background-color: #0098e5;
   z-index: 8;
   text-align: left;
   padding: 5px;
   font-size: small;
   font-weight: 800;
-  font-family: sans-serif;
+  font-family: monospace;
   color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 1px;
+  border-radius: 0 0 3px 3px;
 `;
 
 export const ColorPickCont = styled.div`
