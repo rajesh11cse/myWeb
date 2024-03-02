@@ -41,3 +41,11 @@
   min-width: 260px;
   min-height: 101px;
 }
+
+
+
+.drop_down_menu{
+  max-height: 250px;
+  overflow-y: auto;
+  margin-left: -13px;
+}

@@ -11,6 +11,8 @@ import {
   TextAreaCont,
   ColorPickCont,
   WordEditCont,
+  DropdownMenuCont,
+  CBtn,
 } from "../css/styled";
 
 import {
@@ -242,7 +244,7 @@ const WordEdit = (props) => {
                   <div className="col-3">
                     {" "}
                     {/* Adjust the width ratio here */}
-                    <Dropdown.Menu>
+                    <Dropdown.Menu className="drop_down_menu">
                       {fontFamilyArray.map((val, index) => (
                         <Dropdown.Item
                           href="#/action-1"
@@ -300,7 +302,7 @@ const WordEdit = (props) => {
             <ButtonGroupCont>
               <ButtonGroup className="w-100">
                 <Button
-                  variant="secondary"
+                  variant="success"
                   value={fontStyle.fontWeight}
                   onClick={() =>
                     setFontStyleHandler("fontWeight", !fontStyle.fontWeight)
@@ -309,7 +311,7 @@ const WordEdit = (props) => {
                   B
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="success"
                   value={fontStyle.fontStyle}
                   style={{ background: "#68b3fd" }}
                   onClick={() =>
@@ -319,7 +321,7 @@ const WordEdit = (props) => {
                   <i>I</i>
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="success"
                   value={fontStyle.underline}
                   onClick={() =>
                     setFontStyleHandler("underline", !fontStyle.underline)

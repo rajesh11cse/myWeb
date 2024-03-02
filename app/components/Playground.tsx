@@ -104,7 +104,12 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed }) => {
                 Text Elements
               </Typography>
             </div>
-            <Menu menuItemStyles={menuItemStyles} className='side_bar_left_custom'>
+            <Menu menuItemStyles={menuItemStyles} className='side_bar_left_custom' rootStyles={{
+          [`.${menuClasses.icon}`]: {
+            backgroundColor: '#e1e1e1',
+            color: '#344cff',
+          },
+        }}>
             <MenuItem icon={<BarChart />}> Title </MenuItem>
             <MenuItem icon={<Global />}> Text </MenuItem>
             <MenuItem icon={<Diamond />}> Line </MenuItem>

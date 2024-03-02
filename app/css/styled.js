@@ -8,7 +8,8 @@ import styled from "styled-components";
 export const DivCont = styled.div`
   direction: initial;
   position: relative;
-  background-color: #eff0f1;
+  // background-color: #eff0f1;
+  background-color: #fff;
 `;
 
 export const TextAreaCont = styled.div`
@@ -46,6 +47,11 @@ export const DropdownCont = styled.div`
     border: 1px solid #c0c0c0;
     border-radius: 3px
     width: 100%;
+    &:hover {
+      color: black;
+      background-color: #607489;
+      border-color: #607489;
+    }
     &:after {
       margin-left: ${(props) => props.aml || "3em"};
     }
@@ -62,6 +68,11 @@ export const ButtonGroupCont = styled.div`
     font-size: 13px;
     border: 1px solid #c0c0c0;
     border-radius: 3px
+    &:hover {
+      color: black;
+      background-color: #607489 !important;
+      border-color: #607489 !important;
+    }
     &:after {
       margin-left: ${(props) => props.aml || "3em"};
     }
@@ -79,6 +90,11 @@ export const InputGroupCont = styled.div`
     font-size: 13px;
     border: 1px solid #c0c0c0;
     border-radius: 3px;
+    &:hover {
+      color: black;
+      background-color: #607489;
+      border-color: #607489;
+    }
     &:focus {
       box-shadow: none !important;
     }
@@ -175,5 +191,26 @@ export const ZoomInCont = styled.div`
         width: 24px;
         height: 24px;
     }
+  }
+`;
+
+
+export const CBtn = styled.button`
+  cursor: pointer;
+  background-color: #fff;
+  color: black;
+  font-size: 13px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px
+  :hover {
+    color: black;
+    background-color: red;
+    border-color: #607489;
+  }
+  &:after {
+    margin-left: ${(props) => props.aml || "3em"};
+  }
+  &:focus {
+    box-shadow: none !important;
   }
 `;
