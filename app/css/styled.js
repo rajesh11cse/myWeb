@@ -70,8 +70,9 @@ export const ButtonGroupCont = styled.div`
     border-radius: 3px
     &:hover {
       color: black;
-      background-color: #607489 !important;
-      border-color: #607489 !important;
+      background-color: #607489;
+      border-color: #60748;
+      z-index: 0;
     }
     &:after {
       margin-left: ${(props) => props.aml || "3em"};
@@ -115,16 +116,17 @@ export const WordEditCont = styled.div`
   top: 0;
   width: 355px;
   height: 31px;
-  background-color: #0098e5;
+  background-color: #fff;
   z-index: 8;
   text-align: left;
   padding: 5px;
   font-size: small;
   font-weight: 800;
   font-family: monospace;
-  color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 3px 3px;
+  color: #000;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid gray;
+  border-radius: 1 0 3px 3px;
 `;
 
 export const ColorPickCont = styled.div`
