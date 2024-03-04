@@ -30,10 +30,12 @@ export const Divider = styled.div`
 export const Text = styled.div`
   text-align: Left;
   // width: ${(props) => props.w || "258px"};
-  margin-top: 6px; 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  margin-top: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 1.5;
-  color:#607489;
+  color: #607489;
   font-size: 13px;
   font-weight: normal;
 `;
@@ -58,6 +60,77 @@ export const DropdownCont = styled.div`
     &:focus {
       box-shadow: none !important;
     }
+  }
+`;
+
+export const FormInputCont = styled.div`
+  input {
+    width: -webkit-fill-available;
+    background-color: #fff;
+    color: black;
+    font-size: 13px;
+    border: 1px solid #c0c0c0;
+    border-radius: 3px
+    width: 100%;
+    // &:hover {
+    //   color: black;
+    //   background-color: #607489;
+    //   border-color: #607489;
+    // }
+    // &:after {
+    //   margin-left: ${(props) => props.aml || "3em"};
+    // }
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+`;
+
+
+export const RangeSlider = styled.div`
+  position: relative;
+  top: 50%;
+  left: 16%;
+  transform: translate(-24%, -50%);
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  input[type="range"] {
+    -webkit-appearance: none !important;
+    border-radius: 9px;
+    width: 100%;
+    height: 4px;
+    background: #9c9c9c;
+    border: none;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    top: -6px;
+    position: relative;
+    -webkit-appearance: none !important;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border: 2px solid #344cff;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    background: #fff;
+  }
+  
+  input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to right,
+      #344cff ${(props) => props.value || 0}%,
+      #9c9c9c ${(props) => props.value || 0}%,
+      #9c9c9c
+    );
+    height: 4px;
+    border-radius: 9px;
   }
 `;
 
@@ -157,7 +230,9 @@ export const ZoomInCont = styled.div`
     min-width: 36px;
   }
   button {
-    font-family: Circular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
     font-size: 15px;
     padding: 9px 12px;
     font-weight: 400;
@@ -187,15 +262,14 @@ export const ZoomInCont = styled.div`
     height: 30px;
     &:hover {
       background-color: transparent;
-      color:red;
+      color: red;
     }
     .zoom-icon {
-        width: 24px;
-        height: 24px;
+      width: 24px;
+      height: 24px;
     }
   }
 `;
-
 
 export const CBtn = styled.button`
   cursor: pointer;

@@ -301,7 +301,6 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                 </Button>
                 <Button
                   variant="success"
-                  value={fontStyle.underline}
                   active={fontStyle.underline}
                   onClick={() =>
                     setFontStyleHandler("underline", !fontStyle.underline)

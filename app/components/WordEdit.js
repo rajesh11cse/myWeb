@@ -40,6 +40,7 @@ import { TextAlignLeft } from "../assets/icons/TextAlignLeft";
 
 
 import { TextEdit } from "./TextEdit";
+import { LineEdit } from "./LineEdit";
 
 
 const WordEdit = (props) => {
@@ -219,7 +220,8 @@ const WordEdit = (props) => {
       {/* <WordEditCont>Text Editing</WordEditCont> */}
       {/* FOnt Family */}
       {objectType}
-      {objectType == "textbox" && <TextEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject} fontStyle={fontStyle}/>}
+      {objectType == "textbox" && <TextEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject}/>}
+      {objectType == "line" && <LineEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject}/>}
       {/* <Container fluid>
         <Row style={{ marginBottom: 10 }}>
           <Col lg={12}>
@@ -443,8 +445,7 @@ const WordEdit = (props) => {
           </Col>
         </Row>
       </Container> */}
-        <Container fluid>
-        {/* Line Styles */}
+        {/* <Container fluid>
         <Row>
           <Col lg={6}>
             <Text>Line Style</Text>
@@ -526,7 +527,7 @@ const WordEdit = (props) => {
             <Text> More..</Text>
           </Col>
         </Row>
-      </Container>
+      </Container> */}
       {/* <Divider /> */}
     </DivCont>
   );
