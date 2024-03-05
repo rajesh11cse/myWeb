@@ -58,6 +58,7 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [selectedColor, setSelectedColor] = useState("#000000"); // Default color
   const [thicknessRangeValue, setThicknessRangeValue] = useState(100); // Thickness range Value
+  const [opacity, setOpacity] = useState(1); // Opacity
 
   const colorPickerRef = useRef(null);
   function capitalizeEachWord(str: string) {
@@ -73,18 +74,19 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     }
   }
   const lineStyleArray = ["dotted", "dashed", "solid"];
-  const lineWidthArray = [1,2,3,4,5];
+  const lineWidthArray = [1, 2, 3, 4, 5];
   function setLineStyleHandler(type: string, v: any) {
     let lineStyle = {
       stroke: selectedObject.stroke,
       strokeWidth: selectedObject.strokeWidth,
       strokeDashArray: selectedObject.strokeDashArray,
+      opacity: selectedObject.opacity,
     };
     if (type === "stroke") {
       lineStyle.stroke = v;
     } else if (type === "strokeWidth") {
       lineStyle.strokeWidth = v;
-    }else if (type === "lineStyle") {
+    } else if (type === "lineStyle") {
       if (v == "dotted") {
         lineStyle.strokeDashArray = [2, 2];
         type = "strokeDashArray";
@@ -97,6 +99,8 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
         lineStyle.strokeDashArray = null;
         type = "strokeDashArray";
         v = null;
+      } else if (v == "opacity") {
+        lineStyle.opacity = v;
       }
     }
     selectedObject.set(type, v);
@@ -119,18 +123,17 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     };
   }, []);
 
-
   useEffect(() => {
-    if (
-      selectedObject != null &&
-      selectedObject.type == "line") {
+    if (selectedObject != null && selectedObject.type == "line") {
       let lineStyle = {
         stroke: selectedObject.stroke,
         strokeWidth: selectedObject.strokeWidth,
         strokeDashArray: selectedObject.strokeDashArray,
+        opacity: selectedObject.opacity,
       };
       setLineStyle(lineStyle);
-      setThicknessRangeValue(selectedObject.strokeWidth*10);
+      setThicknessRangeValue(selectedObject.strokeWidth * 10);
+      setOpacity(selectedObject.opacity * 100);
     }
   }, [selectedObject]);
 
@@ -139,130 +142,187 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     setLineStyleHandler("stroke", selectedColor);
   };
 
-
-
-  const handleChange = (event:any) => {
+  const handleThickness = (event: any) => {
+    if (event.target.value < 1 || event.target.value > 100) {
+      return;
+    }
     setThicknessRangeValue(event.target.value);
-    setLineStyleHandler("strokeWidth", parseInt(event.target.value)/10)
+    setLineStyleHandler("strokeWidth", parseInt(event.target.value) / 10);
+  };
+
+  const handleOpacity = (event: any) => {
+    if (event.target.value < 1 || event.target.value > 100) {
+      return;
+    }
+    setOpacity(event.target.value);
+    setLineStyleHandler("opacity", parseInt(event.target.value) / 100);
   };
 
   return (
     <>
-    <Container fluid>
-      <Row>
-        <Col lg={6}>
-          <Text>Line Style</Text>
-        </Col>
-        <Col lg={6}>
-          <Text>Border Color</Text>
-        </Col>
-      </Row>
-      <Row style={{ marginBottom: 10 }}>
-        <Col lg={6}>
-          <DropdownCont>
-            <Dropdown className="w-100" as={ButtonGroup}>
-              <div className="row">
-                <div className="col-12">
-                  <ButtonGroup>
-                    <Button
-                      className="w-100"
-                      variant="success"
-                      style={{ minWidth: "117px", textAlign: "left" }}
-                    >
-                      {capitalizeEachWord(
-                        getLineStyleValue(lineStyle.strokeDashArray)
-                      )}
-                    </Button>
-                    <Dropdown.Toggle
-                      split
-                      variant="success"
-                      id="dropdown-split-basic"
-                    />
-                  </ButtonGroup>
-                </div>
-                <div className="col-3">
-                  <Dropdown.Menu className="drop_down_menu">
-                    {lineStyleArray.map((val, index) => (
-                      <Dropdown.Item
-                        href="#/action-1"
-                        onClick={() => setLineStyleHandler("lineStyle", val)}
+      <Container fluid>
+        <Row>
+          <Col lg={6}>
+            <Text>Line Style</Text>
+          </Col>
+          <Col lg={6}>
+            <Text>Border Color</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={6}>
+            <DropdownCont>
+              <Dropdown className="w-100" as={ButtonGroup}>
+                <div className="row">
+                  <div className="col-12">
+                    <ButtonGroup>
+                      <Button
+                        className="w-100"
+                        variant="success"
+                        style={{ minWidth: "117px", textAlign: "left" }}
                       >
-                        {capitalizeEachWord(val)}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
+                        {capitalizeEachWord(
+                          getLineStyleValue(lineStyle.strokeDashArray)
+                        )}
+                      </Button>
+                      <Dropdown.Toggle
+                        split
+                        variant="success"
+                        id="dropdown-split-basic"
+                      />
+                    </ButtonGroup>
+                  </div>
+                  <div className="col-3">
+                    <Dropdown.Menu className="drop_down_menu">
+                      {lineStyleArray.map((val, index) => (
+                        <Dropdown.Item
+                          href="#/action-1"
+                          onClick={() => setLineStyleHandler("lineStyle", val)}
+                        >
+                          {capitalizeEachWord(val)}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </div>
                 </div>
+              </Dropdown>
+            </DropdownCont>
+          </Col>
+          <Col lg={6}>
+            <InputGroupCont>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder="#HFG54D"
+                  aria-label="Color code"
+                  aria-describedby="basic-addon2"
+                />
+                <Button
+                  variant="secondary"
+                  // value={fontStyle.fontWeight}
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                >
+                  Clr
+                </Button>
+              </InputGroup>
+            </InputGroupCont>
+          </Col>
+        </Row>
+        <Row>
+          <ColorPickCont ref={colorPickerRef}>
+            {showColorPicker && (
+              <div>
+                <SketchPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                />
               </div>
-            </Dropdown>
-          </DropdownCont>
-        </Col>
-        <Col lg={6}>
-          <InputGroupCont>
-            <InputGroup className="mb-3">
-              <Form.Control
-                placeholder="#HFG54D"
-                aria-label="Color code"
-                aria-describedby="basic-addon2"
+            )}
+          </ColorPickCont>
+        </Row>
+      </Container>
+      <Divider />
+      <Container fluid>
+        <Row>
+          <Col lg={12}>
+            <Text>Line Thickness</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={12}>
+                <Row>
+                  <Col lg={3}>
+                    <InputGroupCont>
+                      <InputGroup className="mb-3">
+                        <Form.Control
+                          type="text"
+                          value={thicknessRangeValue}
+                          aria-describedby="thickness"
+                          onChange={handleThickness}
+                          style={{ padding: "5px" }}
+                        />
+                        <Button
+                          style={{ padding: "5px" }}
+                          disabled
+                          variant="secondary"
+                        >
+                          {" "}
+                          %{" "}
+                        </Button>
+                      </InputGroup>
+                    </InputGroupCont>
+                  </Col>
+
+                  <Col lg={9}>
+                    <RangeSlider value={thicknessRangeValue}>
+                      <input
+                        type="range"
+                        min="1"
+                        max="100"
+                        value={thicknessRangeValue}
+                        onChange={handleThickness}
+                      />
+                    </RangeSlider>
+                  </Col>
+                </Row>
+          </Col>
+        </Row>
+        <Divider />
+        <Row>
+          <Col lg={12}>
+            <Text>Line Opacity</Text>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: 10 }}>
+          <Col lg={3}>
+            <InputGroupCont>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  value={opacity}
+                  aria-describedby="thickness"
+                  onChange={handleOpacity}
+                  style={{ padding: "5px" }}
+                />
+                <Button style={{ padding: "5px" }} disabled variant="secondary">
+                  {" "}
+                  %{" "}
+                </Button>
+              </InputGroup>
+            </InputGroupCont>
+          </Col>
+          <Col lg={9}>
+            <RangeSlider value={opacity}>
+              <input
+                type="range"
+                min="1"
+                max="100"
+                value={opacity}
+                onChange={handleOpacity}
               />
-              <Button
-                variant="secondary"
-                // value={fontStyle.fontWeight}
-                onClick={() => setShowColorPicker(!showColorPicker)}
-              >
-                Clr
-              </Button>
-            </InputGroup>
-          </InputGroupCont>
-        </Col>
-      </Row>
-      <Row>
-        <ColorPickCont ref={colorPickerRef}>
-          {showColorPicker && (
-            <div>
-              <SketchPicker
-                color={selectedColor}
-                onChange={handleColorChange}
-              />
-            </div>
-          )}
-        </ColorPickCont>
-      </Row>
-    </Container>
-    <Divider />
-       <Container fluid>
-       <Row>
-         <Col lg={12}>
-           <Text>Line Thickness</Text>
-         </Col>
-         {/* <Col lg={6}>
-           <Text>Line Opacity</Text>
-         </Col> */}
-       </Row>
-       <Row style={{ marginBottom: 10 }}>
-         <Col lg={12}>
-         <DropdownCont>
-            <Dropdown className="w-100" as={ButtonGroup}>
-              <div className="row">
-                <div className="col-3">
-                <FormInputCont>
-                  <Form.Control
-                    type="text"
-                    value={thicknessRangeValue+"%"}
-                    aria-describedby="thickness"
-                  />
-                  </FormInputCont>
-                </div>
-                <div className="col-9">
-                <RangeSlider value={thicknessRangeValue}>
-                    <input type="range" min="1" max="100" value={thicknessRangeValue} onChange={handleChange}/>
-                </RangeSlider>
-                </div>
-              </div>
-            </Dropdown>
-          </DropdownCont>
-         </Col>
-       </Row>
-     </Container>
-     </>
+            </RangeSlider>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };

@@ -89,7 +89,7 @@ export const FormInputCont = styled.div`
 
 export const RangeSlider = styled.div`
   position: relative;
-  top: 50%;
+  top: 28%;
   left: 16%;
   transform: translate(-24%, -50%);
   width: 100%;
