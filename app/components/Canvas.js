@@ -11,7 +11,7 @@ const Canvas = (props) => {
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
   useEffect(() => {
-    currentCanvas = new fabric.Canvas(canvasRef.current);
+    currentCanvas = new fabric.Canvas(canvasRef.current, { imageSmoothingEnabled: true });
     currentCanvas.setDimensions({ width: width, height: height });
 
     props.loadData(currentCanvas);

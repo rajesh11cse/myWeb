@@ -37,7 +37,7 @@ export function SetRectBoxProperties(rectBox, position) {
     height: 100,
     padding: 0,
     fill: "#f7f7f7", // Default fill color
-    stroke: "68b3fd", // Default border color
+    stroke: "#fff", // Default border color
     strokeWidth: 1, // Default border width
     selectable: true, // Object is selectable by default
     hasControls: false,
@@ -163,7 +163,7 @@ function renderIcon(icon) {
 }
 
 export function borderControl(object) {
-  let padding = 2;
+  let padding = 1;
   if (object.type == "textbox") {
     padding = 10;
   } else if (object.type == "line") {

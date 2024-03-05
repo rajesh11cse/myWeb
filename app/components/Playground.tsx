@@ -41,9 +41,10 @@ const hexToRgba = (hex: string, alpha: number) => {
 
 interface MyComponentProps {
   collapsed: boolean;
+  makeObject: (type:string) => void;
 }
 
-export const Playground: React.FC<MyComponentProps> = ({ collapsed }) => {
+export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject }) => {
   const rtl = false
   const hasImage = false
   const theme = 'light'
@@ -110,15 +111,15 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed }) => {
             color: '#344cff',
           },
         }}>
-            <MenuItem icon={<BarChart />}> Title </MenuItem>
-            <MenuItem icon={<Global />}> Text </MenuItem>
-            <MenuItem icon={<Diamond />}> Line </MenuItem>
-            <MenuItem icon={<ShoppingCart />}> Table </MenuItem>
+            <MenuItem icon={<BarChart />} onClick={()=>makeObject("header")}> Title </MenuItem>
+            <MenuItem icon={<Global />} onClick={()=>makeObject("text")}> Text </MenuItem>
+            <MenuItem icon={<Diamond />} onClick={()=>makeObject("line")}> Line </MenuItem>
+            <MenuItem icon={<ShoppingCart />} onClick={()=>makeObject("table")}> Table </MenuItem>
               <SubMenu label="Image" icon={<Calendar />}>
                 <MenuItem> Upload Image</MenuItem>
               </SubMenu>
-              <MenuItem icon={<Diamond />}> Signature </MenuItem>
-            <MenuItem icon={<BarChart />}> Box </MenuItem>
+              <MenuItem icon={<Diamond />} onClick={()=>makeObject("signature")}> Signature </MenuItem>
+            <MenuItem icon={<BarChart />} onClick={()=>makeObject("rect")}> Box </MenuItem>
             </Menu>
           </div>
           <SidebarFooter collapsed={collapsed} />

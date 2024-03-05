@@ -124,7 +124,7 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (selectedObject != null && selectedObject.type == "line") {
+    if (selectedObject != null) {
       let lineStyle = {
         stroke: selectedObject.stroke,
         strokeWidth: selectedObject.strokeWidth,
@@ -134,6 +134,7 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
       setLineStyle(lineStyle);
       setThicknessRangeValue(selectedObject.strokeWidth * 10);
       setOpacity(selectedObject.opacity * 100);
+      setSelectedColor(selectedObject.stroke);
     }
   }, [selectedObject]);
 
@@ -141,6 +142,12 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     setSelectedColor(color.hex);
     setLineStyleHandler("stroke", selectedColor);
   };
+
+  const handleColorLineChange = (e: any) => {
+    setSelectedColor(e.target.value);
+    setLineStyleHandler("stroke", selectedColor);
+  };
+
 
   const handleThickness = (event: any) => {
     if (event.target.value < 1 || event.target.value > 100) {
@@ -157,6 +164,15 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     setOpacity(event.target.value);
     setLineStyleHandler("opacity", parseInt(event.target.value) / 100);
   };
+
+
+  useEffect(() => {
+    currentCanvas.on("object:scaling", function (options:any) {
+      let obj = options.target;
+      console.log("selectedObject = > ", obj)
+    });
+  }, []);
+
 
   return (
     <>
@@ -215,13 +231,15 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
                   placeholder="#HFG54D"
                   aria-label="Color code"
                   aria-describedby="basic-addon2"
+                  value={selectedColor}
+                  onChange={handleColorLineChange}
                 />
                 <Button
+                  style={{padding: "5px", color: `${selectedColor}`, backgroundColor: `${selectedColor}`, border: `1px solid ${selectedColor}`}}
                   variant="secondary"
-                  // value={fontStyle.fontWeight}
                   onClick={() => setShowColorPicker(!showColorPicker)}
                 >
-                  Clr
+                  Clrr
                 </Button>
               </InputGroup>
             </InputGroupCont>

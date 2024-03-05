@@ -86,7 +86,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
 
   const fontSizeArray = [
     5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-    25, 26,
+    25, 26, 50
   ];
 
   function setFontStyleHandler(type: string, v: any) {
@@ -157,17 +157,22 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     }
   }, [selectedObject]);
 
-  function setTextNewValue(e) {
-    setTextValue(e);
-    selectedObject.text = e;
+  function setTextNewValue(v:string) {
+    setTextValue(v);
+    selectedObject.text = v;
     currentCanvas.renderAll();
   }
 
   const handleColorChange = (color: any) => {
-    console.log("Selected color:", selectedColor);
     setSelectedColor(color.hex);
     setFontStyleHandler("fill", selectedColor);
   };
+
+  const handleColorTextChange = (e: any) => {
+    setSelectedColor(e.target.value);
+    setFontStyleHandler("fill", selectedColor);
+  };
+
 
   return (
     <>
@@ -230,7 +235,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                           href="#/action-1"
                           onClick={() => setFontStyleHandler("fontFamily", val)}
                         >
-                          {capitalizeEachWord(val)}
+                          <span style={{fontFamily:val}}>{capitalizeEachWord(val)}</span>
                         </Dropdown.Item>
                       ))}
                     </Dropdown.Menu>
@@ -327,10 +332,11 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                   aria-label="Color code"
                   aria-describedby="basic-addon2"
                   value={fontStyle.fill}
+                  onChange={handleColorTextChange}
                 />
                 <Button
+                style={{color: `${fontStyle.fill}`, backgroundColor: `${fontStyle.fill}`, border: `1px solid ${fontStyle.fill}`}}
                   variant="secondary"
-                  // value={fontStyle.fill}
                   onClick={() => setShowColorPicker(!showColorPicker)}
                 >
                   Clr

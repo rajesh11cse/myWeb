@@ -31,6 +31,7 @@ export const Text = styled.div`
   text-align: Left;
   // width: ${(props) => props.w || "258px"};
   margin-top: 6px;
+  margin-bottom: 3px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

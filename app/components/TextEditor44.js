@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../css/febric.css"; // Assume you have a CSS file for styling
 import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
-import WordEdit from "./WordEdit";
 import {Playground} from "./Playground";
-import {Playground2} from "./Playground2";
-import ZoomInSlider from "./ZoomInSlider";
 import ZoomPage from "./ZoomPage";
 import {
   SetTextBoxProperties,
@@ -16,8 +13,6 @@ import {
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import Canvas from "./Canvas";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { ZoomInCont } from "../css/styled";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 function TextEditor44() {
   // Refs
@@ -54,8 +49,6 @@ function TextEditor44() {
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
     console.log("==>>", c.current);
-    // const initialCanvasState = JSON.stringify(currentCanvas);
-    // setCanvasHistory([initialCanvasState]);
   };
 
   // Add a new Text
@@ -131,18 +124,6 @@ function TextEditor44() {
   };
 
   const closeSliderLeft = () => {
-    // const slider = document.getElementById("slider");
-    // const container = document.getElementById("zoom-in-out");
-    // if (slider.style.display === "none") {
-    //   // If the slider is closed, shift the container to the left
-    //   container.style.left = "15%"; // Reset to center
-    // } else {
-    //   // If the slider is open, shift the container to the right
-    //   container.style.left = "calc(15% - 200px)"; // Shifted by slider width
-    // }
-    // // Toggle the display of the slider
-    // slider.style.display = slider.style.display === "none" ? "block" : "none";
-
     setLeftSliderCloseStatus(!leftSliderCloseStatus);
   };
 
@@ -192,77 +173,30 @@ function TextEditor44() {
     reader.readAsDataURL(file);
   };
 
+  function makeObject(type){
+      if (type == "rect"){
+        addRectangle()
+      } else if (type == "line"){
+        addLine()
+      } else if (type == "text"){
+        addNewText()
+      }
+  }
+
   return (
     <div>
       <div className="editorTopCon">
         <button onClick={() => undo()}>Undo</button>
         <button onClick={() => redo()}>Redo</button>
-        <button onClick={() => closeSliderLeft()}>Close Left</button>
-        <button onClick={() => closeSliderRight()}>Close Right</button>
-        <button onClick={() => addRectangle()}>Rect</button>
-        <button onClick={() => addLine()}>Line</button>
-        <button onClick={() => addNewText()}>Text</button>
-        <button onClick={() => removeObject()}> Remove </button>
-        <button onClick={() => clearCanvas()}>Clear Canvas</button>
-        <button onClick={saveAsJSON}>Save</button>
+        {/* <button onClick={() => removeObject()}> Remove </button> */}
+        <Button variant="outline-success" size="sm" onClick={() => closeSliderLeft()}>Close L</Button>{' '}
+        <Button variant="outline-success" size="sm" onClick={() => closeSliderRight()}>Close R</Button>{' '}
+        <Button variant="outline-success" size="sm">Clear</Button>{' '}
+        <Button variant="outline-success" size="sm" onClick={saveAsJSON}>Save</Button>{' '}
+        <Button variant="outline-primary" size="sm">Download</Button>{' '}
       </div>
       <div className="container" style={{padding: 0}}>
-        {/* <div style={{ display: "flex", height: "100%", minHeight: "400px" }}> */}
-        <Playground collapsed={leftSliderCloseStatus}/>
-          {/* <Sidebar
-            id="slider"
-            collapsed={leftSliderCloseStatus}
-            width="200px"
-            customBreakPoint="80px"
-            collapsedWidth="1px"
-            className="leftBarCustom"
-          >
-            <Menu>
-              <MenuItem>
-                <Row>
-                  <Col lg={3} style={{borderRight:'1px solid black'}}>
-                  <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18" stroke="#000000" stroke-linejoin="round"></path> <circle cx="8" cy="9" r="2" stroke="#000000" stroke-linejoin="round"></circle> </g></svg>
-                  </Col>
-                  <Col lg={9}>Text</Col>
-                </Row>
-              </MenuItem>
-              <MenuItem>
-                <Row>
-                  <Col lg={3} style={{borderRight:'1px solid black'}}>
-                  <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18" stroke="#000000" stroke-linejoin="round"></path> <circle cx="8" cy="9" r="2" stroke="#000000" stroke-linejoin="round"></circle> </g></svg>
-                  </Col>
-                  <Col lg={9}>Rect Box</Col>
-                </Row>
-              </MenuItem>
-              <MenuItem>
-                <Row>
-                  <Col lg={3} style={{borderRight:'1px solid black'}}>
-                  <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18" stroke="#000000" stroke-linejoin="round"></path> <circle cx="8" cy="9" r="2" stroke="#000000" stroke-linejoin="round"></circle> </g></svg>
-                  </Col>
-                  <Col lg={9}>Divider/Line</Col>
-                </Row>
-              </MenuItem>
-              <MenuItem>
-                <Row>
-                  <Col lg={3} style={{borderRight:'1px solid black'}}>
-                  <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18" stroke="#000000" stroke-linejoin="round"></path> <circle cx="8" cy="9" r="2" stroke="#000000" stroke-linejoin="round"></circle> </g></svg>
-                  </Col>
-                  <Col lg={9}>Image</Col>
-                </Row>
-              </MenuItem>
-              <MenuItem> Table </MenuItem>
-              <MenuItem> Image Upload </MenuItem>
-              <MenuItem>
-                <Form.Control
-                  type="file"
-                  id="file"
-                  aria-describedby="file-upload"
-                  onChange={handleImageUpload}
-                />
-              </MenuItem>
-            </Menu>
-          </Sidebar> */}
-        {/* </div> */}
+        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject}/>
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage
@@ -292,15 +226,7 @@ function TextEditor44() {
           selectedObject={selectedObject}
           currentCanvas={currentCanvas}
         />
-        {/* </Playground2> */}
-        {/* <EditTextBar
-          collapsed={sliderCloseStatus}
-          selectedObject={selectedObject}
-          currentCanvas={currentCanvas}
-        /> */}
-        {/* <WordEdit selectedObject={selectedObject} handleRender={() => handleRender()}/> */}
       </div>
-      {/* Its there in bootsrap also */}
     </div>
   );
 }
