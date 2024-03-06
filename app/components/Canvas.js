@@ -13,7 +13,7 @@ const Canvas = (props) => {
   useEffect(() => {
     currentCanvas = new fabric.Canvas(canvasRef.current, { renderOnAddRemove: false, noScaleCache:true });
     currentCanvas.setDimensions({ width: width, height: height });
-
+    
     props.loadData(currentCanvas);
     props.handleCurrentCanvas(currentCanvas);
 

@@ -27,22 +27,23 @@ function TextEditor44() {
   const [selectedObject, setSelectedObject] = useState(null);
   const [canvasHistory, setCanvasHistory] = useState([]);
   const loadJSONData = function (c) {
-    c.loadFromJSON(myData, () => {
-      c.getObjects().forEach((obj) => {
-        console.log(obj.type);
-        borderControl(obj);
-        cornerControl(obj);
+    // c.loadFromJSON(myData, () => {
+    //   c.getObjects().forEach((obj) => {
+    //     console.log(obj.type);
+    //     borderControl(obj);
+    //     cornerControl(obj);
+    //   });
+    //   c.renderAll();
+    // });
+    fabric.util.enlivenObjects(myData.objects, (objs) => {
+      objs.forEach((item) => {
+          c.add(item);
+          borderControl(item);
+          cornerControl(item);
       });
-      c.renderAll();
-    });
-
-  //   fabric.util.enlivenObjects(myData, (objs) => {
-  //     objs.forEach((item) => {
-  //         c.add(item);
-  //     });
-  //     c.renderAll(); // Make sure to call this once you're ready!
-  // });
-
+      console.log("json data loads done", )
+      c.renderAll(); // Make sure to call this once you're ready!
+  });
   };
 
   // Zoom scaling functions
@@ -128,6 +129,16 @@ function TextEditor44() {
     console.log("JSON : ", json);
   };
 
+  // Function to save canvas content as JSON
+  const downloadPdf = () => {
+    // only jpeg is supported by jsPDF
+    // var imgData = currentCanvas.toDataURL("image/jpeg", 1.0);
+    // var pdf = new jsPDF();
+
+    // pdf.addImage(imgData, 'JPEG', 0, 0);
+    // pdf.save("download.pdf");
+  };
+
   // Close slider
   const closeSliderRight = () => {
     setSliderCloseStatus(!sliderCloseStatus);
@@ -203,7 +214,7 @@ function TextEditor44() {
         <Button variant="outline-success" size="sm" onClick={() => closeSliderRight()}>Close R</Button>{' '}
         <Button variant="outline-success" size="sm">Clear</Button>{' '}
         <Button variant="outline-success" size="sm" onClick={saveAsJSON}>Save</Button>{' '}
-        <Button variant="outline-primary" size="sm">Download</Button>{' '}
+        <Button variant="outline-primary" size="sm" onClick={downloadPdf}>Download</Button>{' '}
       </div>
       <div className="container" style={{padding: 0}}>
         <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject}/>
