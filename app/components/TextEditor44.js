@@ -4,6 +4,8 @@ import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
 import {Playground} from "./Playground";
 import ZoomPage from "./ZoomPage";
+import { fabric } from "fabric";
+
 import {
   SetTextBoxProperties,
   borderControl,
@@ -33,6 +35,14 @@ function TextEditor44() {
       });
       c.renderAll();
     });
+
+  //   fabric.util.enlivenObjects(myData, (objs) => {
+  //     objs.forEach((item) => {
+  //         c.add(item);
+  //     });
+  //     c.renderAll(); // Make sure to call this once you're ready!
+  // });
+
   };
 
   // Zoom scaling functions

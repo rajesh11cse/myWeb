@@ -124,8 +124,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (
-        colorPickerRef.current &&
-        !colorPickerRef.current.contains(event.target)
+        colorPickerRef.current
       ) {
         setShowColorPicker(false);
       }

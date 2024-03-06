@@ -83,6 +83,7 @@
     "@babel/register": "^7.23.7",
     "@types/draftjs-to-html": "^0.8.4",
     "@types/html-to-draftjs": "^1.4.3",
+    "@types/react-color": "^3.0.12",
     "@types/react-router-redux": "^5.0.27",
     "babel-cli": "6.26.0",
     "babel-core": "^7.0.0-bridge.0",
