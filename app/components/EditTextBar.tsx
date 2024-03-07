@@ -7,7 +7,7 @@ function EditTextBar(props:any) {
   return (
     <div style={{ display: 'flex', minHeight: '400px'}}>
       <Sidebar collapsed={props.collapsed} width="355px"customBreakPoint="80px" collapsedWidth="1px" rtl className="sideBarCustom">
-        {/* <WordEditCont>Text Editing</WordEditCont> */}
+        <WordEditCont>Text Editing</WordEditCont>
         <WordEdit selectedObject={props.selectedObject} currentCanvas={props.currentCanvas}/>
       </Sidebar>
     </div>

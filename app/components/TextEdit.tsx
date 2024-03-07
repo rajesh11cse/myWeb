@@ -12,7 +12,6 @@ import {
   DropdownCont,
   Divider,
   Text,
-  DivCont,
   ButtonGroupCont,
   InputGroupCont,
   TextAreaCont,
@@ -124,7 +123,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (
-        colorPickerRef.current
+        colorPickerRef.current && !colorPickerRef.current.contains(event.target)
       ) {
         setShowColorPicker(false);
       }

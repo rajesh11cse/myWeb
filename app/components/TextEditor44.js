@@ -14,6 +14,7 @@ import {
   SetLineProperties,
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
+import {TopPanel} from "./TopPanel";
 import Canvas from "./Canvas";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 function TextEditor44() {
@@ -206,16 +207,17 @@ function TextEditor44() {
 
   return (
     <div>
-      <div className="editorTopCon">
+      <TopPanel />
+      {/* <div className="editorTopCon">
         <button onClick={() => undo()}>Undo</button>
         <button onClick={() => redo()}>Redo</button>
-        {/* <button onClick={() => removeObject()}> Remove </button> */}
+        <button onClick={() => removeObject()}> Remove </button>
         <Button variant="outline-success" size="sm" onClick={() => closeSliderLeft()}>Close L</Button>{' '}
         <Button variant="outline-success" size="sm" onClick={() => closeSliderRight()}>Close R</Button>{' '}
         <Button variant="outline-success" size="sm">Clear</Button>{' '}
         <Button variant="outline-success" size="sm" onClick={saveAsJSON}>Save</Button>{' '}
         <Button variant="outline-primary" size="sm" onClick={downloadPdf}>Download</Button>{' '}
-      </div>
+      </div> */}
       <div className="container" style={{padding: 0}}>
         <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject}/>
         <div className="middle">

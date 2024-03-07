@@ -12,15 +12,3 @@
   background: white;
   box-shadow: 0 0 5px rgba(0,0,0,.3)
 } 
-
-.editorTopCon {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 46px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* border: 1px solid gray; */
-  z-index: 10;
-}

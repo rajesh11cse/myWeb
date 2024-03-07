@@ -187,20 +187,20 @@ export const InputGroupCont = styled.div`
 
 export const WordEditCont = styled.div`
   position: sticky;
-  top: 0;
-  width: 355px;
-  height: 31px;
-  background-color: #fff;
+  top: 7px;
+  height: 43px;
+  background-color: #f5f5f5;
   z-index: 8;
   text-align: left;
-  padding: 5px;
+  padding: 13px;
   font-size: small;
   font-weight: 800;
-  font-family: monospace;
+  // font-family: monospace;
   color: #000;
-  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid gray;
-  border-radius: 1 0 3px 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // border-bottom: 1px solid gray;
+  // border-radius: 1 0 3px 3px;
+  margin-bottom: 13px;
 `;
 
 export const ColorPickCont = styled.div`
@@ -291,3 +291,17 @@ export const CBtn = styled.button`
     box-shadow: none !important;
   }
 `;
+
+
+export const TopPanelCon = styled.div`
+  position: fixed;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 49px;
+  padding: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid gray; */
+  z-index: 10;
+`

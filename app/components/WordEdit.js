@@ -22,9 +22,7 @@ const WordEdit = (props) => {
 
   return (
     <DivCont>
-      {/* <WordEditCont>Text Editing</WordEditCont> */}
-      {/* FOnt Family */}
-      {objectType}
+      {/* {objectType} */}
       {objectType == "textbox" && <TextEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject}/>}
       {objectType == "line" && <LineEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject}/>}
       {objectType == "rect" && <BoxEdit  currentCanvas={ props.currentCanvas} selectedObject={selectedObject}/>}

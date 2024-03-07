@@ -12,7 +12,6 @@ import {
   DropdownCont,
   Divider,
   Text,
-  DivCont,
   ButtonGroupCont,
   InputGroupCont,
   TextAreaCont,
@@ -111,8 +110,8 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (
-        colorPickerRef.current) {
-        setShowColorPicker(false);
+        colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setShowColorPicker(false)
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
