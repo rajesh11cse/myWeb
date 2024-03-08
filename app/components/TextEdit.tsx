@@ -59,8 +59,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
   });
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [selectedColor, setSelectedColor] = useState("#000000"); // Default color
-
-  const colorPickerRef = useRef(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   function capitalizeEachWord(str: string) {
     return str.replace(/\b\w/g, (char) => char.toUpperCase());

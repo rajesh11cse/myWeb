@@ -117,7 +117,13 @@ function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
   // currentCanvas.requestRenderAll();
 }
 
-function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
+function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
+  // Return without adding icons
+  if (fabricObject.type == "i-text" && (scale == "mb" ||  scale == "mt")){
+    return
+  }
+
+
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
   ctx.beginPath();
   ctx.lineWidth = 3; // stroke width adjustment
@@ -134,7 +140,14 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject) {
 }
 
 // Define a function to render the scaling icon
-function iconVertical(ctx, left, top, styleOverride, fabricObject) {
+function iconVertical(ctx, left, top, styleOverride, fabricObject, scale) {
+  console.log("scale == > ", scale)
+
+  // Return without adding icons
+  if (fabricObject.type == "i-text" && (scale == "ml")){
+    return
+  }
+
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
   if (fabricObject.type == "rect") {
     topYScale = topYScale - 8;
@@ -220,7 +233,7 @@ export function customCorner(object) {
       y: -0.5,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: iconVertical, // Render the icon
+      render: (ctx, left, top, styleOverride, fabricObject) => iconVertical(ctx, left, top, styleOverride, fabricObject, "ml"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
@@ -232,7 +245,7 @@ export function customCorner(object) {
     y: -0.5,
     actionName: "scale", // Action to perform when clicked
     cursorStyle: "pointer",
-    render: iconVertical, // Render the icon
+    render: (ctx, left, top, styleOverride, fabricObject) => iconVertical(ctx, left, top, styleOverride, fabricObject, "mr"),
     // mouseUpHandler: scaleObject, // Handle scaling on mouse down
     cornerSize: 24, // Control corner size
   });
@@ -244,7 +257,7 @@ export function customCorner(object) {
       y: 0,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: iconHorizontal, // Render the icon
+      render: (ctx, left, top, styleOverride, fabricObject) => iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mb"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
@@ -257,7 +270,7 @@ export function customCorner(object) {
       y: -1,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: iconHorizontal, // Render the icon
+      render: (ctx, left, top, styleOverride, fabricObject) => iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mt"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });

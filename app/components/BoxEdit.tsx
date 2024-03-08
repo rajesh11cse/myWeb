@@ -48,8 +48,7 @@ export const BoxEdit: React.FC<TextEditProps> = (props) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [selectedColor, setSelectedColor] = useState("#000"); // Default color
   const [opacity, setOpacity] = useState(1); // Opacity
-
-  const colorPickerRef = useRef(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {

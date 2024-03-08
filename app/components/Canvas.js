@@ -58,7 +58,7 @@ const Canvas = (props) => {
     canvas.on('mouse:up', function() {}
   */
     return () => {
-      currentCanvas.dispose(canvas);
+      currentCanvas.dispose(currentCanvas);
     };
   }, []);
 

@@ -59,11 +59,11 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
   const [thicknessRangeValue, setThicknessRangeValue] = useState(100); // Thickness range Value
   const [opacity, setOpacity] = useState(1); // Opacity
 
-  const colorPickerRef = useRef(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
   function capitalizeEachWord(str: string) {
     return str.replace(/\b\w/g, (char) => char.toUpperCase());
   }
-  function getLineStyleValue(str) {
+  function getLineStyleValue(str:string) {
     if (str == undefined || str == "") {
       return "solid";
     } else if (typeof str == "object" && str[0] == 2) {
@@ -73,7 +73,6 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
     }
   }
   const lineStyleArray = ["dotted", "dashed", "solid"];
-  const lineWidthArray = [1, 2, 3, 4, 5];
   function setLineStyleHandler(type: string, v: any) {
     let lineStyle = {
       stroke: selectedObject.stroke,
@@ -209,6 +208,7 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
                     <Dropdown.Menu className="drop_down_menu">
                       {lineStyleArray.map((val, index) => (
                         <Dropdown.Item
+                          key={index}
                           href="#/action-1"
                           onClick={() => setLineStyleHandler("lineStyle", val)}
                         >

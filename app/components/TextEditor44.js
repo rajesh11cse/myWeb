@@ -5,6 +5,10 @@ import myData from "./abc.json";
 import { Playground } from "./Playground";
 import ZoomPage from "./ZoomPage";
 import { fabric } from "fabric";
+import { GetStyledClass,  GetBodyContent} from "./htmlData";
+
+
+GetStyledClass
 
 import {
   SetTextBoxProperties,
@@ -249,69 +253,18 @@ function TextEditor44() {
     const json = currentCanvas.toJSON(); // Convert canvas to JSON
     delete json.backgroundImage; // Remove any background image
 
-    let styleClass = `<style>`
-    let htmlContent = `<div>`
-    let lineHtml,textHtml,
-      lineClass,textClass,
-      className = "";
+    let finalStyledClass = `<style>`
+    let finalBodyContent = `<div>`
     json.objects.forEach((element, i) => {
-      if (element.type === "textbox") {
-        element.textDecoration =  (element.underline ? "underline" : (element.overline ? "overline" : element.linethrough ? "line-through" : 'none'))
-        className = `textbox${i}`;
-        textClass = `.${className}{
-                        position: absolute;
-                        left: ${element.left}px;
-                        top: ${element.top}px;
-                        width: ${element.width}px;
-                        height: ${element.height}px;
-                        line-height: ${element.lineHeight} !important;
-                        font-family: ${element.fontFamily};
-                        color:${element.fill};
-                        text-decoration: ${element.textDecoration};
-                        text-align: ${element.textAlign};
-                        font-style: ${element.fontStyle};
-                        font-weight: ${element.fontWeight};
-                        font-size: ${element.fontSize}px;
-                        line-height: ${element.lineHeight};
-                        overflow-wrap: break-word;
-                        transform: scale(${element.scaleX}, ${element.scaleY});
-                        transform-origin: top left;
-                      }`;
-        textHtml = `<div> <p class="${className}">${element.text}</p> </div>`;
+      let { className, styledClass } = GetStyledClass(element, i);
+      let { bodyContent } = GetBodyContent(element, className);
+      finalStyledClass = finalStyledClass+"\n"+styledClass
+      finalBodyContent = finalBodyContent+"\n"+bodyContent
 
-        styleClass = styleClass+"\n"+textClass
-        htmlContent = htmlContent+"\n"+textHtml
-
-
-
-        // console.log("lineClass = > ", lineClass);
-        // console.log("lineHtml = > ", lineHtml);
-      } else if (element.type === "line") {
-        className = `line${i}`;
-        lineClass = `.${className}{
-                      position: absolute;
-                      left: ${element.left}px;
-                      top: ${element.top}px;
-                    }`;
-        lineHtml = `<svg class="${className}" width="${element.width}" height="${element.strokeWidth}" viewBox="${element.x1} ${element.y1} ${element.width} ${element.strokeWidth}">
-                    <line
-                      x1="${element.x1}"
-                      y1="${element.y1}"
-                      x2="${element.x2}"
-                      y2="${element.y2}"
-                      style="stroke: ${element.stroke}; strokeWidth: ${element.strokeWidth}; opacity:  ${element.opacity};"
-                    />
-                  </svg>`;
-        styleClass = styleClass+"\n"+lineClass
-        htmlContent = htmlContent+"\n"+lineHtml
-        // console.log("lineClass = > ", lineClass);
-        // console.log("lineHtml = > ", lineHtml);
-      }
     });
-    styleClass = styleClass+"\n"+'</style>'
-    htmlContent = htmlContent+"\n"+'</div>'
-        console.log("styleClasses = > ", styleClass);
-        console.log("htmlContent = > ", htmlContent);
+
+    console.log("finalStyledClass == > ", finalStyledClass)
+    console.log("finalBodyContent == > ", finalBodyContent)
   }
 
   return (
