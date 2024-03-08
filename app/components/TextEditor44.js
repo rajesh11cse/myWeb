@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../css/febric.css"; // Assume you have a CSS file for styling
 import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
-import {Playground} from "./Playground";
+import { Playground } from "./Playground";
 import ZoomPage from "./ZoomPage";
 import { fabric } from "fabric";
 
@@ -12,9 +12,10 @@ import {
   cornerControl,
   SetRectBoxProperties,
   SetLineProperties,
+  SetHeadingTextProperties,
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
-import {TopPanel} from "./TopPanel";
+import { TopPanel } from "./TopPanel";
 import Canvas from "./Canvas";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 function TextEditor44() {
@@ -36,15 +37,27 @@ function TextEditor44() {
     //   });
     //   c.renderAll();
     // });
-    fabric.util.enlivenObjects(myData.objects, (objs) => {
-      objs.forEach((item) => {
+    const data = localStorage.getItem("jsonData");
+    if (data != null) {
+      c.loadFromJSON(data, () => {
+        c.getObjects().forEach((obj) => { 
+          console.log(obj.type);
+          borderControl(obj);
+          cornerControl(obj);
+        });
+        c.renderAll();
+      });
+    } else {
+      fabric.util.enlivenObjects(myData.objects, (objs) => {
+        objs.forEach((item) => {
           c.add(item);
           borderControl(item);
           cornerControl(item);
+        });
+        console.log("json data loads done");
+        c.renderAll(); // Make sure to call this once you're ready!
       });
-      console.log("json data loads done", )
-      c.renderAll(); // Make sure to call this once you're ready!
-  });
+    }
   };
 
   // Zoom scaling functions
@@ -60,7 +73,7 @@ function TextEditor44() {
   // handle current active canvas
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
-    console.log("==>>", c.current);
+    // console.log("==>>", c.current);
   };
 
   // Add a new Text
@@ -73,6 +86,31 @@ function TextEditor44() {
     } else {
       addTextBox({ left: 20, top: 20 });
     }
+  };
+
+  // Create header or title
+  const addTitle = () => {
+    const activeObject = currentCanvas.getActiveObject();
+    if (activeObject && activeObject.type === "text") {
+      const activeCoords = activeObject.getBoundingRect();
+      const newY = activeObject.top + activeCoords.height + 10;
+      createTitle({ left: activeObject.left, top: newY });
+    } else {
+      createTitle({ left: 20, top: 20 });
+    }
+  };
+
+
+  const createTitle = (position) => {
+    let title = new fabric.IText("", {});
+    SetHeadingTextProperties(title, position);
+    currentCanvas.add(title);
+    currentCanvas.setActiveObject(title);
+    title.on("mouseenter", function () {
+      this.set("fill", "blue");
+      currentCanvas.renderAll();
+    });
+    currentCanvas.renderAll();
   };
 
   // Function to add a textbox to the canvas
@@ -128,6 +166,7 @@ function TextEditor44() {
     const json = currentCanvas.toJSON(); // Convert canvas to JSON
     delete json.backgroundImage; // Remove any background image
     console.log("JSON : ", json);
+    localStorage.setItem("jsonData", JSON.stringify(json));
   };
 
   // Function to save canvas content as JSON
@@ -135,7 +174,6 @@ function TextEditor44() {
     // only jpeg is supported by jsPDF
     // var imgData = currentCanvas.toDataURL("image/jpeg", 1.0);
     // var pdf = new jsPDF();
-
     // pdf.addImage(imgData, 'JPEG', 0, 0);
     // pdf.save("download.pdf");
   };
@@ -178,11 +216,11 @@ function TextEditor44() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = function (event) {
       const imgObj = new Image();
       imgObj.src = event.target.result;
-      
-      imgObj.onload = function() {
+
+      imgObj.onload = function () {
         const imgInstance = new fabric.Image(imgObj);
         imgInstance.set({
           left: 100,
@@ -191,23 +229,94 @@ function TextEditor44() {
         currentCanvas.add(imgInstance);
       };
     };
-    
+
     reader.readAsDataURL(file);
   };
 
-  function makeObject(type){
-      if (type == "rect"){
-        addRectangle()
-      } else if (type == "line"){
-        addLine()
-      } else if (type == "text"){
-        addNewText()
+  function makeObject(type) {
+    if (type == "rect") {
+      addRectangle();
+    } else if (type == "line") {
+      addLine();
+    } else if (type == "text") {
+      addNewText();
+    }else if (type == "header") {
+      addTitle();
+    }
+  }
+
+  function download() {
+    const json = currentCanvas.toJSON(); // Convert canvas to JSON
+    delete json.backgroundImage; // Remove any background image
+
+    let styleClass = `<style>`
+    let htmlContent = `<div>`
+    let lineHtml,textHtml,
+      lineClass,textClass,
+      className = "";
+    json.objects.forEach((element, i) => {
+      if (element.type === "textbox") {
+        element.textDecoration =  (element.underline ? "underline" : (element.overline ? "overline" : element.linethrough ? "line-through" : 'none'))
+        className = `textbox${i}`;
+        textClass = `.${className}{
+                        position: absolute;
+                        left: ${element.left}px;
+                        top: ${element.top}px;
+                        width: ${element.width}px;
+                        height: ${element.height}px;
+                        line-height: ${element.lineHeight} !important;
+                        font-family: ${element.fontFamily};
+                        color:${element.fill};
+                        text-decoration: ${element.textDecoration};
+                        text-align: ${element.textAlign};
+                        font-style: ${element.fontStyle};
+                        font-weight: ${element.fontWeight};
+                        font-size: ${element.fontSize}px;
+                        line-height: ${element.lineHeight};
+                        overflow-wrap: break-word;
+                        transform: scale(${element.scaleX}, ${element.scaleY});
+                        transform-origin: top left;
+                      }`;
+        textHtml = `<div> <p class="${className}">${element.text}</p> </div>`;
+
+        styleClass = styleClass+"\n"+textClass
+        htmlContent = htmlContent+"\n"+textHtml
+
+
+
+        // console.log("lineClass = > ", lineClass);
+        // console.log("lineHtml = > ", lineHtml);
+      } else if (element.type === "line") {
+        className = `line${i}`;
+        lineClass = `.${className}{
+                      position: absolute;
+                      left: ${element.left}px;
+                      top: ${element.top}px;
+                    }`;
+        lineHtml = `<svg class="${className}" width="${element.width}" height="${element.strokeWidth}" viewBox="${element.x1} ${element.y1} ${element.width} ${element.strokeWidth}">
+                    <line
+                      x1="${element.x1}"
+                      y1="${element.y1}"
+                      x2="${element.x2}"
+                      y2="${element.y2}"
+                      style="stroke: ${element.stroke}; strokeWidth: ${element.strokeWidth}; opacity:  ${element.opacity};"
+                    />
+                  </svg>`;
+        styleClass = styleClass+"\n"+lineClass
+        htmlContent = htmlContent+"\n"+lineHtml
+        // console.log("lineClass = > ", lineClass);
+        // console.log("lineHtml = > ", lineHtml);
       }
+    });
+    styleClass = styleClass+"\n"+'</style>'
+    htmlContent = htmlContent+"\n"+'</div>'
+        console.log("styleClasses = > ", styleClass);
+        console.log("htmlContent = > ", htmlContent);
   }
 
   return (
     <div>
-      <TopPanel />
+      <TopPanel saveFile={saveAsJSON} downloadFile={download} />
       {/* <div className="editorTopCon">
         <button onClick={() => undo()}>Undo</button>
         <button onClick={() => redo()}>Redo</button>
@@ -218,8 +327,8 @@ function TextEditor44() {
         <Button variant="outline-success" size="sm" onClick={saveAsJSON}>Save</Button>{' '}
         <Button variant="outline-primary" size="sm" onClick={downloadPdf}>Download</Button>{' '}
       </div> */}
-      <div className="container" style={{padding: 0}}>
-        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject}/>
+      <div className="container" style={{ padding: 0 }}>
+        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject} />
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage
@@ -228,7 +337,7 @@ function TextEditor44() {
             />
             <Container fluid ref={canvasContainerRef}>
               {[1].map((_, index) => (
-                <Row style={{ marginBottom: 10 }}>
+                <Row style={{ marginBottom: 10 }} key={index}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
                       handleCurrentCanvas={(c) => handleCurrentCanvas(c)}

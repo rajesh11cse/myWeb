@@ -29,6 +29,24 @@ export function SetTextBoxProperties(textBox, position) {
   borderControl(textBox);
 }
 
+export function SetHeadingTextProperties(textBox, position) {
+  const options = {
+    text: "Heading", // Set the text content
+    left: position.left,
+    top: position.top,
+    width: 500,
+    height: 700,
+    fontSize: 25, // Fixed font size
+    fill: "#000",
+    fontFamily: "Century Gothic",
+    textAlign: "left"
+  };
+  textBox.set(options);
+  cornerControl(textBox);
+  borderControl(textBox);
+}
+
+
 export function SetRectBoxProperties(rectBox, position) {
   const options = {
     left: position.left,
@@ -164,7 +182,7 @@ function renderIcon(icon) {
 
 export function borderControl(object) {
   let padding = 1;
-  if (object.type == "textbox") {
+  if (object.type == "textbox" || object.type == "i-text") {
     padding = 10;
   } else if (object.type == "line") {
     padding = 20;
@@ -257,7 +275,7 @@ export function cornerControl(obj) {
     br: false,
     mtr: false, // rotation
   };
-  if (obj.type == "textbox") {
+  if (obj.type == "textbox" || obj.type == "i-text") {
     controlPoints.mr = true;
     controlPoints.br = true;
   } else if (obj.type == "rect") {

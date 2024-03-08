@@ -13,11 +13,11 @@ export const TextAlignRight: React.FC<IconProps> = ({ size = 18 }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
         {" "}
@@ -27,9 +27,9 @@ export const TextAlignRight: React.FC<IconProps> = ({ size = 18 }) => {
             id="Vector"
             d="M20 18H10M20 14H4M20 10H10M20 6H4"
             stroke="#000000"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>{" "}
         </g>{" "}
       </g>

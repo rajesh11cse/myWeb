@@ -102,7 +102,8 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
       fontStyleObj.fontWeight = v;
       v = v ? "normal" : "bold";
     } else if (type === "fontStyle") {
-      fontStyleObj.fontStyle = v;
+      fontStyleObj.fontStyle = v
+      v = v ? "italic" : "normal";
     } else if (type === "underline") {
       fontStyleObj.underline = v;
     } else if (type === "textAlign") {
@@ -114,6 +115,8 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     } else if (type === "fill") {
       fontStyleObj.fill = v;
     }
+    console.log("type ==> ", type)
+    console.log("v ==> ", v)
     selectedObject.set(type, v);
     setFontStyle(fontStyleObj);
     currentCanvas.renderAll();
@@ -230,6 +233,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                     <Dropdown.Menu className="drop_down_menu">
                       {fontFamilyArray.map((val, index) => (
                         <Dropdown.Item
+                          key={index}
                           href="#/action-1"
                           onClick={() => setFontStyleHandler("fontFamily", val)}
                         >
@@ -272,6 +276,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                 <Dropdown.Menu className="drop_down_menu">
                   {fontSizeArray.map((val, index) => (
                     <Dropdown.Item
+                    key={index}
                       onClick={() => setFontStyleHandler("fontSize", val)}
                     >
                       {val}
@@ -298,7 +303,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                   variant="success"
                   value={fontStyle.fontStyle}
                   active={fontStyle.fontStyle == "italic" ? true : false}
-                  onClick={() => setFontStyleHandler("fontStyle", !fontStyle)}
+                  onClick={() => setFontStyleHandler("fontStyle", !fontStyle.fontStyle)} 
                 >
                   <i>I</i>
                 </Button>

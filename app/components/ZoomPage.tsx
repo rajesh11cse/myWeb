@@ -31,9 +31,9 @@ function ZoomPage(props: any) {
           className="zoom-icon"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M13 8a1 1 0 1 0-2 0v3H8a1 1 0 1 0 0 2h3v3a1 1 0 1 0 2 0v-3h3a1 1 0 1 0 0-2h-3V8Z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
       </button>
@@ -46,9 +46,9 @@ function ZoomPage(props: any) {
           className="zoom-icon"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M7 12a1 1 0 0 1 1-1h8a1 1 0 1 1 0 2H8a1 1 0 0 1-1-1Z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
       </button>

@@ -7,19 +7,19 @@ export const PreviewFile: React.FC = () => {
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="-72.09 -72.09 624.79 624.79"
-      xml:space="preserve"
+      xmlSpace="preserve"
       width="24px"
       height="24px"
       stroke="#fff"
-      stroke-width="9.61212"
+      strokeWidth="9.61212"
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
         {" "}

@@ -40,15 +40,14 @@ import {  SaveFile } from "../assets/icons/SaveFile";
 import {  PreviewFile } from "../assets/icons/PreviewFile";
 
 
-// interface TextEditProps {
-//   selectedObject: any;
-//   currentCanvas: any;
-// }
+interface PanelProps {
+  saveFile: () => void;
+  downloadFile: () => void;
+}
 
-export const TopPanel = (props: any) => {
-  // export const TopPanel: React.FC<TextEditProps> = (props) => {
-  // const { currentCanvas, selectedObject } = props;
-  const [textValue, setTextValue] = useState("");
+  export const TopPanel: React.FC<PanelProps> = (props) => {
+  const { saveFile, downloadFile } = props;
+  // const [textValue, setTextValue] = useState("");
 
   useEffect(() => {}, []);
 
@@ -56,7 +55,7 @@ export const TopPanel = (props: any) => {
     <TopPanelCon>
         <Row className="w-100 justify-content-end">
           <Col lg={6} className="text-right">
-            <ButtonGroup id="download" className="mr-3">
+            <ButtonGroup id="download" className="mr-3" onClick={()=>downloadFile()}>
               <Button variant="secondary" size="sm">
                 Download
               </Button>
@@ -64,7 +63,7 @@ export const TopPanel = (props: any) => {
                 <DownloadFile /> 
               </Button>
             </ButtonGroup>
-            <ButtonGroup id="save" className="mr-3">
+            <ButtonGroup id="save" className="mr-3" onClick={()=>saveFile()}>
               <Button variant="success" size="sm">
                 Save
               </Button>
