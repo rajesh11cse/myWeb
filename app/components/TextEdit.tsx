@@ -139,7 +139,6 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
   useEffect(() => {
     if (
       selectedObject != null &&
-      selectedObject.type == "textbox" &&
       selectedObject.text !== textValue
     ) {
       setTextValue(selectedObject.text);

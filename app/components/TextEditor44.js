@@ -41,15 +41,20 @@ function TextEditor44() {
     //   });
     //   c.renderAll();
     // });
-    const data = localStorage.getItem("jsonData");
+    const data =  JSON.parse(localStorage.getItem("jsonData"));
+    console.log("data == > , ", data)
     if (data != null) {
-      c.loadFromJSON(data, () => {
-        c.getObjects().forEach((obj) => { 
-          console.log(obj.type);
-          borderControl(obj);
-          cornerControl(obj);
+      fabric.util.enlivenObjects(data.objects, (objs) => {
+        objs.forEach((item) => {
+          c.add(item);
+          if (item.type == "rect"){
+            c.sendToBack(item);
+          }
+          borderControl(item);
+          cornerControl(item);
         });
-        c.renderAll();
+        console.log("json data loads done");
+        c.renderAll(); // Make sure to call this once you're ready!
       });
     } else {
       fabric.util.enlivenObjects(myData.objects, (objs) => {
@@ -134,6 +139,7 @@ function TextEditor44() {
     let rectBox = new fabric.Rect("", {});
     SetRectBoxProperties(rectBox, { left: 20, top: 20 });
     currentCanvas.add(rectBox);
+    currentCanvas.sendToBack(rectBox);
     currentCanvas.setActiveObject(rectBox);
     currentCanvas.renderAll();
   };
@@ -269,7 +275,7 @@ function TextEditor44() {
 
   return (
     <div>
-      <TopPanel saveFile={saveAsJSON} downloadFile={download} />
+      <TopPanel saveFile={saveAsJSON} downloadFile={download} clearPage={clearCanvas} />
       {/* <div className="editorTopCon">
         <button onClick={() => undo()}>Undo</button>
         <button onClick={() => redo()}>Redo</button>

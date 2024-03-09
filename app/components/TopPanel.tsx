@@ -43,10 +43,11 @@ import {  PreviewFile } from "../assets/icons/PreviewFile";
 interface PanelProps {
   saveFile: () => void;
   downloadFile: () => void;
+  clearPage: () => void;
 }
 
   export const TopPanel: React.FC<PanelProps> = (props) => {
-  const { saveFile, downloadFile } = props;
+  const { saveFile, downloadFile, clearPage } = props;
   // const [textValue, setTextValue] = useState("");
 
   useEffect(() => {}, []);
@@ -54,6 +55,13 @@ interface PanelProps {
   return (
     <TopPanelCon>
         <Row className="w-100 justify-content-end">
+          <Col lg={6} className="text-left">
+            <ButtonGroup id="download" className="mr-3" onClick={()=>clearPage()}>
+              <Button variant="link" size="sm">
+                Clear Form
+              </Button>
+            </ButtonGroup>
+          </Col>
           <Col lg={6} className="text-right">
             <ButtonGroup id="download" className="mr-3" onClick={()=>downloadFile()}>
               <Button variant="secondary" size="sm">

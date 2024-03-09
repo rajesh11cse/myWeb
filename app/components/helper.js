@@ -10,6 +10,7 @@ deleteImage.src = deleteIcon;
 var cloneImg = document.createElement("img");
 cloneImg.src = cloneIcon;
 
+
 export function SetTextBoxProperties(textBox, position) {
   const options = {
     text: "Your Text Here", // Set the text content
@@ -17,9 +18,8 @@ export function SetTextBoxProperties(textBox, position) {
     top: position.top,
     width: 500,
     height: 700,
-    fontSize: 16, // Fixed font size
+    fontSize: 16,
     fill: "#000",
-    // fontFamily: "Arial",
     fontFamily: "Century Gothic",
     textAlign: "left",
     selectable: 1,
@@ -31,34 +31,34 @@ export function SetTextBoxProperties(textBox, position) {
 
 export function SetHeadingTextProperties(textBox, position) {
   const options = {
-    text: "Heading", // Set the text content
+    text: "Enter is your title", // Set the text content
     left: position.left,
     top: position.top,
     width: 500,
-    height: 700,
     fontSize: 25, // Fixed font size
     fill: "#000",
     fontFamily: "Century Gothic",
-    textAlign: "left"
+    textAlign: "left",
+    lockScalingFlip:true
   };
   textBox.set(options);
   cornerControl(textBox);
   borderControl(textBox);
 }
 
-
 export function SetRectBoxProperties(rectBox, position) {
   const options = {
     left: position.left,
     top: position.top,
-    width: 250,
+    width: 350,
     height: 100,
     padding: 0,
-    fill: "#f7f7f7", // Default fill color
+    fill: "#556ef0", // Default fill color
     stroke: "#fff", // Default border color
     strokeWidth: 1, // Default border width
     selectable: true, // Object is selectable by default
     hasControls: false,
+    stackingOrder: -1 // Set a lower stacking order
   };
   rectBox.set(options);
   // Custom controls
@@ -79,31 +79,6 @@ export function SetLineProperties(obj, position) {
   borderControl(obj);
 }
 
-export function createCustodmControls2(object, type) {
-  if (type == "delete") {
-    object.controls.deleteControl = new fabric.Control({
-      x: 0.4,
-      y: 0.5,
-      offsetY: 16,
-      cursorStyle: "scale",
-      mouseUpHandler: deleteObject,
-      render: renderIcon(deleteImage),
-      cornerSize: 24,
-    });
-  } else if (type == "clone") {
-    object.controls.clone = new fabric.Control({
-      x: 0.35,
-      y: 0.5,
-      offsetY: 16,
-      // offsetX: -16,
-      cursorStyle: "pointer",
-      mouseUpHandler: cloneObject,
-      render: renderIcon(cloneImg),
-      cornerSize: 24,
-    });
-  }
-}
-
 // Define a function to handle scaling action
 function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
   // const pointer = currentCanvas.getPointer(mouseMoveEvent.e);
@@ -119,10 +94,10 @@ function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
 
 function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
   // Return without adding icons
-  if (fabricObject.type == "i-text" && (scale == "mb" ||  scale == "mt")){
-    return
+  return;
+  if (fabricObject.type == "i-text" && (scale == "mb" || scale == "mt")) {
+    return;
   }
-
 
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
   ctx.beginPath();
@@ -132,7 +107,7 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
   if (fabricObject.type == "line") {
     ctx.roundRect(0, 0, 0, 0, 0);
   } else {
-    ctx.roundRect(left - 10, topYScale, 21, 4, 2);
+    ctx.roundRect(left - 10, topYScale, 25, 4, 2);
   }
   ctx.stroke();
   ctx.fill();
@@ -141,11 +116,10 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
 
 // Define a function to render the scaling icon
 function iconVertical(ctx, left, top, styleOverride, fabricObject, scale) {
-  console.log("scale == > ", scale)
-
+  return;
   // Return without adding icons
-  if (fabricObject.type == "i-text" && (scale == "ml")){
-    return
+  if (fabricObject.type == "i-text" && scale == "ml") {
+    return;
   }
 
   var topYScale = top + (fabricObject.height * fabricObject.scaleY) / 2;
@@ -172,15 +146,20 @@ function deleteObject(eventData, transform) {
   canvas.requestRenderAll();
 }
 
-function cloneObject(eventData, transform) {
+function copyObject(eventData, transform) {
   var target = transform.target;
   var canvas = target.canvas;
   target.clone(function (cloned) {
     cloned.left += 10;
     cloned.top += 10;
     canvas.add(cloned);
+    borderControl(cloned);
+    cornerControl(cloned)
+    canvas.setActiveObject(cloned);
+    canvas.requestRenderAll();
   });
 }
+
 function renderIcon(icon) {
   return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
     var size = this.cornerSize;
@@ -193,8 +172,9 @@ function renderIcon(icon) {
   };
 }
 
+
 export function borderControl(object) {
-  let padding = 1;
+  let padding = -2;
   if (object.type == "textbox" || object.type == "i-text") {
     padding = 10;
   } else if (object.type == "line") {
@@ -202,8 +182,8 @@ export function borderControl(object) {
   }
   const options = {
     borderColor: "#124fea",
-    cornerColor: "transparent",
-    // cornerColor: "#0098e5",
+    // cornerColor: "transparent",
+    cornerColor: "#fff",
     hasControls: true,
     selectable: 1,
     lockMovementX: false,
@@ -212,11 +192,11 @@ export function borderControl(object) {
     centeredScaling: false, // Prevent resizing from center
     cornerStyle: "circle", // Use circular corner controls
     transparentCorners: false, // Make corner controls more visible
-    cornerSize: 25, // Set corner control size
+    cornerSize: 10, // Set corner control size
     padding: padding, // Set padding inside the textbox
     lockRotation: true, // Allow rotation
-    // cornerStrokeColor:'#124fea',
-    // cornerStrokeWidth: 15,
+    cornerStrokeColor: "#124fea",
+    cornerStrokeWidth: 5,
   };
   object.set(options);
 }
@@ -233,7 +213,8 @@ export function customCorner(object) {
       y: -0.5,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: (ctx, left, top, styleOverride, fabricObject) => iconVertical(ctx, left, top, styleOverride, fabricObject, "ml"),
+      render: (ctx, left, top, styleOverride, fabricObject) =>
+        iconVertical(ctx, left, top, styleOverride, fabricObject, "ml"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
@@ -245,7 +226,8 @@ export function customCorner(object) {
     y: -0.5,
     actionName: "scale", // Action to perform when clicked
     cursorStyle: "pointer",
-    render: (ctx, left, top, styleOverride, fabricObject) => iconVertical(ctx, left, top, styleOverride, fabricObject, "mr"),
+    render: (ctx, left, top, styleOverride, fabricObject) =>
+      iconVertical(ctx, left, top, styleOverride, fabricObject, "mr"),
     // mouseUpHandler: scaleObject, // Handle scaling on mouse down
     cornerSize: 24, // Control corner size
   });
@@ -257,7 +239,8 @@ export function customCorner(object) {
       y: 0,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: (ctx, left, top, styleOverride, fabricObject) => iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mb"),
+      render: (ctx, left, top, styleOverride, fabricObject) =>
+        iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mb"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
@@ -270,11 +253,38 @@ export function customCorner(object) {
       y: -1,
       actionName: "scale", // Action to perform when clicked
       cursorStyle: "pointer",
-      render: (ctx, left, top, styleOverride, fabricObject) => iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mt"),
+      render: (ctx, left, top, styleOverride, fabricObject) =>
+        iconHorizontal(ctx, left, top, styleOverride, fabricObject, "mt"),
       mouseUpHandler: scaleObject, // Handle scaling on mouse down
       cornerSize: 24, // Control corner size
     });
   }
+
+  // Copy object
+  object.controls.cloneControl = new fabric.Control({
+    x: 0,
+    y: 0.5,
+    offsetX:-12,
+    offsetY:16,
+    cursorStyle: "pointer",
+    mouseUpHandler: copyObject,
+    render: renderIcon(cloneImg),
+    cornerSize: 20,
+  });
+
+  // Delete object
+  object.controls.deleteControl = new fabric.Control({
+    x: 0,
+    y: 0.5,
+    offsetX:12,
+    offsetY:16,
+    cursorStyle: "pointer",
+    mouseUpHandler: deleteObject,
+    render: renderIcon(deleteImage),
+    cornerSize: 20,
+  });
+
+  
 }
 export function cornerControl(obj) {
   const controlPoints = {

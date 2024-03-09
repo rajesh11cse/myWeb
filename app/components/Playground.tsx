@@ -116,7 +116,27 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject }
             <MenuItem icon={<Diamond />} onClick={()=>makeObject("line")}> Line </MenuItem>
             <MenuItem icon={<ShoppingCart />} onClick={()=>makeObject("table")}> Table </MenuItem>
               <SubMenu label="Image" icon={<Calendar />}>
-                <MenuItem> Upload Image</MenuItem>
+                <MenuItem> 
+                
+                
+                <div className="mb-6 pt-4">
+                <label className="formbold-form-label formbold-form-label-2">
+                  Upload File
+                </label>
+                  <div className="formbold-mb-5 formbold-file-input">
+                    <input type="file" name="file" id="file" />
+                    <label for="file">
+                      <div>
+                        <span className="formbold-drop-file"> Drop files here </span>
+                        <span className="formbold-or"> Or </span>
+                        <span className="formbold-browse"> Browse </span>
+                      </div>
+                    </label>
+                    </div>
+                </div>
+                
+                
+                 </MenuItem>
               </SubMenu>
               <MenuItem icon={<Diamond />} onClick={()=>makeObject("signature")}> Signature </MenuItem>
             <MenuItem icon={<BarChart />} onClick={()=>makeObject("rect")}> Box </MenuItem>
