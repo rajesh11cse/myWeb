@@ -17,6 +17,7 @@ import {
   SetRectBoxProperties,
   SetLineProperties,
   SetHeadingTextProperties,
+  SetImageProperties,
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import { TopPanel } from "./TopPanel";
@@ -41,7 +42,7 @@ function TextEditor44() {
     //   });
     //   c.renderAll();
     // });
-    const data =  JSON.parse(localStorage.getItem("jsonData"));
+    const data =  null//JSON.parse(localStorage.getItem("jsonData"));
     console.log("data == > , ", data)
     if (data != null) {
       fabric.util.enlivenObjects(data.objects, (objs) => {
@@ -229,7 +230,6 @@ function TextEditor44() {
     reader.onload = function (event) {
       const imgObj = new Image();
       imgObj.src = event.target.result;
-
       imgObj.onload = function () {
         const imgInstance = new fabric.Image(imgObj);
         imgInstance.set({
@@ -239,8 +239,23 @@ function TextEditor44() {
         currentCanvas.add(imgInstance);
       };
     };
-
     reader.readAsDataURL(file);
+  };
+
+  // http://fabricjs.com/assets/pug.jpg
+  const handleLinkImageUpload = (e) => {
+    console.log("handleLinkImageUpload == > ", e);
+    const imgObj = new Image();
+    imgObj.src = e;
+    imgObj.onload = function () {
+      const img = new fabric.Image(imgObj);
+      img.scaleToWidth(30);
+      img.scaleToHeight(60);
+      SetImageProperties(img, { left: 20, top: 100 })
+      currentCanvas.add(img);
+      currentCanvas.setActiveObject(img);
+      currentCanvas.requestRenderAll();
+    };
   };
 
   function makeObject(type) {
@@ -287,7 +302,7 @@ function TextEditor44() {
         <Button variant="outline-primary" size="sm" onClick={downloadPdf}>Download</Button>{' '}
       </div> */}
       <div className="container" style={{ padding: 0 }}>
-        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject} />
+        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject} uploadImage={handleLinkImageUpload} />
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage

@@ -79,6 +79,16 @@ export function SetLineProperties(obj, position) {
   borderControl(obj);
 }
 
+export function SetImageProperties(obj, position) {
+  const options = {
+    left: position.left,
+    top: position.top,
+  };
+  obj.set(options);
+  cornerControl(obj);
+  borderControl(obj);
+}
+
 // Define a function to handle scaling action
 function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
   // const pointer = currentCanvas.getPointer(mouseMoveEvent.e);
@@ -94,7 +104,6 @@ function scaleObject(target, mouseDownEvent, mouseMoveEvent) {
 
 function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
   // Return without adding icons
-  return;
   if (fabricObject.type == "i-text" && (scale == "mb" || scale == "mt")) {
     return;
   }
@@ -116,7 +125,6 @@ function iconHorizontal(ctx, left, top, styleOverride, fabricObject, scale) {
 
 // Define a function to render the scaling icon
 function iconVertical(ctx, left, top, styleOverride, fabricObject, scale) {
-  return;
   // Return without adding icons
   if (fabricObject.type == "i-text" && scale == "ml") {
     return;
@@ -259,7 +267,10 @@ export function customCorner(object) {
       cornerSize: 24, // Control corner size
     });
   }
+}
 
+
+export function createActions(object) {
   // Copy object
   object.controls.cloneControl = new fabric.Control({
     x: 0,
@@ -283,9 +294,8 @@ export function customCorner(object) {
     render: renderIcon(deleteImage),
     cornerSize: 20,
   });
-
-  
 }
+
 export function cornerControl(obj) {
   const controlPoints = {
     mt: false,
@@ -314,10 +324,6 @@ export function cornerControl(obj) {
     controlPoints.ml = true;
     controlPoints.mr = true;
   } else if (obj.type == "image") {
-    controlPoints.mt = true;
-    controlPoints.ml = true;
-    controlPoints.mr = true;
-    controlPoints.mb = true;
     controlPoints.tl = true;
     controlPoints.tr = true;
     controlPoints.bl = true;
@@ -337,5 +343,6 @@ export function cornerControl(obj) {
   });
   obj.controls.mtr = control;
   obj.setCoords();
-  customCorner(obj); // Set custom corners
+  // customCorner(obj); // Set custom corners
+  createActions(obj); // Set custom corners
 }

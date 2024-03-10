@@ -11,7 +11,7 @@ const Canvas = (props) => {
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
   useEffect(() => {
-    fabric.Object.prototype.minScaleLimit = 0.5;
+    // fabric.Object.prototype.minScaleLimit = 0.5;
     currentCanvas = new fabric.Canvas(canvasRef.current, {
       renderOnAddRemove: false,
       noScaleCache: true,

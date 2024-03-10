@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu, menuClasses, MenuItemStyles } from "react-pro-sidebar";
 import { SidebarHeader } from './SidebarHeader';
 import { Diamond } from './icons/Diamond';
@@ -9,6 +9,25 @@ import { ShoppingCart } from './icons/ShoppingCart';
 import { SidebarFooter } from './SidebarFooter';
 import { Typography } from './Typography';
 import "../css/LeftSideBar.css"; // Assume you have a CSS file for styling
+
+import {
+  Button,
+  ButtonGroup,
+  DropdownButton,
+  Dropdown,
+  FloatingLabel,
+  InputGroup,
+  Form,
+  FormControl,
+  ToggleButton,
+  ToggleButtonGroup,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { HttpLink } from "../assets/icons/HttpLink";
+
+
 
 const themes = {
   light: {
@@ -42,12 +61,16 @@ const hexToRgba = (hex: string, alpha: number) => {
 interface MyComponentProps {
   collapsed: boolean;
   makeObject: (type:string) => void;
+  uploadImage: (type:string) => void;
 }
 
-export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject }) => {
+export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject, uploadImage }) => {
   const rtl = false
   const hasImage = false
   const theme = 'light'
+
+  const [imageLink, setImageLink] = useState("");
+
   
   const menuItemStyles: MenuItemStyles = {
     root: {
@@ -83,6 +106,13 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject }
     }),
   };
 
+
+
+  
+  const handleImageLinkChange = (e: any) => {
+    setImageLink(e.target.value);
+  };
+
   return (
     <div style={{ display: 'contents', height: '100%', direction: 'ltr' }}>
       <Sidebar
@@ -116,27 +146,28 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject }
             <MenuItem icon={<Diamond />} onClick={()=>makeObject("line")}> Line </MenuItem>
             <MenuItem icon={<ShoppingCart />} onClick={()=>makeObject("table")}> Table </MenuItem>
               <SubMenu label="Image" icon={<Calendar />}>
-                <MenuItem> 
-                
-                
-                <div className="mb-6 pt-4">
-                <label className="formbold-form-label formbold-form-label-2">
-                  Upload File
-                </label>
-                  <div className="formbold-mb-5 formbold-file-input">
-                    <input type="file" name="file" id="file" />
-                    <label for="file">
-                      <div>
+                {/* <MenuItem style={{height:'100%'}}>  */}
+                <div  className="image-container">
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="https://"
+                    aria-label="Color code"
+                    aria-describedby="basic-addon2"
+                    onChange={handleImageLinkChange}
+                    size='sm'
+                  />
+                </InputGroup>
+                <Button variant="primary" disabled={!imageLink} onClick={() => uploadImage(imageLink)}> Submit </Button>
+
+                <span className="formbold-or"> Or </span>
+
+                  <div className="formbold-file-input">
+                    {/* <input type="file" name="file" id="file" /> */}
                         <span className="formbold-drop-file"> Drop files here </span>
-                        <span className="formbold-or"> Or </span>
                         <span className="formbold-browse"> Browse </span>
                       </div>
-                    </label>
-                    </div>
                 </div>
-                
-                
-                 </MenuItem>
+                 {/* </MenuItem> */}
               </SubMenu>
               <MenuItem icon={<Diamond />} onClick={()=>makeObject("signature")}> Signature </MenuItem>
             <MenuItem icon={<BarChart />} onClick={()=>makeObject("rect")}> Box </MenuItem>

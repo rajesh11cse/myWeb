@@ -62,47 +62,71 @@
   }
 }
 
-.formbold-mb-5 {
-  margin-bottom: 20px;
+
+.image-container {
+    margin: 5px 8px;
+    border: 1px dashed #c8c8c8 !important;
+    border-radius: 5px;
+    padding: 4% 2% !important;
+    text-align: center;
+
+    button {
+      color: black;
+      font-size: 13px;
+      border: 1px solid #c0c0c0;
+      border-radius: 0 2px 2px 0;
+      &:hover {
+        color: black;
+        background-color: #607489;
+        border-color: #607489;
+      }
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+
+    input {
+      border: 1px solid #c0c0c0;
+      border-radius: 2px 0 0 2px;
+      &::placeholder {
+        color: #999; /* Change to any color you prefer */
+        opacity: 0.7; /* Change to any opacity value you prefer */
+        font-family: inherit;
+      }
+      &:hover {
+        border-color: #607489;
+      }
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
 }
-.formbold-form-label {
-  display: block;
-  font-weight: 500;
-  font-size: 16px;
-  color: #07074d;
-  margin-bottom: 12px;
-}
-.formbold-form-label-2 {
-  font-weight: 600;
-  font-size: 20px;
-  margin-bottom: 20px;
-}
+
+
 .formbold-file-input input {
   opacity: 0;
   position: absolute;
-  width: 100%;
-  height: 100%;
 }
 .formbold-drop-file {
   display: block;
   font-weight: 600;
   color: #07074d;
-  font-size: 20px;
+  font-size: 14px;
   margin-bottom: 8px;
 }
 .formbold-or {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 13px;
   color: #6b7280;
   display: block;
   margin-bottom: 8px;
 }
 .formbold-browse {
   font-weight: 500;
-  font-size: 16px;
-  color: #07074d;
+  font-size: 14px;
+  color: #2c2c44;
   display: inline-block;
-  padding: 8px 28px;
+  padding: 4px 12px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
 }
