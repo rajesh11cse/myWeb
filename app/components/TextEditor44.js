@@ -5,10 +5,9 @@ import myData from "./abc.json";
 import { Playground } from "./Playground";
 import ZoomPage from "./ZoomPage";
 import { fabric } from "fabric";
-import { GetStyledClass,  GetBodyContent} from "./htmlData";
+import { GetStyledClass, GetBodyContent } from "./htmlData";
 
-
-GetStyledClass
+GetStyledClass;
 
 import {
   SetTextBoxProperties,
@@ -32,23 +31,19 @@ function TextEditor44() {
   const [leftSliderCloseStatus, setLeftSliderCloseStatus] = useState(false);
   const [currentCanvas, setCurrentCanvas] = useState(null);
   const [selectedObject, setSelectedObject] = useState(null);
-  const [canvasHistory, setCanvasHistory] = useState([]);
+
+  // For undo and redo only
+  const [undoStack, setUndoStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+
   const loadJSONData = function (c) {
-    // c.loadFromJSON(myData, () => {
-    //   c.getObjects().forEach((obj) => {
-    //     console.log(obj.type);
-    //     borderControl(obj);
-    //     cornerControl(obj);
-    //   });
-    //   c.renderAll();
-    // });
-    const data =  null//JSON.parse(localStorage.getItem("jsonData"));
-    console.log("data == > , ", data)
+    const data = JSON.parse(localStorage.getItem("jsonData"));
+    console.log("data == > , ", data);
     if (data != null) {
       fabric.util.enlivenObjects(data.objects, (objs) => {
         objs.forEach((item) => {
           c.add(item);
-          if (item.type == "rect"){
+          if (item.type == "rect") {
             c.sendToBack(item);
           }
           borderControl(item);
@@ -64,7 +59,6 @@ function TextEditor44() {
           borderControl(item);
           cornerControl(item);
         });
-        console.log("json data loads done");
         c.renderAll(); // Make sure to call this once you're ready!
       });
     }
@@ -83,16 +77,15 @@ function TextEditor44() {
   // handle current active canvas
   const handleCurrentCanvas = (c) => {
     setCurrentCanvas(c);
-    // console.log("==>>", c.current);
   };
 
   // Add a new Text
   const addNewText = () => {
     const activeObject = currentCanvas.getActiveObject();
-    if (activeObject && activeObject.type === "textbox") {
+    if (activeObject) {
       const activeCoords = activeObject.getBoundingRect();
       const newY = activeObject.top + activeCoords.height + 10;
-      addTextBox({ left: activeObject.left, top: newY });
+      addTextBox({ left: activeObject.left + 10, top: newY });
     } else {
       addTextBox({ left: 20, top: 20 });
     }
@@ -109,7 +102,6 @@ function TextEditor44() {
       createTitle({ left: 20, top: 20 });
     }
   };
-
 
   const createTitle = (position) => {
     let title = new fabric.IText("", {});
@@ -153,15 +145,6 @@ function TextEditor44() {
     currentCanvas.renderAll();
   };
 
-  // Remove the selected object (textbox)
-  const removeObject = () => {
-    const selectedObject = currentCanvas.getActiveObject();
-    if (selectedObject) {
-      currentCanvas.remove(selectedObject);
-      currentCanvas.renderAll();
-    }
-  };
-
   // Select object
   const selectObject = (obj) => {
     setSelectedObject(obj);
@@ -180,15 +163,6 @@ function TextEditor44() {
     localStorage.setItem("jsonData", JSON.stringify(json));
   };
 
-  // Function to save canvas content as JSON
-  const downloadPdf = () => {
-    // only jpeg is supported by jsPDF
-    // var imgData = currentCanvas.toDataURL("image/jpeg", 1.0);
-    // var pdf = new jsPDF();
-    // pdf.addImage(imgData, 'JPEG', 0, 0);
-    // pdf.save("download.pdf");
-  };
-
   // Close slider
   const closeSliderRight = () => {
     setSliderCloseStatus(!sliderCloseStatus);
@@ -196,32 +170,6 @@ function TextEditor44() {
 
   const closeSliderLeft = () => {
     setLeftSliderCloseStatus(!leftSliderCloseStatus);
-  };
-
-  // Function to undo
-  const undo = () => {
-    console.log("anvasHistory ==> ", canvasHistory.length);
-    if (canvasHistory.length > 1) {
-      const previousState = canvasHistory[canvasHistory.length - 2];
-      setCanvasHistory((prevHistory) => prevHistory.slice(0, -1));
-      // const canvas = canvasRef.current;
-      if (currentCanvas) {
-        currentCanvas.clear();
-        currentCanvas.loadFromJSON(previousState);
-        currentCanvas.renderAll();
-      }
-    }
-  };
-
-  // Function to redo
-  const redo = () => {
-    const currentState = canvasHistory[canvasHistory.length - 1];
-    // const canvas = canvasRef.current;
-    if (currentCanvas && currentState) {
-      currentCanvas.clear();
-      currentCanvas.loadFromJSON(currentState);
-      currentCanvas.renderAll();
-    }
   };
 
   const handleImageUpload = (e) => {
@@ -251,7 +199,7 @@ function TextEditor44() {
       const img = new fabric.Image(imgObj);
       img.scaleToWidth(30);
       img.scaleToHeight(60);
-      SetImageProperties(img, { left: 20, top: 100 })
+      SetImageProperties(img, { left: 20, top: 100 });
       currentCanvas.add(img);
       currentCanvas.setActiveObject(img);
       currentCanvas.requestRenderAll();
@@ -265,7 +213,7 @@ function TextEditor44() {
       addLine();
     } else if (type == "text") {
       addNewText();
-    }else if (type == "header") {
+    } else if (type == "header") {
       addTitle();
     }
   }
@@ -274,35 +222,99 @@ function TextEditor44() {
     const json = currentCanvas.toJSON(); // Convert canvas to JSON
     delete json.backgroundImage; // Remove any background image
 
-    let finalStyledClass = `<style>`
-    let finalBodyContent = `<div>`
+    let finalStyledClass = `<style>`;
+    let finalBodyContent = `<div>`;
     json.objects.forEach((element, i) => {
       let { className, styledClass } = GetStyledClass(element, i);
       let { bodyContent } = GetBodyContent(element, className);
-      finalStyledClass = finalStyledClass+"\n"+styledClass
-      finalBodyContent = finalBodyContent+"\n"+bodyContent
-
+      finalStyledClass = finalStyledClass + "\n" + styledClass;
+      finalBodyContent = finalBodyContent + "\n" + bodyContent;
     });
-
-    console.log("finalStyledClass == > ", finalStyledClass)
-    console.log("finalBodyContent == > ", finalBodyContent)
+    console.log("finalStyledClass == > ", finalStyledClass);
+    console.log("finalBodyContent == > ", finalBodyContent);
   }
+
+  useEffect(() => {
+    if (currentCanvas) {
+      const handleObjectModified = (options) => {
+        const newState = currentCanvas.toJSON();
+        setUndoStack((prevUndoStack) => [...prevUndoStack, newState]);
+      };
+      currentCanvas.on("object:modified", handleObjectModified);
+      return () => {
+        currentCanvas.off("object:modified", handleObjectModified);
+      };
+    }
+  }, [currentCanvas]);
+
+  useEffect(() => {
+    const handleUndoRedo = (event) => {
+      if (event.metaKey && event.key === "z" && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      } else if (event.metaKey && event.key === "z" && event.shiftKey) {
+        event.preventDefault();
+        redo();
+      }
+    };
+
+    document.addEventListener("keydown", handleUndoRedo);
+    return () => {
+      document.removeEventListener("keydown", handleUndoRedo);
+    };
+  }, [undoStack, redoStack]);
+
+  const undo = () => {
+    if (undoStack.length > 0 && currentCanvas) {
+      const prevState = undoStack.slice(-2)[0];
+      const newUndoStack = undoStack.slice(0, -1);
+      setRedoStack([...redoStack, prevState]);
+      console.log("prevState == > ", prevState);
+      console.log("newUndoStack == > ", newUndoStack);
+      applyCustomPropertiesAndListeners(currentCanvas, prevState);
+      setUndoStack(newUndoStack);
+    }
+  };
+
+
+  const applyCustomPropertiesAndListeners = (c, jsonState) => {
+    // Restore custom properties and listeners for each object in the JSON state
+    c.loadFromJSON(jsonState, () => {
+      c.getObjects().forEach(item => {
+        if (item.type == "rect") {
+          c.sendToBack(item);
+        }
+        borderControl(item);
+        cornerControl(item);
+      });
+      c.renderAll();
+    });
+  };
+
+
+  const redo = () => {
+    if (redoStack.length > 0 && currentCanvas) {
+      const nextState = redoStack.slice(-1)[0];
+      const newRedoStack = redoStack.slice(0, -1);
+      setUndoStack([...undoStack, nextState]);
+      applyCustomPropertiesAndListeners(currentCanvas, nextState);
+      setRedoStack(newRedoStack);
+    }
+  };
 
   return (
     <div>
-      <TopPanel saveFile={saveAsJSON} downloadFile={download} clearPage={clearCanvas} />
-      {/* <div className="editorTopCon">
-        <button onClick={() => undo()}>Undo</button>
-        <button onClick={() => redo()}>Redo</button>
-        <button onClick={() => removeObject()}> Remove </button>
-        <Button variant="outline-success" size="sm" onClick={() => closeSliderLeft()}>Close L</Button>{' '}
-        <Button variant="outline-success" size="sm" onClick={() => closeSliderRight()}>Close R</Button>{' '}
-        <Button variant="outline-success" size="sm">Clear</Button>{' '}
-        <Button variant="outline-success" size="sm" onClick={saveAsJSON}>Save</Button>{' '}
-        <Button variant="outline-primary" size="sm" onClick={downloadPdf}>Download</Button>{' '}
-      </div> */}
+      <TopPanel
+        saveFile={saveAsJSON}
+        downloadFile={download}
+        clearPage={clearCanvas}
+      />
       <div className="container" style={{ padding: 0 }}>
-        <Playground collapsed={leftSliderCloseStatus} makeObject={makeObject} uploadImage={handleLinkImageUpload} />
+        <Playground
+          collapsed={leftSliderCloseStatus}
+          makeObject={makeObject}
+          uploadImage={handleLinkImageUpload}
+        />
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage

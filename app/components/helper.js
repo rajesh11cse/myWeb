@@ -20,7 +20,7 @@ export function SetTextBoxProperties(textBox, position) {
     height: 700,
     fontSize: 16,
     fill: "#000",
-    fontFamily: "Century Gothic",
+    fontFamily: "Arial",
     textAlign: "left",
     selectable: 1,
   };
@@ -37,7 +37,7 @@ export function SetHeadingTextProperties(textBox, position) {
     width: 500,
     fontSize: 25, // Fixed font size
     fill: "#000",
-    fontFamily: "Century Gothic",
+    fontFamily: "Arial",
     textAlign: "left",
     lockScalingFlip:true
   };

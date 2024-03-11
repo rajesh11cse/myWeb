@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  menuClasses,
-  MenuItemStyles,
-} from "react-pro-sidebar";
+
 import { SketchPicker } from "react-color";
 import {
   DropdownCont,
@@ -16,29 +9,23 @@ import {
   InputGroupCont,
   TextAreaCont,
   ColorPickCont,
-  WordEditCont,
-  CBtn,
 } from "../css/styled";
 import {
   Button,
   ButtonGroup,
-  DropdownButton,
   Dropdown,
-  FloatingLabel,
   InputGroup,
   Form,
-  FormControl,
-  ToggleButton,
-  ToggleButtonGroup,
   Container,
   Row,
   Col,
 } from "react-bootstrap";
 
-import { TextAlignJustify } from "../assets/icons/TextAlignJustify";
-import { TextAlignCenter } from "../assets/icons/TextAlignCenter";
-import { TextAlignRight } from "../assets/icons/TextAlignRight";
-import { TextAlignLeft } from "../assets/icons/TextAlignLeft";
+
+// SVG Icons
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp, faAngleDown, faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight } from '@fortawesome/free-solid-svg-icons';
 
 interface TextEditProps {
   selectedObject: any;
@@ -82,11 +69,6 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     "engagement",
   ];
 
-  const fontSizeArray = [
-    5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-    25, 26, 50
-  ];
-
   function setFontStyleHandler(type: string, v: any) {
     let fontStyleObj = {
       fontWeight: fontStyle.fontWeight,
@@ -114,10 +96,10 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     } else if (type === "fill") {
       fontStyleObj.fill = v;
     }
-    console.log("type ==> ", type)
-    console.log("v ==> ", v)
     selectedObject.set(type, v);
     setFontStyle(fontStyleObj);
+    // Trigger modification event
+    currentCanvas.fire('object:modified', { target: selectedObject });
     currentCanvas.renderAll();
   }
 
@@ -134,6 +116,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    
   }, []);
 
   useEffect(() => {
@@ -156,9 +139,26 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     }
   }, [selectedObject]);
 
+
+
+  useEffect(() => {
+    currentCanvas.on('mouse:up', function(event:any) {
+      const selection = event.target;
+      // Check if there is a selection
+      if (selection && selection.isEditing) {
+        const selectionStart = selection.selectionStart;
+        const selectionEnd = selection.selectionEnd;
+        console.log("selectionStart == > ", selectionStart)
+      }
+    });
+  }, [])
+
+
   function setTextNewValue(v:string) {
     setTextValue(v);
     selectedObject.text = v;
+    // Trigger modification event
+    currentCanvas.fire('object:modified', { target: selectedObject });
     currentCanvas.renderAll();
   }
 
@@ -171,6 +171,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
     setSelectedColor(e.target.value);
     setFontStyleHandler("fill", selectedColor);
   };
+
 
 
   return (
@@ -257,20 +258,23 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
           <Col lg={5}>
             <DropdownCont>
               <Dropdown className="mr-3" drop="down">
-                <ButtonGroup>
-                  <Button
-                    className="w-100"
-                    variant="success"
-                    style={{ minWidth: "73px", textAlign: "left" }}
-                  >
-                    {fontStyle.fontSize}
-                  </Button>
-                  <Dropdown.Toggle
-                    split
-                    variant="success"
-                    id="dropdown-split-basic"
-                  />
-                </ButtonGroup>
+              <ButtonGroup>
+                <Button onClick={()=>setFontStyleHandler("fontSize", fontStyle.fontSize-1)}>
+                  <FontAwesomeIcon icon={faAngleDown as IconProp} />
+                </Button>
+                <Button disabled variant="primary">{fontStyle.fontSize}</Button>
+               {/*  <input
+                  type="number"
+                  value={fontSize}
+                  onChange={handleFontSizeChange}
+                  style={{ width: '60px', textAlign: 'center' }}
+                /> */}
+
+                <Button onClick={()=>setFontStyleHandler("fontSize", fontStyle.fontSize+1)}>
+                  <FontAwesomeIcon icon={faAngleUp as IconProp} />
+                </Button>
+              </ButtonGroup>
+{/* 
                 <Dropdown.Menu className="drop_down_menu">
                   {fontSizeArray.map((val, index) => (
                     <Dropdown.Item
@@ -280,7 +284,7 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                       {val}
                     </Dropdown.Item>
                   ))}
-                </Dropdown.Menu>
+                </Dropdown.Menu> */}
               </Dropdown>
             </DropdownCont>
           </Col>
@@ -372,28 +376,28 @@ export const TextEdit: React.FC<TextEditProps> = (props) => {
                   active={fontStyle.textAlign == "left" ? true : false}
                   onClick={() => setFontStyleHandler("textAlign", "left")}
                 >
-                  <TextAlignLeft />
+                  <FontAwesomeIcon icon={faAlignLeft} />
                 </Button>
                 <Button
                   variant="success"
                   active={fontStyle.textAlign == "center" ? true : false}
                   onClick={() => setFontStyleHandler("textAlign", "center")}
                 >
-                  <TextAlignCenter />
+                  <FontAwesomeIcon icon={faAlignCenter} />
                 </Button>
                 <Button
                   variant="success"
                   active={fontStyle.textAlign == "right" ? true : false}
                   onClick={() => setFontStyleHandler("textAlign", "right")}
                 >
-                  <TextAlignRight />
+                   <FontAwesomeIcon icon={faAlignRight} />
                 </Button>
                 <Button
                   variant="success"
                   active={fontStyle.textAlign == "justify" ? true : false}
                   onClick={() => setFontStyleHandler("textAlign", "justify")}
                 >
-                  <TextAlignJustify />
+                  <FontAwesomeIcon icon={faAlignJustify} />
                 </Button>
               </ButtonGroup>
             </ButtonGroupCont>

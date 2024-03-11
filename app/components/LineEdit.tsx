@@ -37,10 +37,9 @@ import {
   Col,
 } from "react-bootstrap";
 
-import { TextAlignJustify } from "../assets/icons/TextAlignJustify";
-import { TextAlignCenter } from "../assets/icons/TextAlignCenter";
-import { TextAlignRight } from "../assets/icons/TextAlignRight";
-import { TextAlignLeft } from "../assets/icons/TextAlignLeft";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPercent } from '@fortawesome/free-solid-svg-icons';
+
 
 interface TextEditProps {
   selectedObject: any;
@@ -102,6 +101,8 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
       }
     }
     selectedObject.set(type, v);
+    // Trigger modification event
+    currentCanvas.fire('object:modified', { target: selectedObject });
     setLineStyle(lineStyle);
     currentCanvas.renderAll();
   }
@@ -278,10 +279,9 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
                         <Button
                           style={{ padding: "5px" }}
                           disabled
-                          variant="secondary"
+                          variant="primary"
                         >
-                          {" "}
-                          %{" "}
+                         <FontAwesomeIcon icon={faPercent} />
                         </Button>
                       </InputGroup>
                     </InputGroupCont>
@@ -318,9 +318,8 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
                   onChange={handleOpacity}
                   style={{ padding: "5px" }}
                 />
-                <Button style={{ padding: "5px" }} disabled variant="secondary">
-                  {" "}
-                  %{" "}
+                <Button style={{ padding: "5px" }} disabled variant="primary">
+                  <FontAwesomeIcon icon={faPercent} />
                 </Button>
               </InputGroup>
             </InputGroupCont>

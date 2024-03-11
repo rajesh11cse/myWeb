@@ -10,6 +10,10 @@ const Canvas = (props) => {
   const canvasRef = useRef(null);
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
+  // For undo and redo only
+  const [undoStack, setUndoStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+
   useEffect(() => {
     // fabric.Object.prototype.minScaleLimit = 0.5;
     currentCanvas = new fabric.Canvas(canvasRef.current, {
@@ -46,7 +50,8 @@ const Canvas = (props) => {
 
     currentCanvas.on("mouse:out", function (e) {
       const object = e.target;
-      if (object) {
+      const selectedObject = currentCanvas.getActiveObject();
+      if (object && object != selectedObject) {
         currentCanvas.clearContext(currentCanvas.contextTop);
       }
     });
@@ -60,36 +65,99 @@ const Canvas = (props) => {
       }
     });
 
-    // Move object using keyboard left and right arrow keys
-    const handleKeyDown = (event) => {
-      // event.preventDefault(); // Prevent default behavior for arrow keys
-      const activeObject = currentCanvas.getActiveObject();
-      console.log(event.keyCode);
-      switch (event.keyCode) {
-        case 37: // left arrow
-          activeObject.set("left", activeObject.left - 5); // Move left
-          break;
-        case 39: // right arrow
-          activeObject.set("left", activeObject.left + 5); // Move right
-          break;
-        // case 38: // up arrow
-        //   activeObject.set("top", activeObject.top - 5); // Move up
-        //   break;
-        // case 40: // down arrow
-        //   activeObject.set("left", activeObject.top + 5); // Move down
-        //   break;
-        default:
-          break;
-      }
-      currentCanvas.renderAll();
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
       currentCanvas.dispose(currentCanvas);
     };
   }, []);
+
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     // event.preventDefault(); // Prevent default behavior for arrow keys
+  //     const activeObject = currentCanvas.getActiveObject();
+  //     console.log(event.keyCode);
+  //     switch (event.keyCode) {
+  //       case 37: // left arrow
+  //         activeObject.set("left", activeObject.left - 5); // Move left
+  //         currentCanvas.renderAll();
+  //         break;
+  //       case 39: // right arrow
+  //         activeObject.set("left", activeObject.left + 5); // Move right
+  //         currentCanvas.renderAll();
+  //         break;
+  //       // case 38: // up arrow
+  //       //   activeObject.set("top", activeObject.top - 5); // Move up
+  //       //   break;
+  //       // case 40: // down arrow
+  //       //   activeObject.set("left", activeObject.top + 5); // Move down
+  //       //   break;
+  //       default:
+  //         break;
+  //     }
+  //   };
+
+  //   document.addEventListener("keydown", handleKeyDown);
+  //   return () => {
+  //     document.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [currentCanvas]);
+
+  // useEffect(() => {
+  //   if (currentCanvas) {
+  //     const handleObjectModified = (options) => {
+  //       const newState = currentCanvas.toJSON();
+  //       setUndoStack((prevUndoStack) => [...prevUndoStack, newState]);
+  //     };
+  
+  //     currentCanvas.on("object:modified", handleObjectModified);
+  //     return () => {
+  //       currentCanvas.off("object:modified", handleObjectModified);
+  //     };
+  //   }
+  // }, [currentCanvas]);
+
+
+
+  // useEffect(() => {
+  //   const handleUndoRedo = (event) => {
+  //     if (event.metaKey && event.key === "z" && !event.shiftKey) {
+  //       // event.preventDefault();
+  //       undo();
+  //     } else if (event.metaKey && event.key === "z" && event.shiftKey) {
+  //       // event.preventDefault();
+  //       redo();
+  //     }
+  //   };
+  
+  //   document.addEventListener("keydown", handleUndoRedo);
+  //   return () => {
+  //     document.removeEventListener("keydown", handleUndoRedo);
+  //   };
+  // }, [undoStack, redoStack]);
+
+
+
+  const undo = () => {
+    console.log("undoStack == > ", undoStack)
+    console.log("currentCanvas == > ", canvasRef.current)
+    if (undoStack.length > 0 &&  currentCanvas.current) {
+      const prevState = undoStack.slice(-2)[0];
+      const newUndoStack = undoStack.slice(0, -1);
+      setRedoStack([...redoStack, prevState]);
+      currentCanvas.current.loadFromJSON(prevState, () => currentCanvas.current.renderAll());
+      console.log("newUndoStack ==");
+      setUndoStack(newUndoStack);
+    }
+  };
+
+  const redo = () => {
+    if (redoStack.length > 0) {
+      const nextState = redoStack.slice(-1)[0];
+      const newRedoStack = redoStack.slice(0, -1);
+      setUndoStack([...undoStack, nextState]);
+      currentCanvas.loadFromJSON(nextState, () => currentCanvas.renderAll());
+      setRedoStack(newRedoStack);
+    }
+  };
 
   // This is used for zoom in scaling
   useEffect(() => {
