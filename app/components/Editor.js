@@ -22,7 +22,10 @@ import EditTextBar from "./EditTextBar";
 import { TopPanel } from "./TopPanel";
 import Canvas from "./Canvas";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-function TextEditor44() {
+
+
+
+function Editor() {
   // Refs
   const canvasContainerRef = useRef(null);
   // Stats
@@ -192,7 +195,6 @@ function TextEditor44() {
 
   // http://fabricjs.com/assets/pug.jpg
   const handleLinkImageUpload = (e) => {
-    console.log("handleLinkImageUpload == > ", e);
     const imgObj = new Image();
     imgObj.src = e;
     imgObj.onload = function () {
@@ -236,6 +238,8 @@ function TextEditor44() {
 
   useEffect(() => {
     if (currentCanvas) {
+      const initialState = currentCanvas.toJSON();
+      setUndoStack((prevUndoStack) => [...prevUndoStack, initialState]);
       const handleObjectModified = (options) => {
         const newState = currentCanvas.toJSON();
         setUndoStack((prevUndoStack) => [...prevUndoStack, newState]);
@@ -264,19 +268,6 @@ function TextEditor44() {
     };
   }, [undoStack, redoStack]);
 
-  const undo = () => {
-    if (undoStack.length > 0 && currentCanvas) {
-      const prevState = undoStack.slice(-2)[0];
-      const newUndoStack = undoStack.slice(0, -1);
-      setRedoStack([...redoStack, prevState]);
-      console.log("prevState == > ", prevState);
-      console.log("newUndoStack == > ", newUndoStack);
-      applyCustomPropertiesAndListeners(currentCanvas, prevState);
-      setUndoStack(newUndoStack);
-    }
-  };
-
-
   const applyCustomPropertiesAndListeners = (c, jsonState) => {
     // Restore custom properties and listeners for each object in the JSON state
     c.loadFromJSON(jsonState, () => {
@@ -290,6 +281,21 @@ function TextEditor44() {
       c.renderAll();
     });
   };
+
+
+  const undo = () => {
+    if (undoStack.length > 0 && currentCanvas) {
+      const prevState = undoStack.slice(-1)[0];
+      const newUndoStack = undoStack.slice(0, -1);
+      setRedoStack([...redoStack, prevState]);
+      console.log("undoStack == > ", undoStack);
+      console.log("redoStack == > ", redoStack);
+      applyCustomPropertiesAndListeners(currentCanvas, prevState);
+      setUndoStack(newUndoStack);
+    }
+  };
+
+
 
 
   const redo = () => {
@@ -322,14 +328,15 @@ function TextEditor44() {
               handleZoomChange={(e) => handleZoomChange(e)}
             />
             <Container fluid ref={canvasContainerRef}>
-              {[1].map((_, index) => (
-                <Row style={{ marginBottom: 10 }} key={index}>
+              {[1, 2].map((_, index) => (
+                <Row key={index}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
                       handleCurrentCanvas={(c) => handleCurrentCanvas(c)}
                       zoom={zoom}
                       loadData={(c) => loadJSONData(c)}
                       selectObject={(c) => selectObject(c)}
+                      index={index}
                     />
                   </Col>
                 </Row>
@@ -349,4 +356,4 @@ function TextEditor44() {
   );
 }
 
-export default TextEditor44;
+export default Editor;

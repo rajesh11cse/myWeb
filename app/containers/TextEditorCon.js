@@ -1,14 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import TextEditor from '../components/TextEditor';
-import LeftSideBar from '../components/LeftSideBar';
-// import TextEditor2 from '../components/TextEditor2';
-//  import TextEditor4 from '../components/TextEditor4';
- import TextEditor44 from '../components/TextEditor44';
-import EditTextBar from '../components/EditTextBar';
-
-
-
+import Editor from '../components/Editor';
 
 export class TextEditorCon extends React.Component {
   constructor(props) {
@@ -20,8 +12,7 @@ export class TextEditorCon extends React.Component {
   render() {
     return (
       <React.Fragment>
-      <TextEditor44/>
-      {/* <EditTextBar/> */}
+        <Editor/>
       </React.Fragment>
     );
   }
@@ -32,15 +23,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(TextEditorCon);
-
-
-// render() {
-//   return (
-//     // <div className="app">
-//       {/* <LeftSideBar/> */}
-//       <TextEditor2/>
-//       {/* <TextEditor/> */}
-//   //  </div>
-//   );
-// }
-// };

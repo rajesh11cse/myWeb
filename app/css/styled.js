@@ -87,7 +87,6 @@ export const FormInputCont = styled.div`
   }
 `;
 
-
 export const RangeSlider = styled.div`
   position: relative;
   top: 28%;
@@ -122,7 +121,7 @@ export const RangeSlider = styled.div`
   input[type="range"]::-webkit-slider-thumb:hover {
     background: #fff;
   }
-  
+
   input[type="range"]::-webkit-slider-runnable-track {
     background: linear-gradient(
       to right,
@@ -292,7 +291,6 @@ export const CBtn = styled.button`
   }
 `;
 
-
 export const TopPanelCon = styled.div`
   position: fixed;
   top: 40px;
@@ -304,4 +302,25 @@ export const TopPanelCon = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   /* border: 1px solid gray; */
   z-index: 10;
-`
+`;
+
+export const NewPageDashLineCon = styled.div`
+  top: -3px;
+  position: relative;
+  display: inline-block;
+  width: 156px;
+  border-top: 1px dashed #6c757d;
+`;
+
+export const DeletePageCon = styled.div`
+  position: absolute;
+  cursor: pointer;
+  width: 600px;
+  top: -6px;
+  right: -267px;
+  svg {
+    &:hover {
+      color: black;
+    }
+  }
+`;

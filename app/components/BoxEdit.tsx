@@ -86,15 +86,6 @@ export const BoxEdit: React.FC<TextEditProps> = (props) => {
     currentCanvas.renderAll();
   };
 
-
-  useEffect(() => {
-   /*  currentCanvas.on("object:scaling", function (options:any) {
-      let obj = options.target;
-      console.log("selectedObject = > ", obj)
-    }); */
-  }, []);
-
-
   return (
     <>
       <Container fluid>
