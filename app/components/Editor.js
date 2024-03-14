@@ -23,8 +23,6 @@ import { TopPanel } from "./TopPanel";
 import Canvas from "./Canvas";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
-
-
 function Editor() {
   // Refs
   const canvasContainerRef = useRef(null);
@@ -33,13 +31,24 @@ function Editor() {
   const [sliderCloseStatus, setSliderCloseStatus] = useState(false);
   const [leftSliderCloseStatus, setLeftSliderCloseStatus] = useState(false);
   const [currentCanvas, setCurrentCanvas] = useState(null);
+  const [currentCanvasRef, setCurrentCanvasRef] = useState(null);
+
   const [selectedObject, setSelectedObject] = useState(null);
 
   // For undo and redo only
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
 
-  const loadJSONData = function (c) {
+  const [canvases, setCanvases] = useState([]);
+
+  let canvasRefs = [];
+  for (let i = 0; i < 10; i++) {
+    canvasRefs.push(useRef(null));
+  }
+  const loadJSONData = function (c, index) {
+    if (index == 2) {
+      return;
+    }
     const data = JSON.parse(localStorage.getItem("jsonData"));
     console.log("data == > , ", data);
     if (data != null) {
@@ -78,8 +87,10 @@ function Editor() {
   };
 
   // handle current active canvas
-  const handleCurrentCanvas = (c) => {
+  const handleCurrentCanvas = (c, index) => {
+    setCanvases((prevCanvases) => [...prevCanvases, c]);
     setCurrentCanvas(c);
+    setCurrentCanvasRef(canvasRefs[index - 1]);
   };
 
   // Add a new Text
@@ -271,7 +282,7 @@ function Editor() {
   const applyCustomPropertiesAndListeners = (c, jsonState) => {
     // Restore custom properties and listeners for each object in the JSON state
     c.loadFromJSON(jsonState, () => {
-      c.getObjects().forEach(item => {
+      c.getObjects().forEach((item) => {
         if (item.type == "rect") {
           c.sendToBack(item);
         }
@@ -282,21 +293,15 @@ function Editor() {
     });
   };
 
-
   const undo = () => {
     if (undoStack.length > 0 && currentCanvas) {
       const prevState = undoStack.slice(-1)[0];
       const newUndoStack = undoStack.slice(0, -1);
       setRedoStack([...redoStack, prevState]);
-      console.log("undoStack == > ", undoStack);
-      console.log("redoStack == > ", redoStack);
       applyCustomPropertiesAndListeners(currentCanvas, prevState);
       setUndoStack(newUndoStack);
     }
   };
-
-
-
 
   const redo = () => {
     if (redoStack.length > 0 && currentCanvas) {
@@ -308,6 +313,18 @@ function Editor() {
     }
   };
 
+  const canvasClicked = (e, index) => {
+    e.preventDefault();
+    console.log("canvasClicked : ", index);
+    const changeCanvas = currentCanvas != null &&
+    currentCanvasRef != null &&
+    currentCanvasRef.current.id == `canvas-${index}`
+    if (!changeCanvas
+    ) {
+      setCurrentCanvasRef(canvasRefs[index - 1]);
+      setCurrentCanvas(canvases[index - 1]);
+    }
+  };
   return (
     <div>
       <TopPanel
@@ -329,14 +346,17 @@ function Editor() {
             />
             <Container fluid ref={canvasContainerRef}>
               {[1, 2].map((_, index) => (
-                <Row key={index}>
+                <Row key={index} onClick={(e) => canvasClicked(e, index + 1)}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
-                      handleCurrentCanvas={(c) => handleCurrentCanvas(c)}
+                      handleCurrentCanvas={(c) =>
+                        handleCurrentCanvas(c, index + 1)
+                      }
                       zoom={zoom}
-                      loadData={(c) => loadJSONData(c)}
+                      loadData={(c) => loadJSONData(c, index + 1)}
                       selectObject={(c) => selectObject(c)}
                       index={index}
+                      canvasRef={canvasRefs[index]}
                     />
                   </Col>
                 </Row>

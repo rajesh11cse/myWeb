@@ -4,27 +4,22 @@ import { fabric } from "fabric";
 
 import {
   NewPageDashLineCon,
-  AddNewPageCon,
   DeletePageCon
 } from "../css/styled";
 
 // SVG Icons
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faCut } from '@fortawesome/free-solid-svg-icons';
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { faCut } from '@fortawesome/free-solid-svg-icons';
+import { Button } from "react-bootstrap";
 
 const Canvas = (props) => {
   const width = 800;
   const height = 1000;
   const zoomLevel = props.zoom;
   // Current canvas Reference
-  const canvasRef = useRef(null);
+  const canvasRef = props.canvasRef
+  const index = props.index
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
-
-  // For undo and redo only
-  const [undoStack, setUndoStack] = useState([]);
-  const [redoStack, setRedoStack] = useState([]);
 
   useEffect(() => {
     // fabric.Object.prototype.minScaleLimit = 0.5;
@@ -82,7 +77,6 @@ const Canvas = (props) => {
     };
   }, []);
 
-
   // This is used for zoom in scaling
   useEffect(() => {
     if (currentCanvas != null && currentCanvas.style) {
@@ -94,7 +88,7 @@ const Canvas = (props) => {
 
   return (
     <div>
-      <canvas id="canvas" ref={canvasRef} />
+      <canvas id={`canvas-${index+1}`} ref={canvasRef}/>
       <div style={{margin:'5px'}}>
           <NewPageDashLineCon/>
           <Button variant="link" size="sm">Add page </Button> 
