@@ -14,11 +14,12 @@ import { Button } from "react-bootstrap";
 
 const Canvas = (props) => {
   const width = 800;
-  const height = 1000;
+  // const height = 1000;
+  const height = 200;
   const zoomLevel = props.zoom;
   // Current canvas Reference
   const canvasRef = props.canvasRef
-  const index = props.index
+  const {index, addPage, removePage, clickCan, isPageAdditionAllowed} = props
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
   useEffect(() => {
@@ -86,15 +87,23 @@ const Canvas = (props) => {
   }, [zoomLevel]);
 
 
+  function clickCanvas(e){
+    e.preventDefault();
+    clickCan(e)
+  }
+
+
   return (
     <div>
-      <canvas id={`canvas-${index+1}`} ref={canvasRef}/>
+      <div onClick={clickCanvas}>
+        <canvas id={`canvas-${index+1}`} ref={canvasRef}/>
+      </div>
       <div style={{margin:'5px'}}>
           <NewPageDashLineCon/>
-          <Button variant="link" size="sm">Add page </Button> 
+            <Button disabled={isPageAdditionAllowed} variant="link" size="sm" onClick={addPage}>Add page </Button> 
           <NewPageDashLineCon/>
           {props.index > 0 && <DeletePageCon>
-            <FontAwesomeIcon icon={faCut} color="gray" size="sm" rotation={270} title="delete page"/>
+            <FontAwesomeIcon icon={faCut} color="gray" size="sm" rotation={270} title="delete page" onClick={removePage}/>
           </DeletePageCon>}
       </div>
     </div>

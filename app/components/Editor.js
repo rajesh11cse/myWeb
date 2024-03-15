@@ -39,18 +39,16 @@ function Editor() {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
 
-  const [canvases, setCanvases] = useState([]);
+  const [activePages, setActivePages] = useState([1, 2]);
 
-  let canvasRefs = [];
-  for (let i = 0; i < 10; i++) {
-    canvasRefs.push(useRef(null));
-  }
+  const [canvases, setCanvases] = useState([]);
+  const canvasRefs = Array.from({ length: 5 }, () => useRef(null));
+
   const loadJSONData = function (c, index) {
-    if (index == 2) {
+    if (index > 1) {
       return;
     }
     const data = JSON.parse(localStorage.getItem("jsonData"));
-    console.log("data == > , ", data);
     if (data != null) {
       fabric.util.enlivenObjects(data.objects, (objs) => {
         objs.forEach((item) => {
@@ -316,15 +314,34 @@ function Editor() {
   const canvasClicked = (e, index) => {
     e.preventDefault();
     console.log("canvasClicked : ", index);
-    const changeCanvas = currentCanvas != null &&
-    currentCanvasRef != null &&
-    currentCanvasRef.current.id == `canvas-${index}`
-    if (!changeCanvas
-    ) {
+    const changeCanvas =
+      currentCanvas != null &&
+      currentCanvasRef != null &&
+      currentCanvasRef.current.id == `canvas-${index}`;
+    if (!changeCanvas) {
       setCurrentCanvasRef(canvasRefs[index - 1]);
       setCurrentCanvas(canvases[index - 1]);
+    } else {
+      console.log("do nothing..");
     }
   };
+  const addNewPage = (e, index) => {
+    e.stopPropagation();
+    setActivePages((prevActivePages) => {
+      const newActivePages = [...prevActivePages];
+      newActivePages.splice(index, 0, 3);
+      return newActivePages;
+    });
+  };
+
+  const removePage = (e, index) => {
+    setActivePages((prevActivePages) => {
+      const newActivePages = [...prevActivePages];
+      newActivePages.splice(index, 1);
+      return newActivePages;
+    });
+  };
+
   return (
     <div>
       <TopPanel
@@ -345,8 +362,8 @@ function Editor() {
               handleZoomChange={(e) => handleZoomChange(e)}
             />
             <Container fluid ref={canvasContainerRef}>
-              {[1, 2].map((_, index) => (
-                <Row key={index} onClick={(e) => canvasClicked(e, index + 1)}>
+              {activePages.map((page, index) => (
+                <Row key={index}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
                       handleCurrentCanvas={(c) =>
@@ -357,6 +374,12 @@ function Editor() {
                       selectObject={(c) => selectObject(c)}
                       index={index}
                       canvasRef={canvasRefs[index]}
+                      addPage={(e) => addNewPage(e, index + 1)}
+                      removePage={(e) => removePage(e, index)}
+                      clickCan={(e) => canvasClicked(e, index + 1)}
+                      isPageAdditionAllowed={
+                        activePages.length >= canvasRefs.length
+                      }
                     />
                   </Col>
                 </Row>
