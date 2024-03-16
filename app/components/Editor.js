@@ -42,7 +42,49 @@ function Editor() {
   const [activePages, setActivePages] = useState([1, 2]);
 
   const [canvases, setCanvases] = useState([]);
+
+
+  const [activePageCount, setActivePageCount] = useState(0);
+
   const canvasRefs = Array.from({ length: 5 }, () => useRef(null));
+
+  const [pages, setPages] = useState([
+    {
+      id: 1,
+      ref: useRef(null),
+      canvas: null,
+      onfocus: true,
+      active: true,
+    },
+    {
+      id: 2,
+      ref: useRef(null),
+      canvas: null,
+      onfocus: false,
+      active: false,
+    },
+    {
+      id: 3,
+      ref: useRef(null),
+      canvas: null,
+      onfocus: false,
+      active: false,
+    },
+    {
+      id: 4,
+      ref: useRef(null),
+      canvas: null,
+      onfocus: false,
+      active: false,
+    },
+    {
+      id: 5,
+      ref: useRef(null),
+      canvas: null,
+      onfocus: false,
+      active: false,
+    },
+  ]);
 
   const loadJSONData = function (c, index) {
     if (index > 1) {
@@ -86,10 +128,42 @@ function Editor() {
 
   // handle current active canvas
   const handleCurrentCanvas = (c, index) => {
-    setCanvases((prevCanvases) => [...prevCanvases, c]);
-    setCurrentCanvas(c);
-    setCurrentCanvasRef(canvasRefs[index - 1]);
+    //setCanvases((prevCanvases) => [...prevCanvases, c]);
+    // setCurrentCanvas(c);
+    // setCurrentCanvasRef(pages[index - 1].ref);
+    // console.log("CCCCCCC index=> ", index)
+    console.log("CCCCCCC => ", c)
+    setPages((prevPages) => {
+      // Create a new array by mapping over the previous pages
+      return prevPages.map((page, i) => {
+        // If the index matches, update the canvas reference
+        if (page.id == index) {
+          return {
+            ...page, // Copy existing page properties
+            canvas: c, // Update the canvas reference
+          };
+        }
+        return page;
+      });
+    });
   };
+
+  useEffect(() => {
+    let activePage = 0
+    for (let i = 0; i < pages.length; i++) {
+      // console.log("pages = > ", pages[i])
+      if (pages[i].active){
+        activePage++;
+      }
+      if (pages[i].onfocus) {
+        // console.log("onfocus = > ", pages[i].id)
+        setCurrentCanvasRef(pages[i].ref);
+        setCurrentCanvas(pages[i].canvas);
+      }
+    }
+    setActivePageCount(activePage)
+  }, [pages]);
+  
 
   // Add a new Text
   const addNewText = () => {
@@ -313,35 +387,108 @@ function Editor() {
 
   const canvasClicked = (e, index) => {
     e.preventDefault();
-    console.log("canvasClicked : ", index);
-    const changeCanvas =
-      currentCanvas != null &&
-      currentCanvasRef != null &&
-      currentCanvasRef.current.id == `canvas-${index}`;
-    if (!changeCanvas) {
-      setCurrentCanvasRef(canvasRefs[index - 1]);
-      setCurrentCanvas(canvases[index - 1]);
-    } else {
-      console.log("do nothing..");
+    // Add check if already active then don't do anything
+    setPages((prevPages) => {
+      return prevPages.map((page, i) => {
+        if (page.id == index) {
+          return {
+            ...page, 
+            onfocus: true
+          };
+        }else if (page.onfocus && page.id != index) {
+          return {
+            ...page, 
+            onfocus: false
+          };
+        }
+        return page;
+      });
+    });
+
+  };
+
+  function shiftElements(arr, index) {
+    if (index >= activePageCount){
+      return arr
     }
-  };
-  const addNewPage = (e, index) => {
-    e.stopPropagation();
-    setActivePages((prevActivePages) => {
-      const newActivePages = [...prevActivePages];
-      newActivePages.splice(index, 0, 3);
-      return newActivePages;
+    const clonedArray = arr.slice(); // Create a shallow copy of the original array
+    let c = clonedArray[index];
+    let p = { ...clonedArray[index] }; // Create a copy of the object at index 'index'
+    for (let i = index; i < clonedArray.length; i++) {
+      c = clonedArray[i];
+      const id = c.id; // Store the original id
+      p.id = id; // Restore the original id
+      clonedArray[i] = p; // Update 'clonedArray[i]' with the modified 'p'
+      p = { ...c }; // Copy properties from 'c' to 'p'
+    }
+    return clonedArray
+  }
+
+  // function oneStepRotation(arr, index) {
+  //   const element = arr[index];
+  //   arr.splice(index + 1, 0, element); // Step 1: Insert the element at index + 1
+  //   arr.splice(index, 1); // Step 2: Remove the original element at the specified index
+  //   return arr;
+  // }
+  
+  const addNewPage = (e, id) => {
+    // e.stopPropagation();
+    console.log("NON Shifted elements : ", id)
+    const elements = shiftElements(pages, id)
+    console.log("shiftElements : ", elements)
+    setPages(elements);
+    console.log("pages==> : ", pages)
+
+    setPages(elements);
+    setPages((prevPages) => {
+      return prevPages.map((page, i) => {
+        if (page.id == id+1) {
+            return {
+              ...page, 
+              onfocus: true, 
+              active: true, 
+            };
+        }else if (page.onfocus && page.id != id+1) {
+          return {
+            ...page, 
+            onfocus: false
+          };
+        }
+        return page;
+      });
+    });
+  }
+
+  const removePage = (e, id) => {
+    setPages((prevPages) => {
+      return prevPages.map((page, i) => {
+        if (page.id == id) {
+          return {
+            ...page, 
+            onfocus: false, 
+            active: false, 
+          };
+        }else if (!page.onfocus && page.id == id-1) {
+          return {
+            ...page, 
+            onfocus: true
+          };
+        }
+        return page;
+      });
     });
   };
 
-  const removePage = (e, index) => {
-    setActivePages((prevActivePages) => {
-      const newActivePages = [...prevActivePages];
-      newActivePages.splice(index, 1);
-      return newActivePages;
-    });
-  };
-
+  function checkIsActiveCanvas(index) {
+    if (
+      currentCanvasRef != null &&
+      currentCanvasRef.current &&
+      canvasRefs[index].current
+    ) {
+      return currentCanvasRef.current.id == canvasRefs[index].current.id;
+    }
+    return false;
+  }
   return (
     <div>
       <TopPanel
@@ -362,24 +509,24 @@ function Editor() {
               handleZoomChange={(e) => handleZoomChange(e)}
             />
             <Container fluid ref={canvasContainerRef}>
-              {activePages.map((page, index) => (
-                <Row key={index}>
+              {pages.map((page, index) => (
+                page.active && <Row key={index}>
                   <Col lg={12} className="d-flex justify-content-center">
                     <Canvas
                       handleCurrentCanvas={(c) =>
-                        handleCurrentCanvas(c, index + 1)
+                        handleCurrentCanvas(c, page.id)
                       }
                       zoom={zoom}
                       loadData={(c) => loadJSONData(c, index + 1)}
                       selectObject={(c) => selectObject(c)}
-                      index={index}
-                      canvasRef={canvasRefs[index]}
-                      addPage={(e) => addNewPage(e, index + 1)}
-                      removePage={(e) => removePage(e, index)}
+                      index={page.id}
+                      canvasRef={canvasRefs[page.id-1]}
+                      addPage={(e) => addNewPage(e, page.id)}
+                      removePage={(e) => removePage(e, page.id)}
                       clickCan={(e) => canvasClicked(e, index + 1)}
-                      isPageAdditionAllowed={
-                        activePages.length >= canvasRefs.length
-                      }
+                      isPageAdditionAllowed={ activePageCount >= pages.length }
+                      activePageCount={activePageCount}
+                      isActiveCanvas={page.onfocus}
                     />
                   </Col>
                 </Row>

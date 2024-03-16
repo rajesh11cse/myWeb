@@ -15,11 +15,11 @@ import { Button } from "react-bootstrap";
 const Canvas = (props) => {
   const width = 800;
   // const height = 1000;
-  const height = 200;
+  const height = 30;
   const zoomLevel = props.zoom;
   // Current canvas Reference
   const canvasRef = props.canvasRef
-  const {index, addPage, removePage, clickCan, isPageAdditionAllowed} = props
+  const {index, addPage, removePage, clickCan, isPageAdditionAllowed, isActiveCanvas, activePageCount} = props
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const Canvas = (props) => {
 
     props.loadData(currentCanvas);
     props.handleCurrentCanvas(currentCanvas);
-
     currentCanvas.selectionBorderColor = "red";
 
     currentCanvas.on("object:scaling", function (options) {
@@ -91,16 +90,22 @@ const Canvas = (props) => {
     e.preventDefault();
     clickCan(e)
   }
-
-
+  function GetName(){
+    if ((index == 1 && activePageCount == 1) || activePageCount  ==  index){
+      return 'Add page';
+    }else{
+      return 'Insert page';
+    }
+     
+  }
   return (
     <div>
-      <div onClick={clickCanvas}>
-        <canvas id={`canvas-${index+1}`} ref={canvasRef}/>
+      <div onClick={clickCanvas} style={isActiveCanvas ? { border: '1px solid red' } : {}}>
+        <canvas id={`canvas-${index}`} ref={canvasRef}/>
       </div>
       <div style={{margin:'5px'}}>
           <NewPageDashLineCon/>
-            <Button disabled={isPageAdditionAllowed} variant="link" size="sm" onClick={addPage}>Add page </Button> 
+            <Button disabled={isPageAdditionAllowed} variant="link" size="sm" onClick={addPage}>{GetName()}</Button> 
           <NewPageDashLineCon/>
           {props.index > 0 && <DeletePageCon>
             <FontAwesomeIcon icon={faCut} color="gray" size="sm" rotation={270} title="delete page" onClick={removePage}/>
