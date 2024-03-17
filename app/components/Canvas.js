@@ -14,8 +14,8 @@ import { Button } from "react-bootstrap";
 
 const Canvas = (props) => {
   const width = 800;
-  // const height = 1000;
-  const height = 30;
+  const height = 1000;
+  // const height = 200;
   const zoomLevel = props.zoom;
   // Current canvas Reference
   const canvasRef = props.canvasRef
@@ -94,20 +94,21 @@ const Canvas = (props) => {
     if ((index == 1 && activePageCount == 1) || activePageCount  ==  index){
       return 'Add page';
     }else{
-      return 'Insert page';
+      // return 'Insert page';
+      return '';
     }
      
   }
   return (
     <div>
-      <div onClick={clickCanvas} style={isActiveCanvas ? { border: '1px solid red' } : {}}>
+      <div onClick={clickCanvas} style={isActiveCanvas ? { border: '1px dashed #706969' } : {}}>
         <canvas id={`canvas-${index}`} ref={canvasRef}/>
       </div>
       <div style={{margin:'5px'}}>
           <NewPageDashLineCon/>
             <Button disabled={isPageAdditionAllowed} variant="link" size="sm" onClick={addPage}>{GetName()}</Button> 
           <NewPageDashLineCon/>
-          {props.index > 0 && <DeletePageCon>
+          {props.index > 1 && <DeletePageCon>
             <FontAwesomeIcon icon={faCut} color="gray" size="sm" rotation={270} title="delete page" onClick={removePage}/>
           </DeletePageCon>}
       </div>

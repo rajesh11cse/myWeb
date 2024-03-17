@@ -9,6 +9,7 @@ import { ShoppingCart } from './icons/ShoppingCart';
 import { SidebarFooter } from './SidebarFooter';
 import { Typography } from './Typography';
 import "../css/LeftSideBar.css"; // Assume you have a CSS file for styling
+import { ShowPanel } from "../css/styled";
 
 import {
   Button,
@@ -26,6 +27,13 @@ import {
   Col,
 } from "react-bootstrap";
 import { HttpLink } from "../assets/icons/HttpLink";
+import {HeaderClose} from "./HeaderClose";
+
+
+// SVG Icons
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -59,17 +67,18 @@ const hexToRgba = (hex: string, alpha: number) => {
 };
 
 interface MyComponentProps {
-  collapsed: boolean;
   makeObject: (type:string) => void;
   uploadImage: (type:string) => void;
 }
 
-export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject, uploadImage }) => {
+export const Playground: React.FC<MyComponentProps> = ({ makeObject, uploadImage }) => {
   const rtl = false
   const hasImage = false
   const theme = 'light'
 
   const [imageLink, setImageLink] = useState("");
+  const [collapsed, setCollapsed] = useState(false);
+
 
   
   const menuItemStyles: MenuItemStyles = {
@@ -113,6 +122,15 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject, 
     setImageLink(e.target.value);
   };
 
+  const closeHeader = () => {
+    setCollapsed(true)
+  };
+  const openHeader = () => {
+    setCollapsed(false)
+  };
+
+
+
   return (
     <div style={{ display: 'contents', height: '100%', direction: 'ltr' }}>
       <Sidebar
@@ -123,6 +141,8 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject, 
           color: themes[theme].sidebar.color
         }}
       >
+        {!collapsed && <HeaderClose text="Text Elements" showClose clickClose={closeHeader}/>}
+
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <SidebarHeader rtl={rtl} style={{ marginBottom: '24px', marginTop: '16px' }} />
           <div style={{ flex: 1, marginBottom: '32px' }}>
@@ -176,6 +196,9 @@ export const Playground: React.FC<MyComponentProps> = ({ collapsed, makeObject, 
           <SidebarFooter collapsed={collapsed} />
         </div>
       </Sidebar>
+      <ShowPanel>
+        <FontAwesomeIcon icon={faArrowRightFromBracket as faAngleUp}  onClick={openHeader}/>
+      </ShowPanel>
     </div>
   );
 };

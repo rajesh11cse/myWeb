@@ -56,8 +56,14 @@
   /* background-color:red; */
   li{
     text-align: left;
+    border-top: 1px solid #eaeaea;
+    /* border-bottom: 1px solid #eaeaea; */
     span:first-child {
-        margin-right: 30px !important; /* Adjust the value as needed */
+        margin-right: 17px !important; /* Adjust the value as needed */
+    }
+    .css-12w9als {
+      padding: 11px;
+      border-left: 1px solid #eaeaea;
     }
   }
 }

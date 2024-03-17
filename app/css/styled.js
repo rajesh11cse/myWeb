@@ -188,18 +188,28 @@ export const WordEditCont = styled.div`
   position: sticky;
   top: 7px;
   height: 43px;
-  background-color: #f5f5f5;
+  background-color: #545456;
   z-index: 8;
   text-align: left;
   padding: 13px;
   font-size: small;
   font-weight: 800;
-  // font-family: monospace;
-  color: #000;
+  font-family: arial;
+  text-overflow: ellipsis;
+  color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   // border-bottom: 1px solid gray;
   // border-radius: 1 0 3px 3px;
   margin-bottom: 13px;
+  display: flex;
+  // justifyContent: 'space-between';
+  .header_p {
+    width: 80%;
+  }
+  .close_p {
+    width: 20%;
+    text-align: end;
+  }
 `;
 
 export const ColorPickCont = styled.div`
@@ -217,7 +227,7 @@ export const ZoomInCont = styled.div`
   position: absolute;
   z-index: 12;
   bottom: 20px;
-  left: 15%;
+  left: 17%;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 20px 0px;
   padding: 0px;
@@ -323,4 +333,11 @@ export const DeletePageCon = styled.div`
       color: black;
     }
   }
+`;
+
+export const ShowPanel = styled.div`
+  position: relative;
+  top: 11px;
+  height: 22px;
+  width: 0;
 `;

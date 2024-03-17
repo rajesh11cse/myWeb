@@ -498,7 +498,6 @@ function Editor() {
       />
       <div className="container" style={{ padding: 0 }}>
         <Playground
-          collapsed={leftSliderCloseStatus}
           makeObject={makeObject}
           uploadImage={handleLinkImageUpload}
         />
