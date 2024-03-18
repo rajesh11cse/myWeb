@@ -121,6 +121,7 @@ function Editor() {
     const container = canvasContainerRef.current;
     container.style.transform = `scale(${zoom})`;
     container.style.transformOrigin = "top";
+    container.style.overflowX = "hidden";
   }, [zoom]);
   const handleZoomChange = (value) => {
     setZoom(parseFloat(value));
@@ -254,9 +255,9 @@ function Editor() {
     setSliderCloseStatus(!sliderCloseStatus);
   };
 
-  const closeSliderLeft = () => {
-    setLeftSliderCloseStatus(!leftSliderCloseStatus);
-  };
+  // const closeSliderLeft = () => {
+  //   setLeftSliderCloseStatus(!leftSliderCloseStatus);
+  // };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -500,14 +501,16 @@ function Editor() {
         <Playground
           makeObject={makeObject}
           uploadImage={handleLinkImageUpload}
+          isCollapsed={(c)=>setLeftSliderCloseStatus(c)}
         />
         <div className="middle">
           <div className="canvas-container">
             <ZoomPage
               id="zoom-in-out"
               handleZoomChange={(e) => handleZoomChange(e)}
+              isSideBarCollapsed={leftSliderCloseStatus}
             />
-            <Container fluid ref={canvasContainerRef}>
+            <div ref={canvasContainerRef}>
               {pages.map((page, index) => (
                 page.active && <Row key={index}>
                   <Col lg={12} className="d-flex justify-content-center">
@@ -530,13 +533,14 @@ function Editor() {
                   </Col>
                 </Row>
               ))}
-            </Container>
+            </div>
           </div>
         </div>
         {/* <ZoomInSlider handleZoomChange={(e) => handleZoomChange(e)} /> */}
         {/* <Playground2 collapsed={sliderCloseStatus}/> */}
         <EditTextBar
           collapsed={sliderCloseStatus}
+          isCollapsed={()=>setSliderCloseStatus(true)}
           selectedObject={selectedObject}
           currentCanvas={currentCanvas}
         />

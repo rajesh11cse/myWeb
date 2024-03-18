@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu, menuClasses, MenuItemStyles } from "react-pro-sidebar";
 import { SidebarHeader } from './SidebarHeader';
 import { Diamond } from './icons/Diamond';
@@ -33,7 +33,7 @@ import {HeaderClose} from "./HeaderClose";
 // SVG Icons
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -69,9 +69,10 @@ const hexToRgba = (hex: string, alpha: number) => {
 interface MyComponentProps {
   makeObject: (type:string) => void;
   uploadImage: (type:string) => void;
+  isCollapsed: (type:boolean) => void;
 }
 
-export const Playground: React.FC<MyComponentProps> = ({ makeObject, uploadImage }) => {
+export const Playground: React.FC<MyComponentProps> = ({ makeObject, isCollapsed, uploadImage }) => {
   const rtl = false
   const hasImage = false
   const theme = 'light'
@@ -129,11 +130,16 @@ export const Playground: React.FC<MyComponentProps> = ({ makeObject, uploadImage
     setCollapsed(false)
   };
 
+  useEffect(() => {
+    isCollapsed(collapsed)
+
+  }, [collapsed])
 
 
   return (
     <div style={{ display: 'contents', height: '100%', direction: 'ltr' }}>
       <Sidebar
+        collapsedWidth="1px"
         collapsed={collapsed}
         breakPoint="md"
         backgroundColor={hexToRgba(themes[theme].sidebar.backgroundColor, hasImage ? 0.9 : 1)}
@@ -141,7 +147,8 @@ export const Playground: React.FC<MyComponentProps> = ({ makeObject, uploadImage
           color: themes[theme].sidebar.color
         }}
       >
-        {!collapsed && <HeaderClose text="Text Elements" showClose clickClose={closeHeader}/>}
+        {/* <FontAwesomeIcon icon={faArrowRight as faAngleUp}  onClick={openHeader}/> */}
+        <HeaderClose text="Text Elements" showClose clickClose={closeHeader}/>
 
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <SidebarHeader rtl={rtl} style={{ marginBottom: '24px', marginTop: '16px' }} />
@@ -196,9 +203,11 @@ export const Playground: React.FC<MyComponentProps> = ({ makeObject, uploadImage
           <SidebarFooter collapsed={collapsed} />
         </div>
       </Sidebar>
-      <ShowPanel>
-        <FontAwesomeIcon icon={faArrowRightFromBracket as faAngleUp}  onClick={openHeader}/>
-      </ShowPanel>
+      {collapsed && <ShowPanel className='slide-from-left'>
+        <Button variant="secondary" onClick={openHeader}>
+          <FontAwesomeIcon icon={faArrowRight as faAngleUp}  onClick={openHeader} title="open elements"/>
+        </Button>
+      </ShowPanel>}
     </div>
   );
 };

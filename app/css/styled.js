@@ -227,7 +227,6 @@ export const ZoomInCont = styled.div`
   position: absolute;
   z-index: 12;
   bottom: 20px;
-  left: 17%;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 20px 0px;
   padding: 0px;
@@ -326,8 +325,8 @@ export const DeletePageCon = styled.div`
   position: absolute;
   cursor: pointer;
   width: 600px;
-  top: -6px;
-  right: -267px;
+  top: -27px;
+  right: -278px;
   svg {
     &:hover {
       color: black;

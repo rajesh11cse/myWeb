@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ZoomInCont } from "../css/styled";
 
 function ZoomPage(props: any) {
-  let { handleZoomChange } = props;
+  let { handleZoomChange , isSideBarCollapsed} = props;
   const [zoomLevel, setZoomLevel] = useState(1);
 
   useEffect(() => {
@@ -14,15 +14,17 @@ function ZoomPage(props: any) {
     console.log("called handleZoom")
     let newZoom
     if (type == "zoom-in") {
-      newZoom = Math.min(1.5, Math.max(0.5, zoomLevel+0.25));
+      newZoom = Math.min(2, Math.max(0.5, zoomLevel+0.25));
     }else{
       newZoom = Math.min(1.5, Math.max(0.5, zoomLevel-0.25));
     }
     setZoomLevel(newZoom);
     handleZoomChange(newZoom);
   };
+
+  console.log("isSideBarCollapsed == > ", isSideBarCollapsed)
   return (
-    <ZoomInCont id="zoom-in-out">
+    <ZoomInCont id="zoom-in-out" style={{ left: `${!isSideBarCollapsed ? '251px' : '8px'}` }}>
       <button aria-label="Zoom In" onClick={()=> handleZoom("zoom-in")}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

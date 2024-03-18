@@ -30,6 +30,7 @@ body {
 
 .middle {
   background-color: #fff; /* or any color you desire */
+  overflow-x: hidden;
 }
 
 .right {
