@@ -302,7 +302,7 @@ export const CBtn = styled.button`
 
 export const TopPanelCon = styled.div`
   position: fixed;
-  top: 40px;
+  top: 72px;;
   left: 0;
   width: 100%;
   height: 49px;

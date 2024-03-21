@@ -2,36 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import {
-    Collapse,
     Navbar,
-    NavbarToggler,
-    NavbarBrand,
     Nav,
-    NavItem,
-    
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
 } from 'reactstrap';
 
 import {
-    Nav
     Button,
-    NavItem,
-    Navbar
-    ButtonGroup,
     DropdownButton,
     Dropdown,
-    FloatingLabel,
-    InputGroup,
-    Form,
-    FormControl,
-    ToggleButton,
-    ToggleButtonGroup,
-    Container,
-    Row,
-    Col,
   } from "react-bootstrap";
 
 import './css/header.css';
@@ -61,26 +39,25 @@ class Header extends React.Component<any, any>{
                     <NavLink to="/">RV Docs</NavLink>
                     {/* close mark ends */}
                         <Nav className="ml-auto" navbar>
-                            <NavItem>
+                            <NavLink to="/templates">
                                 <Button variant="outline-secondary" >Templates</Button>
-                            </NavItem>
-                            <NavItem>
+                            </NavLink>
+                            <NavLink to="/editor">
                                 <Button variant="outline-secondary" >Products</Button>
-                            </NavItem>
-                            <NavItem>
+                                </NavLink>
+                            <NavLink to="/support">
                                 <Button variant="outline-secondary" >Support</Button>
-
-                            </NavItem>
-                            <NavItem>
+                                </NavLink>
+                            <NavLink to="/pricing">
                                 <Button variant="outline-secondary" >Pricing</Button>
-                            </NavItem>
-                            <NavItem>
+                            </NavLink>
+                            <NavLink to="#">
                             <DropdownButton id="dropdown-basic-button" title="Rajesh" className='dropDown' variant="outline-secondary">
                                 <Dropdown.Item href="#/action-1">Account</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">Orders</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Setting</Dropdown.Item>
                             </DropdownButton>
-                            </NavItem>
+                            </NavLink>
                         </Nav>
                 </Navbar>
 

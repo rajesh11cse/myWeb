@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MyCarousel from '../components/MyCarousel';
-
-export class Home extends React.Component {
+export class Templates extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,8 +10,7 @@ export class Home extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {/* <MyCarousel/> */}
-        <div>Home</div>
+        <div>Templates</div>
       </React.Fragment>
     );
   }
@@ -23,4 +20,4 @@ const mapStateToProps = (state) => ({
   data: state.data
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Templates);
