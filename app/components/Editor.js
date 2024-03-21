@@ -39,13 +39,7 @@ function Editor() {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
 
-  const [activePages, setActivePages] = useState([1, 2]);
-
-  const [canvases, setCanvases] = useState([]);
-
-
   const [activePageCount, setActivePageCount] = useState(0);
-
   const canvasRefs = Array.from({ length: 5 }, () => useRef(null));
 
   const [pages, setPages] = useState([
@@ -129,11 +123,6 @@ function Editor() {
 
   // handle current active canvas
   const handleCurrentCanvas = (c, index) => {
-    //setCanvases((prevCanvases) => [...prevCanvases, c]);
-    // setCurrentCanvas(c);
-    // setCurrentCanvasRef(pages[index - 1].ref);
-    // console.log("CCCCCCC index=> ", index)
-    console.log("CCCCCCC => ", c)
     setPages((prevPages) => {
       // Create a new array by mapping over the previous pages
       return prevPages.map((page, i) => {
@@ -152,12 +141,10 @@ function Editor() {
   useEffect(() => {
     let activePage = 0
     for (let i = 0; i < pages.length; i++) {
-      // console.log("pages = > ", pages[i])
       if (pages[i].active){
         activePage++;
       }
       if (pages[i].onfocus) {
-        // console.log("onfocus = > ", pages[i].id)
         setCurrentCanvasRef(pages[i].ref);
         setCurrentCanvas(pages[i].canvas);
       }
@@ -235,6 +222,7 @@ function Editor() {
   // Select object
   const selectObject = (obj) => {
     setSelectedObject(obj);
+    setSliderCloseStatus(false)
   };
 
   // clear current canvas
@@ -250,14 +238,6 @@ function Editor() {
     localStorage.setItem("jsonData", JSON.stringify(json));
   };
 
-  // Close slider
-  const closeSliderRight = () => {
-    setSliderCloseStatus(!sliderCloseStatus);
-  };
-
-  // const closeSliderLeft = () => {
-  //   setLeftSliderCloseStatus(!leftSliderCloseStatus);
-  // };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -480,16 +460,7 @@ function Editor() {
     });
   };
 
-  function checkIsActiveCanvas(index) {
-    if (
-      currentCanvasRef != null &&
-      currentCanvasRef.current &&
-      canvasRefs[index].current
-    ) {
-      return currentCanvasRef.current.id == canvasRefs[index].current.id;
-    }
-    return false;
-  }
+
   return (
     <div>
       <TopPanel

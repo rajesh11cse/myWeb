@@ -15,6 +15,25 @@ import {
     DropdownItem
 } from 'reactstrap';
 
+import {
+    Nav
+    Button,
+    NavItem,
+    Navbar
+    ButtonGroup,
+    DropdownButton,
+    Dropdown,
+    FloatingLabel,
+    InputGroup,
+    Form,
+    FormControl,
+    ToggleButton,
+    ToggleButtonGroup,
+    Container,
+    Row,
+    Col,
+  } from "react-bootstrap";
+
 import './css/header.css';
 
 class Header extends React.Component<any, any>{
@@ -39,50 +58,30 @@ class Header extends React.Component<any, any>{
             <div id="header-container">
                 <Navbar color="light" light expand="md" className="navbar-container">
                     {/* <NavbarBrand ><NavLink to="/">Home</NavLink></NavbarBrand> */}
-                    <NavLink to="/">Home</NavLink>
-                    <NavbarToggler  onClick={this.toggle} >
-                    {/* Close mark */}
-                    <div id="close-icon" className={this.state.isOpen ? "open" : "" }>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    <NavLink to="/">RV Docs</NavLink>
                     {/* close mark ends */}
-                    </NavbarToggler>
-                    <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink to="/" onClick={this.toggle}>Templates</NavLink>
+                                <Button variant="outline-secondary" >Templates</Button>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/" onClick={this.toggle}>Products</NavLink>
+                                <Button variant="outline-secondary" >Products</Button>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/" onClick={this.toggle}>Support</NavLink>
+                                <Button variant="outline-secondary" >Support</Button>
+
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/" onClick={this.toggle}>Pricing</NavLink>
-                                {/* <NavLink to="/users" onClick={this.toggle}>Pricing</NavLink> */}
+                                <Button variant="outline-secondary" >Pricing</Button>
                             </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Options
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        Option 1
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        Option 2
-                                    </DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Reset
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
+                            <NavItem>
+                            <DropdownButton id="dropdown-basic-button" title="Rajesh" className='dropDown' variant="outline-secondary">
+                                <Dropdown.Item href="#/action-1">Account</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Orders</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Setting</Dropdown.Item>
+                            </DropdownButton>
+                            </NavItem>
                         </Nav>
-                    </Collapse>
                 </Navbar>
 
 

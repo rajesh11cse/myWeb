@@ -2,14 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import "../css/LeftSideBar.css"; // Assume you have a CSS file for styling
 import { fabric } from "fabric";
 
-import {
-  NewPageDashLineCon,
-  DeletePageCon
-} from "../css/styled";
+import { NewPageDashLineCon, DeletePageCon } from "../css/styled";
 
 // SVG Icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCut } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCut } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 
 const Canvas = (props) => {
@@ -18,8 +15,16 @@ const Canvas = (props) => {
   // const height = 200;
   const zoomLevel = props.zoom;
   // Current canvas Reference
-  const canvasRef = props.canvasRef
-  const {index, addPage, removePage, clickCan, isPageAdditionAllowed, isActiveCanvas, activePageCount} = props
+  const canvasRef = props.canvasRef;
+  const {
+    index,
+    addPage,
+    removePage,
+    clickCan,
+    isPageAdditionAllowed,
+    isActiveCanvas,
+    activePageCount,
+  } = props;
   let currentCanvas = useRef(null); // Use for loading the data in the canvas
 
   useEffect(() => {
@@ -85,35 +90,63 @@ const Canvas = (props) => {
     }
   }, [zoomLevel]);
 
-
-  function clickCanvas(e){
+  function clickCanvas(e) {
     e.preventDefault();
-    clickCan(e)
+    clickCan(e);
   }
-  function GetName(){
-    if ((index == 1 && activePageCount == 1) || activePageCount  ==  index){
-      return 'Add page';
-    }else{
+  function allowPageAdd() {
+    if ((index == 1 && activePageCount == 1) || activePageCount == index) {
+      // return 'Add page';
+      return true;
+    } else {
       // return 'Insert page';
-      return '';
+      // return `page ${index} of ${activePageCount}`;
+      return false;
     }
-     
+    /* Handle other like duplicate page, lock page etc. */
   }
   return (
     <div>
-      <div onClick={clickCanvas} style={isActiveCanvas ? { border: '1px dashed #706969' } : {}}>
-        <canvas id={`canvas-${index}`} ref={canvasRef}/>
+      <div
+        onClick={clickCanvas}
+        style={isActiveCanvas ? { border: "1px dashed #706969" } : {}}
+      >
+        <canvas id={`canvas-${index}`} ref={canvasRef} />
       </div>
-      <div style={{margin:'5px'}}>
-          <NewPageDashLineCon/>
-            <Button disabled={isPageAdditionAllowed} variant="link" size="sm" onClick={addPage}>{GetName()}</Button> 
-          <NewPageDashLineCon/>
-          {props.index > 1 && <DeletePageCon>
-            <FontAwesomeIcon icon={faCut} color="gray" size="sm" rotation={270} title="delete page" onClick={removePage}/>
-          </DeletePageCon>}
+      <div style={{ margin: "5px" }}>
+        <NewPageDashLineCon />
+        {allowPageAdd() && (
+          <Button
+            disabled={isPageAdditionAllowed}
+            variant="link"
+            size="sm"
+            onClick={addPage}
+          >
+            Add page
+          </Button>
+        )}
+        {!allowPageAdd() && (
+          <span style={{ color: "#bbbbbb", fontSize: "13px", padding: "5px" }}>
+            {" "}
+            page {index} of {activePageCount}
+          </span>
+        )}
+        <NewPageDashLineCon />
+        {props.index > 1 && (
+          <DeletePageCon>
+            <FontAwesomeIcon
+              icon={faCut}
+              color="gray"
+              size="sm"
+              rotation={270}
+              title="delete page"
+              onClick={removePage}
+            />
+          </DeletePageCon>
+        )}
       </div>
     </div>
-  )
+  );
 };
 
 export default Canvas;

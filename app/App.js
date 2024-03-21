@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import './css/App.css';
 import Header from './Header';
 import FooterWrapper from './Footer';
-// import Home from './Home';
+import Home from './containers/Home';
 import TextEditorCon from './containers/TextEditorCon';
 import Users from './Users';
 
@@ -15,11 +15,12 @@ export default function App() {
         <div id="main-container">
           <Switch>
             {/* <Route exact path="/" component={Home} /> */}
-            <Route exact path="/" component={TextEditorCon} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/editor" component={TextEditorCon} />
             <Route path="/users" component={Users} />
           </Switch>
         </div>
-        {/* <FooterWrapper/> */}
+        <FooterWrapper/>
       </Router>
   </div>
   );
