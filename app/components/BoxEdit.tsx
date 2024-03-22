@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  menuClasses,
-  MenuItemStyles,
-} from "react-pro-sidebar";
+
 import { SketchPicker } from "react-color";
 import {
   DropdownCont,
