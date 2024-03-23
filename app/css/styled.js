@@ -89,9 +89,9 @@ export const FormInputCont = styled.div`
 
 export const RangeSlider = styled.div`
   position: relative;
-  top: 28%;
-  left: 16%;
-  transform: translate(-24%, -50%);
+  top: ${(props) => props.top || "28%"};
+  left: ${(props) => props.left || "16%"};
+  transform: ${(props) => props.transform || "translate(-24%, -50%)"};
   width: 100%;
   display: flex;
   align-items: center;
@@ -100,7 +100,7 @@ export const RangeSlider = styled.div`
     -webkit-appearance: none !important;
     border-radius: 9px;
     width: 100%;
-    height: 4px;
+    height: ${(props) => props.lineSize || "4px"};
     background: #9c9c9c;
     border: none;
     outline: none;
@@ -129,10 +129,25 @@ export const RangeSlider = styled.div`
       #9c9c9c ${(props) => props.value || 0}%,
       #9c9c9c
     );
-    height: 4px;
+    height: ${(props) => props.lineSize || "4px"};
     border-radius: 9px;
   }
 `;
+
+
+export const ZoomLevelValueCont = styled.div`
+    position: absolute;
+    font-size: x-small;
+    font-weight: 500;
+    right: 0;
+`
+
+export const ZoomLevelResetCont = styled.div`
+  left: -50px;
+  position: relative;
+  font-size: x-small;
+  font-weight: 500;
+`
 
 export const ButtonGroupCont = styled.div`
   button {

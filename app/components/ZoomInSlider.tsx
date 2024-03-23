@@ -1,36 +1,64 @@
-import React, {useState, useEffect} from 'react';
-import "../css/zoomSlider.css";
-function ZoomInSlider(props:any) {
-  let {handleZoomChange} = props
-  const [zoomLevel, setZoomLevel] = useState(1);
+import React, { useState, useEffect } from "react";
+import { RangeSlider, ZoomLevelValueCont, ZoomLevelResetCont } from "../css/styled";
+import { Row, Col, Button } from "react-bootstrap";
+function ZoomInSlider(props: any) {
+  let { handleZoomChange, zoom } = props;
+  const [zoomLevel, setZoomLevel] = useState(100);
 
   useEffect(() => {
     // Set default zoom level to 1 when component loads
-    setZoomLevel(1);
+    setZoomLevel(50);
   }, []);
 
-  const handleZoom = (event:any) => {
-    let newZoom = parseFloat(event.target.value);
-    newZoom = Math.min(1.5, Math.max(0.5, newZoom));
-    setZoomLevel(newZoom);
+  useEffect(() => {
+    let zoomL = (zoom / 2) * 100;
+    setZoomLevel(zoomL);
+  }, [zoom]);
 
-    handleZoomChange(zoomLevel)
+  const handleZoom = (event: any) => {
+    let newZoom = parseFloat(event.target.value);
+    newZoom = Math.min(100, Math.max(10, newZoom));
+    console.log("newZoom = > ", newZoom);
+    setZoomLevel(newZoom);
+    var zoomLevel = (newZoom * 2) / 100;
+    console.log("zoomLevel = >: ", zoomLevel);
+    handleZoomChange(zoomLevel);
   };
+
+  function handleClick(event) {
+    event.preventDefault(); // Prevent the default behavior of the anchor tag
+    // Your custom function logic here
+    setZoomLevel(100)
+    handleZoomChange(1)
+  }
   return (
     <div>
-      <div className="zoom-slider-container">
-      <input
-        type="range"
-        min="0.5"
-        max="1.5"
-        step="0.1"
-        value={zoomLevel}
-        className="zoom-slider"
-        onChange={handleZoom}
-      />
-      <label htmlFor="zoomRange" className="zoom-label">Zoom Level: {zoomLevel*100}%</label>
+      <Row>
+        <Col lg={6}></Col>
+        <Col lg={1}>
+          <ZoomLevelValueCont>
+            {Math.round(zoomLevel*2)}%
+          </ZoomLevelValueCont>
+        </Col>
+        <Col lg={2}>
+          <RangeSlider value={zoomLevel} lineSize="2px" left="unset" top="49%" transform="none">
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value={zoomLevel}
+              onChange={handleZoom}
+            />
+          </RangeSlider>
+        </Col>
+        <Col lg={1}>
+          <ZoomLevelResetCont>
+          <a href="#" onClick={handleClick}>Reset</a>
+          </ZoomLevelResetCont>
+        </Col>
+        <Col lg={2}></Col>
+      </Row>
     </div>
-      </div>
   );
 }
 

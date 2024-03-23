@@ -4,10 +4,23 @@ import "../css/layout.css"; // Assume you have a CSS file for styling
 import myData from "./abc.json";
 import { Playground } from "./Playground";
 import ZoomPage from "./ZoomPage";
+import ZoomInSlider from "./ZoomInSlider";
 import { fabric } from "fabric";
 import { GetStyledClass, GetBodyContent } from "./htmlData";
 
-GetStyledClass;
+
+
+import styled from 'styled-components';
+
+const StyledFooter = styled.footer`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa; /* Set your desired background color */
+  padding: 20px; /* Add padding for spacing */
+  box-sizing: border-box; /* Include padding in total width */
+`;
+
 
 import {
   SetTextBoxProperties,
@@ -516,6 +529,9 @@ function Editor() {
           currentCanvas={currentCanvas}
         />
       </div>
+      <StyledFooter>
+        <ZoomInSlider zoom={zoom} handleZoomChange={(e) => handleZoomChange(e)} />
+      </StyledFooter>
     </div>
   );
 }

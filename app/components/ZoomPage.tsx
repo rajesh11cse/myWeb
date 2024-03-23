@@ -22,7 +22,6 @@ function ZoomPage(props: any) {
     handleZoomChange(newZoom);
   };
 
-  console.log("isSideBarCollapsed == > ", isSideBarCollapsed)
   return (
     <ZoomInCont id="zoom-in-out" style={{ left: `${!isSideBarCollapsed ? '251px' : '8px'}` }}>
       <button aria-label="Zoom In" onClick={()=> handleZoom("zoom-in")}>
