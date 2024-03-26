@@ -93,3 +93,14 @@
     }
   }
 }
+
+
+.headerItemHover{
+  position: absolute;
+  border-bottom: 1px solid #2e5df2;
+  width: 82px;
+  top: 51px;
+  left: -40px;
+}
+
+

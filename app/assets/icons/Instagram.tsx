@@ -35,10 +35,10 @@ export const Instagram: React.FC = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(3.82378 25.7258) rotate(-9.53101) scale(50.723 30.7885)"
         >
-          <stop stop-color="#FED576" />
-          <stop offset="0.263" stop-color="#F47133" />
-          <stop offset="0.609" stop-color="#BC3081" />
-          <stop offset="1" stop-color="#4C63D2" />
+          <stop stopColor="#FED576" />
+          <stop offset="0.263" stopColor="#F47133" />
+          <stop offset="0.609" stopColor="#BC3081" />
+          <stop offset="1" stopColor="#4C63D2" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_68_827"
@@ -48,10 +48,10 @@ export const Instagram: React.FC = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(3.82381 25.7258) rotate(-9.53102) scale(50.723 30.7885)"
         >
-          <stop stop-color="#FED576" />
-          <stop offset="0.263" stop-color="#F47133" />
-          <stop offset="0.609" stop-color="#BC3081" />
-          <stop offset="1" stop-color="#4C63D2" />
+          <stop stopColor="#FED576" />
+          <stop offset="0.263" stopColor="#F47133" />
+          <stop offset="0.609" stopColor="#BC3081" />
+          <stop offset="1" stopColor="#4C63D2" />
         </radialGradient>
         <radialGradient
           id="paint2_radial_68_827"
@@ -61,10 +61,10 @@ export const Instagram: React.FC = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(3.82381 25.7258) rotate(-9.53101) scale(50.723 30.7885)"
         >
-          <stop stop-color="#FED576" />
-          <stop offset="0.263" stop-color="#F47133" />
-          <stop offset="0.609" stop-color="#BC3081" />
-          <stop offset="1" stop-color="#4C63D2" />
+          <stop stopColor="#FED576" />
+          <stop offset="0.263" stopColor="#F47133" />
+          <stop offset="0.609" stopColor="#BC3081" />
+          <stop offset="1" stopColor="#4C63D2" />
         </radialGradient>
       </defs>
     </svg>

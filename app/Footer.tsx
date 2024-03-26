@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Stack } from "react-bootstrap";
 
 import styled from "styled-components";
 
@@ -14,7 +14,7 @@ export const DivText = styled.div`
   .footerHeading {
     box-sizing: border-box;
     margin-bottom: 1rem;
-    color:#fff;
+    color: #fff;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -28,7 +28,15 @@ export const DivText = styled.div`
     line-height: 1.5;
     display: flex;
     color: #9ca3af;
-
+    &:hover {
+      text-decoration: none !important;
+      color: #fff;
+    }
+  }
+  .footerData2 {
+    font: 300 13px Nunito Sans, sans-serif, -apple-system, BlinkMacSystemFont,
+      Segoe UI, Oxygen, Ubuntu, Cantarell, Helvetica Neue;
+    color: #9ca3af;
     &:hover {
       text-decoration: none !important;
       color: #fff;
@@ -37,16 +45,15 @@ export const DivText = styled.div`
 `;
 
 export const DivContactUs = styled.div`
-    display: flex;
-    column-gap: 0.5rem;
+  display: flex;
+  column-gap: 0.5rem;
 `;
 
-
 export const Divider = styled.div`
-    display: inline-block;
-    border-top: 1px solid #000000;
-    width: 96%;
-    margin: 6px 0;
+  display: inline-block;
+  border-top: 1px solid #000000;
+  width: 96%;
+  margin: 6px 0;
 `;
 
 export const DivTextCopyRight = styled.div`
@@ -60,9 +67,27 @@ class FooterWrapper extends React.Component {
     return (
       <div>
         <Row>
-          <Col lg={3}>
+          <Col>
             <DivText>
               <div className="footerHeading">company</div>
+             {/*  <Stack gap={3}>
+                <div className="p-2">
+                  <a className="footerData2" aria-label="About Us" href="#">
+                    About Us
+                  </a>
+                </div>
+                <div className="p-2">
+                  <a className="footerData2" aria-label="In the News" href="#">
+                    In the News
+                  </a>
+                </div>
+                <div className="p-2">
+                  <a aria-label="Careers" href="#">
+                    <p className="footerData2">Careers</p>
+                  </a>
+                </div>
+              </Stack> */}
+
               <div className="flex">
                 <a aria-label="About Us" href="#">
                   <p className="footerData">About Us</p>
@@ -85,7 +110,7 @@ class FooterWrapper extends React.Component {
               </div>
             </DivText>
           </Col>
-          <Col lg={3}>
+          <Col>
             <DivText>
               <div className="footerHeading">Business</div>
               <div className="flex">
@@ -98,9 +123,24 @@ class FooterWrapper extends React.Component {
                   <p className="footerData">API Doc</p>
                 </a>
               </div>
+              <div className="flex">
+                <a aria-label="Privacy Policy" href="#">
+                  <p className="footerData">Privacy Policy</p>
+                </a>
+              </div>
+              <div className="flex">
+                <a aria-label="Terms of Service" href="#">
+                  <p className="footerData">Terms of Service</p>
+                </a>
+              </div>
+              <div className="flex">
+                <a aria-label="Security" href="#">
+                  <p className="footerData">Security</p>
+                </a>
+              </div>
             </DivText>
           </Col>
-          <Col lg={3}>
+          <Col>
             <DivText>
               <div className="footerHeading">Pricing</div>
               <div className="flex">
@@ -125,44 +165,36 @@ class FooterWrapper extends React.Component {
               </div>
             </DivText>
           </Col>
-          <Col lg={3}>
+          <Col>
             <DivText>
               <div className="footerHeading">Contact Us</div>
               <DivContactUs>
-                <Instagram />
-                <Twitter />
-                <div style={{marginTop: '-3px'}}>
-                    <Linkedin/>
+                <a aria-label="instagram" href="">
+                  <Instagram />
+                </a>
+                <a aria-label="twitter" href="">
+                  <Twitter />
+                </a>
+
+                <div style={{ marginTop: "-3px" }}>
+                  <a aria-label="linkedin" href="">
+                    <Linkedin />
+                  </a>
                 </div>
-                <Facebook />
+
+                <a aria-label="facebook" href="">
+                  <Facebook />
+                </a>
               </DivContactUs>
             </DivText>
           </Col>
         </Row>
         <Row>
-        <Col lg={12}>
+          <Col lg={12}>
             <Divider />
-        </Col>
+          </Col>
         </Row>
         <Row>
-          {/* <DivTextCopyRight>
-                <div className="footerHeading">Legal</div>
-                <div className="flex">
-                    <a aria-label="Privacy Policy" href="#">
-                    <p className="footerData">Privacy Policy</p>
-                    </a>
-                </div>
-                <div className="flex">
-                    <a aria-label="Terms of Service" href="#">
-                    <p className="footerData">Terms of Service</p>
-                    </a>
-                </div>
-                <div className="flex">
-                    <a aria-label="Security" href="#">
-                    <p className="footerData">Security</p>
-                    </a>
-                </div>
-            </DivTextCopyRight> */}
           <Col lg={12}>
             <DivTextCopyRight>
               Copyright © 2024 rvdocs Inc, All rights reserved

@@ -56,6 +56,7 @@ const Header: React.FC<Props> = ({ history, onNavClick }) => {
             <NavLink to="/templates" onClick={handleClick}>
               <Button variant="outline-secondary">Templates</Button>
             </NavLink>
+            {/* <div className="headerItemHover"/> */}
           </div>
           <div className="nav-item">
             <NavLink to="/editor" onClick={handleClick}>

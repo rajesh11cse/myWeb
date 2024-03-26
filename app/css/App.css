@@ -13,7 +13,7 @@ body {
 
 #main-container {
   position: relative;
-  min-height: 100vh;
+  min-height: 200vh;
   width: 100%;
   top: 72px;
 }

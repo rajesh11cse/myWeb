@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MyCarousel from '../components/MyCarousel';
+// import MyCarousel from '../components/MyCarousel';
+import {WebHome} from '../components/home/WebHome';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export class Home extends React.Component {
     return (
       <React.Fragment>
         {/* <MyCarousel/> */}
-        <div>Home</div>
+        <WebHome/>
       </React.Fragment>
     );
   }
