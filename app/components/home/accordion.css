@@ -1,13 +1,3 @@
-.card {
-     box-shadow: 0px 5px 10px rgba(90, 116, 148, 0.3);
-    background-color: #fff;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    color: #475f7b;
-    overflow: hidden;
-}
 .rc-accordion-toggle {
     display: flex;
     align-items: flex-start;
@@ -19,19 +9,14 @@
 .rc-accordion-toggle.active{
     background-color: #5a8dee;
 }
-.rc-accordion-toggle.active .rc-accordion-icon{
-    transform: rotate(180deg);
-    color: #fff;
-}
+
 .rc-accordion-card{
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
     overflow: hidden;
 }
-.rc-accordion-card:last-child{
-    margin-bottom: 0;
-}
+
 .rc-accordion-title{
     font-weight: 500;
     font-size: 14px;
@@ -63,12 +48,4 @@
     line-height: 24px;
     text-align: start;
     color: #727E8C;
-}
-.rc-collapse{
-    position: relative;
-    overflow: hidden;
-    transition: height 0.35s ease-in-out;
-}
-.rc-collapse .show{
-    height: auto;
 }

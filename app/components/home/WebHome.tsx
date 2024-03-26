@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import styled from "styled-components";
 import bannerImage from "../../assets/images/banner.png";
@@ -6,19 +6,6 @@ import FAQs from "./FAQs";
 import { faqs } from "./utils/faqs";
 
 export const WebHome: React.FC = (props) => {
-  
-
-
-  const [active, setActive] = useState(null);
-
-  const handleToggle = (index:any) => {
-      if (active === index) {
-          setActive(null);
-      } else {
-          setActive(index);
-      }
-  }
-
   const FAQCont = styled.div`
     margin: 18px 0;
     padding: 36px 0;
@@ -45,10 +32,8 @@ export const WebHome: React.FC = (props) => {
           <Col></Col>
           <Col lg={7}>
             <h1>Frequently asked questions</h1>
-            
             {faqs.map((faq, index) => (
-              // <FAQs title={title} content={content} />
-                <FAQs key={index} active={active} handleToggle={handleToggle} faq={faq} />
+              <FAQs faq={faq} />
             ))}
           </Col>
           <Col></Col>
