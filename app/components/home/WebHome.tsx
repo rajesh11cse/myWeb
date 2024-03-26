@@ -4,6 +4,7 @@ import styled from "styled-components";
 import bannerImage from "../../assets/images/banner.png";
 import FAQs from "./FAQs";
 import { faqs } from "./utils/faqs";
+import Testimonial from "./Testimonial";
 
 export const WebHome: React.FC = (props) => {
   const FAQCont = styled.div`
@@ -25,7 +26,7 @@ export const WebHome: React.FC = (props) => {
          1. See why RVDocs is trusted by 20+ million users
          2. Frequently asked question */}
       <Row>
-        <Image src={bannerImage} alt="Banner" width={"100%"} height={400} />
+        <Image src={bannerImage} alt="Banner" fluid/>
       </Row>
       <FAQCont>
         <Row>
@@ -39,6 +40,9 @@ export const WebHome: React.FC = (props) => {
           <Col></Col>
         </Row>
       </FAQCont>
+      <Row>
+      <Testimonial />
+      </Row>
     </div>
   );
 };

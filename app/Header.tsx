@@ -3,11 +3,13 @@ import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { Navbar, Nav } from "reactstrap";
 import { Button, DropdownButton, Dropdown } from "react-bootstrap";
 import "./css/header.css";
-
+import Image from 'react-bootstrap/Image';
 // SVG Icons
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+
+import userProfile from "./assets/images/rajesh.jpeg";
 
 interface Props extends RouteComponentProps {
   onNavClick?: (loc:any) => void;
@@ -99,6 +101,7 @@ const Header: React.FC<Props> = ({ history, onNavClick }) => {
           <div style={{ borderRight: "1px solid #ccc" }} />
           <div className="login-container">
             <Button variant="outline-primary">Login</Button>
+            <Image src={userProfile} width={30} roundedCircle />
           </div>
         </Nav>
       </Navbar>
