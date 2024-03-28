@@ -27,6 +27,7 @@
     "fs": "0.0.1-security",
     "history": "^5.3.0",
     "html-to-draftjs": "^1.5.0",
+    "keen-slider": "^6.8.6",
     "konva": "^9.3.3",
     "path": "^0.12.7",
     "react": "^16.9.0",

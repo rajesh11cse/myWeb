@@ -4,6 +4,7 @@ import styled from "styled-components";
 import bannerImage from "../../assets/images/banner.png";
 import FAQs from "./FAQs";
 import { faqs } from "./utils/faqs";
+import { reviews } from "./utils/reviews";
 import Testimonial from "./Testimonial";
 
 export const WebHome: React.FC = (props) => {

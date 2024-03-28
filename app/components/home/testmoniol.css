@@ -1,3 +1,8 @@
+.carousel-main {
+    padding: 50px 0;
+    background-color: #f7f7f7;
+  }
+
 .carousel img {
     width: 70px;
     max-height: 70px;
@@ -45,4 +50,25 @@
     top: 50%;
     transform: translateY(-50%);
   }
+  
+  .card-text {
+    text-align: left;
+    color: #565353;
+  }
+
+  .card-title {
+    text-align: left;
+    font-weight: 800;
+  }
+  .occupation{
+    font-style: italic;
+  }
+
+  .heading-about-us{
+    color: rgb(48, 48, 48);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
   
