@@ -8,8 +8,10 @@ import { Row, Col, Image } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronLeft,
-  faChevronRight,
+  faCircleUser,
+  faStar,
+  faCircleChevronLeft,
+  faCircleChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Testimonial = (props) => {
@@ -32,71 +34,108 @@ const Testimonial = (props) => {
 
   return (
     <>
-      <div className="navigation-wrapper">
-        <div ref={sliderRef} className="keen-slider">
-          <div className="keen-slider__slide number-slide1">1</div>
-          {reviews.map((review, index) => (
-            // <p className="car">{review.text}</p>
-            <div className="keen-slider__slide number-slide1 ">
-              <Row>
-                <Col lg={7}>
-                <div className="ratting">title</div>
-                </Col>
-                <div className="time">time</div>
-                <Col>
-                </Col>
-                </Row>
-                <Row>
-                <div className="review">review</div>
-                </Row>
-                <Row>
-                <div className="user">user</div>
-                </Row>
+      <Row>
+        <Col>
+          {" "}
+          <div
+            className="arrow arrow-left"
+            onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()}
+          >
+            <FontAwesomeIcon
+              icon={faCircleChevronLeft}
+              size="3x"
+              color="#e7e7e7"
+            />{" "}
+          </div>
+        </Col>
+        <Col lg={10}>
+          <div className="navigation-wrapper">
+            <div ref={sliderRef} className="keen-slider">
+              {reviews.map((review, index) => (
+                // <p className="car">{review.text}</p>
+                <div className="keen-slider__slide number-slide1 ">
+                  <Row>
+                    <Col lg={7} className="text-left">
+                      <div className="ratting">
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          color="#FF8A00"
+                        />
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          color="#FF8A00"
+                        />
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          color="#FF8A00"
+                        />
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          color="#E3E3E3"
+                        />
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          size="lg"
+                          color="#E3E3E3"
+                        />
+                      </div>
+                    </Col>
+                    <Col className="text-right">
+                      <div className="date-time">28 March 2024</div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="text-left">
+                      <div className="review">{review.text}</div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="text-left">
+                      <div className="profile">
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        size="sm"
+                        color="#e7e7e7"
+                      />{" "}
+                      </div>
+                    </Col>
+                    <Col lg={10} className="text-left">
+                      <Row>
+                        <Col className="text-left">
+                          <div className="user">{review.customer}</div>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="text-left">
+                          <div className="company">{review.company}</div>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Col>
+        <Col>
+          {" "}
+          <div
+            className="arrow arrow-right"
+            onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
+          >
+            <FontAwesomeIcon
+              icon={faCircleChevronRight}
+              size="3x"
+              color="#e7e7e7"
+            />{" "}
+          </div>
+        </Col>
+      </Row>
 
-              {/* <div className="review-card">
-                <div className="ratting">title</div>
-                <div className="review">review</div>
-                <div className="user">user</div>
-              </div> */}
-            </div>
-          ))}
-          {/* <div className="keen-slider__slide number-slide2">2</div>
-          <div className="keen-slider__slide number-slide3">3</div>
-          <div className="keen-slider__slide number-slide4">4</div>
-          <div className="keen-slider__slide number-slide5">5</div>
-          <div className="keen-slider__slide number-slide6">6</div> */}
-        </div>
-        {loaded && instanceRef.current && (
-          <>
-            <div
-              className="arrow arrow-left"
-              onClick={(e) =>
-                e.stopPropagation() || instanceRef.current?.prev()
-              }
-            >
-              <FontAwesomeIcon
-                icon={faChevronLeft}
-                size="3x"
-                color="#fff"
-                style={{ opacity: "0.5" }}
-              />{" "}
-            </div>
-            <div
-              className="arrow arrow-right"
-              onClick={(e) =>
-                e.stopPropagation() || instanceRef.current?.next()
-              }
-            >
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                size="3x"
-                color="#fff"
-                style={{ opacity: "0.5" }}
-              />{" "}
-            </div>
-          </>
-        )}
-      </div>
       {/* {loaded && instanceRef.current && (
     <div className="dots">
       {[

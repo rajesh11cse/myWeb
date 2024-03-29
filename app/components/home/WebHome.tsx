@@ -27,7 +27,7 @@ export const WebHome: React.FC = (props) => {
          1. See why RVDocs is trusted by 20+ million users
          2. Frequently asked question */}
       <Row>
-        <Image src={bannerImage} alt="Banner" fluid/>
+        <Image src={bannerImage} alt="Banner" fluid />
       </Row>
       <FAQCont>
         <Row>
@@ -42,7 +42,9 @@ export const WebHome: React.FC = (props) => {
         </Row>
       </FAQCont>
       <Row>
-      <Testimonial />
+        <Col lg={12}>
+          <Testimonial />
+        </Col>
       </Row>
     </div>
   );
