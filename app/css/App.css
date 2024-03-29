@@ -16,6 +16,7 @@ body {
   min-height: 300vh;
   width: 100%;
   top: 72px;
+  overflow-x: hidden; /* Temp */
 }
 
 #footer-container {

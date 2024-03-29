@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import "./testmoniol.css";
+// import "./testmoniol.css";
 import { reviews } from "./utils/reviews";
 import "./keen.css";
 import { Row, Col, Image } from "react-bootstrap";
@@ -22,7 +22,7 @@ const Testimonial = (props) => {
     mode: "free",
     slides: {
       perView: 3,
-      spacing: 15,
+      spacing: 5,
     },
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel);
@@ -33,7 +33,15 @@ const Testimonial = (props) => {
   });
 
   return (
-    <>
+    <div className="testimonial-container">
+      <Row className="d-flex justify-content-center">
+        <div className="heading-about-us">
+          <p>
+            What People Think <span>About Us</span>
+          </p>
+          <div className="divider"></div>
+        </div>
+      </Row>
       <Row>
         <Col>
           {" "}
@@ -48,74 +56,80 @@ const Testimonial = (props) => {
             />{" "}
           </div>
         </Col>
-        <Col lg={10}>
+        <Col lg={11}>
           <div className="navigation-wrapper">
             <div ref={sliderRef} className="keen-slider">
               {reviews.map((review, index) => (
-                // <p className="car">{review.text}</p>
                 <div className="keen-slider__slide number-slide1 ">
-                  <Row>
-                    <Col lg={7} className="text-left">
-                      <div className="ratting">
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          color="#FF8A00"
-                        />
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          color="#FF8A00"
-                        />
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          color="#FF8A00"
-                        />
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          color="#E3E3E3"
-                        />
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="lg"
-                          color="#E3E3E3"
-                        />
-                      </div>
-                    </Col>
-                    <Col className="text-right">
-                      <div className="date-time">28 March 2024</div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="text-left">
-                      <div className="review">{review.text}</div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="text-left">
-                      <div className="profile">
-                      <FontAwesomeIcon
+                  <div className="main-container">
+                    <Row>
+                      <Col lg={7} className="text-left">
+                        <div className="ratting">
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="lg"
+                            color="#FF8A00"
+                          />
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="lg"
+                            color="#FF8A00"
+                          />
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="lg"
+                            color="#FF8A00"
+                          />
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="lg"
+                            color="#E3E3E3"
+                          />
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="lg"
+                            color="#E3E3E3"
+                          />
+                        </div>
+                      </Col>
+                      <Col className="text-right">
+                        <div className="date-time">28 March 2024</div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="text-left">
+                        <div className="review">{review.text}</div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={2}>
+                        <div className="profile">
+                          {/* <FontAwesomeIcon
                         icon={faCircleUser}
                         size="sm"
                         color="#e7e7e7"
-                      />{" "}
-                      </div>
-                    </Col>
-                    <Col lg={10} className="text-left">
-                      <Row>
-                        <Col className="text-left">
-                          <div className="user">{review.customer}</div>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col className="text-left">
-                          <div className="company">{review.company}</div>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
+                      />{" "} */}
+                          <Image
+                            src={review.imageUrl}
+                            roundedCircle
+                            width="50"
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={10} className="text-left">
+                        <Row>
+                          <Col className="text-left">
+                            <div className="user">{review.customer}</div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col className="text-left">
+                            <div className="company">{review.company}</div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </div>
                 </div>
               ))}
             </div>
@@ -133,6 +147,29 @@ const Testimonial = (props) => {
               color="#e7e7e7"
             />{" "}
           </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12} className="d-flex justify-content-center">
+          {loaded && instanceRef.current && (
+            <div className="dots">
+              {[
+                ...Array(
+                  instanceRef.current.track.details.slides.length
+                ).keys(),
+              ].map((idx) => {
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      instanceRef.current?.moveToIdx(idx);
+                    }}
+                    className={"dot" + (currentSlide === idx ? " active" : "")}
+                  ></button>
+                );
+              })}
+            </div>
+          )}
         </Col>
       </Row>
 
@@ -153,7 +190,7 @@ const Testimonial = (props) => {
       })}
     </div>
   )} */}
-    </>
+    </div>
   );
 
   // import React, { useEffect, useState, useRef } from "react";
