@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-// import "./testmoniol.css";
-import { reviews } from "./utils/reviews";
-import "./keen.css";
+import "./css/testimonial.css";
 import { Row, Col, Image } from "react-bootstrap";
 
+import { reviews } from "./utils/reviews";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleUser,
   faStar,
   faCircleChevronLeft,
   faCircleChevronRight,

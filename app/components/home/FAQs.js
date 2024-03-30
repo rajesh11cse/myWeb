@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./accordion.css";
+import "./css/accordion.css";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionContext from "react-bootstrap/AccordionContext";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";

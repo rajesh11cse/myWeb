@@ -4,8 +4,8 @@ import styled from "styled-components";
 import bannerImage from "../../assets/images/banner.png";
 import FAQs from "./FAQs";
 import { faqs } from "./utils/faqs";
-import { reviews } from "./utils/reviews";
 import Testimonial from "./Testimonial";
+import { DesignOnce } from "./designOnce";
 
 export const WebHome: React.FC = (props) => {
   const FAQCont = styled.div`
@@ -29,6 +29,22 @@ export const WebHome: React.FC = (props) => {
       <Row>
         <Image src={bannerImage} alt="Banner" fluid />
       </Row>
+
+      {/* New Release templates*/}
+      <Row>New Release templates</Row>
+
+      {/* How Its works ?*/}
+      <Row>How Its works ?</Row>
+
+      {/* Design once. Use all the time with dynamic contents.*/}
+        <DesignOnce />
+      {/* What People Think About Us*/}
+      <Row>
+        <Col lg={12}>
+          <Testimonial />
+        </Col>
+      </Row>
+      {/* Frequently asked question */}
       <FAQCont>
         <Row>
           <Col></Col>
@@ -41,11 +57,11 @@ export const WebHome: React.FC = (props) => {
           <Col></Col>
         </Row>
       </FAQCont>
-      <Row>
-        <Col lg={12}>
-          <Testimonial />
-        </Col>
-      </Row>
+      {/* Other
+         1. Solve Design Challenges Effortlessly
+         1. Trusted & Featured By The Top Brands
+         1. See why RVDocs is trusted by 20+ million users
+         2. Frequently asked question */}
     </div>
   );
 };
