@@ -70,24 +70,6 @@ class FooterWrapper extends React.Component {
           <Col>
             <DivText>
               <div className="footerHeading">company</div>
-             {/*  <Stack gap={3}>
-                <div className="p-2">
-                  <a className="footerData2" aria-label="About Us" href="#">
-                    About Us
-                  </a>
-                </div>
-                <div className="p-2">
-                  <a className="footerData2" aria-label="In the News" href="#">
-                    In the News
-                  </a>
-                </div>
-                <div className="p-2">
-                  <a aria-label="Careers" href="#">
-                    <p className="footerData2">Careers</p>
-                  </a>
-                </div>
-              </Stack> */}
-
               <div className="flex">
                 <a aria-label="About Us" href="#">
                   <p className="footerData">About Us</p>

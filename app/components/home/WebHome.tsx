@@ -17,6 +17,13 @@ export const WebHome: React.FC = (props) => {
       font-weight: 700;
       margin-bottom: 30px;
     }
+    .faq-outer-map{
+      max-width: 75%;
+      margin: 0 auto;
+      @media (max-width: 768px) {
+        max-width: 100%;
+       }
+    }
   `;
 
   return (
@@ -47,14 +54,14 @@ export const WebHome: React.FC = (props) => {
       {/* Frequently asked question */}
       <FAQCont>
         <Row>
-          <Col></Col>
-          <Col lg={7}>
+          <Col lg={12}>
+            <div className="p-3  faq-outer-map">
             <h1>Frequently asked questions</h1>
             {faqs.map((faq, index) => (
               <FAQs faq={faq} />
             ))}
+            </div>
           </Col>
-          <Col></Col>
         </Row>
       </FAQCont>
       {/* Other

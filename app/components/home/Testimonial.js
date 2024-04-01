@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./css/testimonial.css";
@@ -13,13 +13,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Testimonial = (props) => {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
     mode: "free",
     slides: {
-      perView: 3,
+      perView: windowSize.width < 768 ? 1 : (windowSize.width < 1168 ? 2 : 3),
       spacing: 5,
     },
     slideChanged(slider) {
@@ -30,6 +34,19 @@ const Testimonial = (props) => {
     },
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <div className="testimonial-container">
       <Row className="d-flex justify-content-center">

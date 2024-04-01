@@ -3,16 +3,24 @@ import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { Navbar, Nav } from "reactstrap";
 import { Button, DropdownButton, Dropdown } from "react-bootstrap";
 import "./css/header.css";
-import Image from 'react-bootstrap/Image';
+import Image from "react-bootstrap/Image";
 // SVG Icons
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDown,
+  faBars,
+  faArrowRightToBracket,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 import userProfile from "./assets/images/rajesh.jpeg";
 
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+
 interface Props extends RouteComponentProps {
-  onNavClick?: (loc:any) => void;
+  onNavClick?: (loc: any) => void;
 }
 
 const Header: React.FC<Props> = ({ history, onNavClick }) => {
@@ -53,12 +61,11 @@ const Header: React.FC<Props> = ({ history, onNavClick }) => {
     <div id="header-container">
       <Navbar color="light" light expand="md" className="navbar-container">
         <NavLink to="/">RV Docs</NavLink>
-        <Nav className="ml-auto" navbar>
+        <Nav className="nav-first visible-desktop" navbar>
           <div className="nav-item">
             <NavLink to="/templates" onClick={handleClick}>
               <Button variant="outline-secondary">Templates</Button>
             </NavLink>
-            {/* <div className="headerItemHover"/> */}
           </div>
           <div className="nav-item">
             <NavLink to="/editor" onClick={handleClick}>
@@ -70,7 +77,7 @@ const Header: React.FC<Props> = ({ history, onNavClick }) => {
               <Button variant="outline-secondary">Support</Button>
             </NavLink>
           </div>
-          <div className="nav-item">
+          <div className="nav-item pricing-items">
             <NavLink to="/pricing">
               <Button
                 variant="outline-secondary"
@@ -98,12 +105,58 @@ const Header: React.FC<Props> = ({ history, onNavClick }) => {
               </Dropdown.Menu>
             </NavLink>
           </div>
-          <div style={{ borderRight: "1px solid #ccc" }} />
+        </Nav>
+        <Nav className="nav-second visible-desktop ml-auto" navbar>
+            <div className="search-box mr-2">
+              <input
+                tabIndex={0}
+                className="inline-search-input js-search-field-input"
+                name="s"
+                type="text"
+                id="nav-search-input"
+                aria-label="Search for inspiration"
+                placeholder="Search for a template"
+                autoComplete="off"
+              ></input>
+              <FontAwesomeIcon
+              className="mr-2"
+                aria-label="Search for inspiration"
+                icon={faMagnifyingGlass as IconProp}
+              />
+            </div>
           <div className="login-container">
-            <Button variant="outline-primary">Login</Button>
-            <Image src={userProfile} width={30} roundedCircle />
+            <Button variant="outline-primary" className="mr-2">
+              <FontAwesomeIcon icon={faArrowRightToBracket as IconProp} />
+              {" Login"}
+            </Button>
+            {/* <Image src={userProfile} width={30} roundedCircle /> */}
           </div>
         </Nav>
+        <div className="nav-item visible-small-devices">
+          <Button variant="light" className="mr-2">
+            <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} />
+          </Button>
+          <Button variant="outline-primary" className="mr-2">
+            <FontAwesomeIcon icon={faArrowRightToBracket as IconProp} />
+            {" Login"}
+          </Button>
+          <Button
+            variant="outline-secondary"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <FontAwesomeIcon icon={faBars as IconProp} color="#919191" />
+          </Button>
+          <Dropdown.Menu
+            show={showDropdown}
+            className="dropDown"
+            onMouseEnter={handleMenuMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Dropdown.Item href="#/action-3">Help</Dropdown.Item>
+            <Dropdown.Item href="#/action-4">Sign Out</Dropdown.Item>
+          </Dropdown.Menu>
+        </div>
       </Navbar>
     </div>
   );

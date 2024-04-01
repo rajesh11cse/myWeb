@@ -11,7 +11,7 @@ import { Button } from "react-bootstrap";
 
 const Canvas = (props) => {
   const width = 800;
-  const height = 1000;
+  const height = 1100;
   // const height = 200;
   const zoomLevel = props.zoom;
   // Current canvas Reference

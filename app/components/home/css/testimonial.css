@@ -6,6 +6,7 @@
 
 .heading-about-us {
   margin-bottom: 58px;
+  padding: 0 20px;
   font-size: 34px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -43,6 +44,10 @@
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   cursor: pointer;
+  z-index: 1;
+  @media (max-width: 1024px) {
+   display: none;
+  }
 }
 
 .arrow-left {

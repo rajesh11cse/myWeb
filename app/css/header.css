@@ -19,6 +19,30 @@
   color: black;
 }
 
+@media (max-width: 767px) {
+  .visible-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 767px) {
+  .visible-small-devices {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1173px){ 
+  .pricing-items{
+    display: none !important;
+  }
+} 
+
+@media screen and (max-width: 1027px){ 
+  .search-box{
+    display: none !important;
+  }
+} 
+
 .nav-item {
   position: relative;
 }
@@ -50,42 +74,87 @@
   font-weight: 300;
 }
 
-#header-container ul div {
+
+#header-container .nav-first .nav-item {
   padding: 0 10px;
-  margin-left: 50px;
+  margin-left: 37px;
 }
+
+
+
 
 #header-container nav {
   background-color: white !important;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.1);
   height: 72px;
   padding: 0 77px;
+  @media (max-width: 767px) {
+    padding: 0 15px;
+  }
 }
 
 .dropdown-menu {
-  margin-left: 0px !important;
   padding: 0.5rem 0 !important;
   margin: 1.125rem 0 0px;
   font-size: 1rem;
   color: #1c1c1d;
   background-color: #fff;
   border: 1px solid rgba(150, 150, 150, 0.15);
-  border-top: 2px solid #390cec; 
+  border-top: 2px solid #390cec;
   border-radius: 0.15rem;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.1);
   -webkit-font-smoothing: antialiased;
   font-weight: 300;
-
+  @media (max-width: 767px) {
+    margin-left: 1.55rem !important;
+  }
   a {
     -webkit-font-smoothing: antialiased;
     font-weight: 400;
   }
 }
 
+
+.search-box { 
+  display: flow;
+  flex-direction: row;
+  border: 1px solid #959393;
+  border-radius: 4px;
+}
+
+.search-box input[type="text"] {
+  border: none;
+  color: #403f5d;
+  font-weight: 200;
+  font-size: 12px;
+  line-height: 28px;
+  border-radius: 5px;
+  padding: 1px 7px;
+  min-width: 200px;
+  margin-right:10px;
+}
+
+.search-box input[type="text"]:focus {
+  outline: none;
+  border: none;
+}
+
+
+.search-submit  { 
+  color: #c5c5c5; 
+  -webkit-transition: color .15s ease-in-out; 
+  transition: color .15s ease-in-out; 
+  align-self: center; 
+  cursor: pointer; 
+  font-size: 24px; 
+  margin: 0;
+}
+
+
 .login-container {
   button {
     -webkit-font-smoothing: antialiased;
-    font-weight: 500;
+    font-weight: 300;
     line-height: normal;
     &:hover {
       color: #000;
@@ -94,13 +163,10 @@
   }
 }
 
-
-.headerItemHover{
+.headerItemHover {
   position: absolute;
   border-bottom: 1px solid #2e5df2;
   width: 82px;
   top: 51px;
   left: -40px;
 }
-
-

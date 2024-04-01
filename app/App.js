@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import './css/App.css';
 import Header from './Header';
+// import Header2 from './Header2';
 import FooterWrapper from './Footer';
 import Home from './containers/Home';
 import Templates from './containers/Templates';
@@ -30,6 +31,7 @@ export default function App() {
   return (
   <div className="App">
       <Router>
+        {/* <Header2/> */}
         <Header onNavClick={handleNavClick}/>
         <div id="main-container">
           <Switch>

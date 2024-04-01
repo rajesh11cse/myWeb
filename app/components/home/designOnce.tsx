@@ -15,7 +15,8 @@ export const DesignOnce: React.FC = (props) => {
   return (
     <div className="do-container">
       <Row>
-        <Col lg={7}>
+        {/* <Col lg={7}> */}
+        <Col xs={12} sm={12} md={7}>
         <Row>
           <div className="do-title">
             <h2>Design once!</h2>
@@ -32,9 +33,8 @@ export const DesignOnce: React.FC = (props) => {
             </div>
           </Row>
         </Col>
-        <Col lg={5}>
+        <Col>
         <Image src={doDynamicContentImg} alt="Banner" fluid />
-
         </Col>
       </Row>
     </div>
