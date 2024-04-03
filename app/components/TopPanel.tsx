@@ -44,10 +44,11 @@ interface PanelProps {
   saveFile: () => void;
   downloadFile: () => void;
   clearPage: () => void;
+  previewFile: () => void;
 }
 
   export const TopPanel: React.FC<PanelProps> = (props) => {
-  const { saveFile, downloadFile, clearPage } = props;
+  const { saveFile, downloadFile, clearPage, previewFile } = props;
   // const [textValue, setTextValue] = useState("");
 
   useEffect(() => {}, []);
@@ -80,7 +81,7 @@ interface PanelProps {
               </Button>
             </ButtonGroup>
             <ButtonGroup id="preview">
-              <Button variant="dark" size="sm">
+              <Button variant="dark" size="sm"  onClick={()=>previewFile()}>
                 Preview
               </Button>
               <Button variant="primary" size="sm">

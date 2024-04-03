@@ -166,7 +166,15 @@ export const LineEdit: React.FC<TextEditProps> = (props) => {
   useEffect(() => {
     currentCanvas.on("object:scaling", function (options:any) {
       let obj = options.target;
-      console.log("selectedObject = > ", obj)
+     /*  if (obj.strokeDashArray != null) {
+        console.log("current strokeDashArray : ", obj.strokeDashArray[0], obj.strokeDashArray[1])
+        let width = obj.width * obj.scaleX;
+        let perc = (obj.width * obj.scaleX - obj.width) / obj.width * 100;
+        let newDashValue = obj.strokeDashArray[0] - (obj.strokeDashArray[0] * perc / 100);
+        let newDashDiff = obj.strokeDashArray[1] - (obj.strokeDashArray[1] * perc / 100);
+        console.log("new strokeDashArray : ", Math.round(newDashValue),  Math.round(newDashDiff));
+        selectedObject.set("strokeDashArray", [Math.round(newDashValue),  Math.round(newDashDiff)]);
+      } */
     });
   }, []);
 

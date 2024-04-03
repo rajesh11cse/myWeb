@@ -6,6 +6,8 @@ import FAQs from "./FAQs";
 import { faqs } from "./utils/faqs";
 import Testimonial from "./Testimonial";
 import { DesignOnce } from "./designOnce";
+import { HowWorks } from "./howWorks";
+
 
 export const WebHome: React.FC = (props) => {
   const FAQCont = styled.div`
@@ -20,6 +22,7 @@ export const WebHome: React.FC = (props) => {
     .faq-outer-map{
       max-width: 75%;
       margin: 0 auto;
+      margin-bottom: 40px;
       @media (max-width: 768px) {
         max-width: 100%;
        }
@@ -41,7 +44,7 @@ export const WebHome: React.FC = (props) => {
       <Row>New Release templates</Row>
 
       {/* How Its works ?*/}
-      <Row>How Its works ?</Row>
+      <HowWorks />
 
       {/* Design once. Use all the time with dynamic contents.*/}
         <DesignOnce />

@@ -1,0 +1,35 @@
+.hw-container {
+  width: 100%;
+  padding: 7%;
+  background-color: #fff;
+}
+.hw-title {
+  line-height: 120%;
+  color: #000;
+  text-align: left;
+  line-height: 36px;
+  margin-bottom: 29px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  h2 {
+    font-size: 59px;
+   /* font-weight: 400; */
+  }
+  p {
+    color: #757589;
+    font-size: 24px;
+    line-height: 130%;
+    font-weight: 300;
+  }
+}
+
+
+.do-desc{
+    text-align: start;
+    max-width: 70%;
+    margin-top: 45px;
+    color: #5c5c5c;
+    font-size: 13px;
+    font-family: sans-serif;
+}
+

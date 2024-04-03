@@ -1,0 +1,26 @@
+.model-container {
+  width: 60%;
+  max-width: none; /* This ensures the modal takes up 90% of the viewport width */
+  background-color: transparent;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-container > .content {
+  position: relative;
+  width: 800px;
+  height: 1100px;
+  border: 1px dashed #c3c1c1;
+  overflow: hidden;
+}
+
+.page-break {
+  border: none;
+  width: 76%;
+  border-top: 1px dashed #9f9d9d;
+  margin: 20px auto;
+}

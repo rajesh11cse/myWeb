@@ -21,7 +21,6 @@ const StyledFooter = styled.footer`
   box-sizing: border-box; /* Include padding in total width */
 `;
 
-
 import {
   SetTextBoxProperties,
   borderControl,
@@ -33,6 +32,7 @@ import {
 } from "./helper.js";
 import EditTextBar from "./EditTextBar";
 import { TopPanel } from "./TopPanel";
+import { PreviewContent } from "./PreviewContent";
 import Canvas from "./Canvas";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
@@ -47,6 +47,7 @@ function Editor() {
   const [currentCanvasRef, setCurrentCanvasRef] = useState(null);
 
   const [selectedObject, setSelectedObject] = useState(null);
+  const [preview, setPreview] = useState(false);
 
   // For undo and redo only
   const [undoStack, setUndoStack] = useState([]);
@@ -379,6 +380,7 @@ function Editor() {
     }
   };
 
+
   const canvasClicked = (e, index) => {
     e.preventDefault();
     // Add check if already active then don't do anything
@@ -418,12 +420,6 @@ function Editor() {
     return clonedArray
   }
 
-  // function oneStepRotation(arr, index) {
-  //   const element = arr[index];
-  //   arr.splice(index + 1, 0, element); // Step 1: Insert the element at index + 1
-  //   arr.splice(index, 1); // Step 2: Remove the original element at the specified index
-  //   return arr;
-  // }
   
   const addNewPage = (e, id) => {
     // e.stopPropagation();
@@ -476,10 +472,12 @@ function Editor() {
 
   return (
     <div>
+      {preview && <PreviewContent preview={preview} currentCanvas={currentCanvas} togglePreview= {()=> setPreview(!preview)}/>}
       <TopPanel
         saveFile={saveAsJSON}
         downloadFile={download}
         clearPage={clearCanvas}
+        previewFile={()=> setPreview(true)}
       />
       <div className="container" style={{ padding: 0 }}>
         <Playground

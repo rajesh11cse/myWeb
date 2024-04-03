@@ -11,6 +11,10 @@ import { Facebook } from "./assets/icons/Facebook";
 
 export const DivText = styled.div`
   margin: 3rem 5rem;
+
+  @media (max-width: 768px) {
+    margin: 2rem 2rem 0 2rem;
+  }
   .footerHeading {
     box-sizing: border-box;
     margin-bottom: 1rem;
@@ -57,7 +61,7 @@ export const Divider = styled.div`
 `;
 
 export const DivTextCopyRight = styled.div`
-  margin-top: 0.7rem;
+  margin-bottom: 1rem;
   font-size: 10px;
   color: #b2b2b2;
 `;
